@@ -1,0 +1,119 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@mipmap/ic_setting_strip_bg"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/post_id_text"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/post_id"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/scan"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_scan" />
+
+        <ImageView
+            android:id="@+id/clear"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_clear"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/post_id"
+            style="@style/TextNormal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/post_id_text"
+            android:background="@color/transparent"
+            android:hint="@string/input_post_id"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:textCursorDrawable="@null" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/choose_com"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/ic_setting_strip_bg_pressed_effect"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/com_name_text"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/company"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/ic_list_arrow_right" />
+
+        <TextView
+            android:id="@+id/com_name"
+            style="@style/TextNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/arrow"
+            android:layout_toRightOf="@id/com_name_text"
+            android:hint="@string/choose_company"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/query"
+        style="@style/TextNormal"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@mipmap/ic_btn_grey"
+        android:text="@string/query"
+        android:textColor="@color/white" />
+
+    <View
+        android:id="@+id/list_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="30dp"
+        android:background="@color/divider" />
+
+    <ListView
+        android:id="@+id/uncheck_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

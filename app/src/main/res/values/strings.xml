@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">小马快递</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_choose_com">选择快递公司</string>
+    <string name="title_activity_result">运单详情</string>
+    <string name="title_activity_history">记录管理</string>
+    <string name="title_activity_qrcode">生成二维码</string>
+    <string name="share">分享</string>
+    <string name="about">关于</string>
+    <string name="more">更多</string>
+    <string name="tips">温馨提示</string>
+    <string name="sure">确定</string>
+    <string name="cancle">取消</string>
+    <string name="loading">请稍候…</string>
+    <string name="system_busy">系统繁忙,请稍候再试</string>
+    <string name="network_error">网络异常,请检查网络设置</string>
+    <string name="no_info">暂时没有记录哦~</string>
+    <string name="company">快递公司</string>
+    <string name="choose_company">请选择快递公司</string>
+    <string name="post_id">运单号码</string>
+    <string name="input_post_id">请输入或扫描运单号</string>
+    <string name="query">查询物流信息</string>
+    <string name="querying">正在查询…</string>
+    <string name="uncheck">在途</string>
+    <string name="ischeck">已签收</string>
+    <string name="query_failure_1">没有查到[</string>
+    <string name="query_failure_2">]运单号码为</string>
+    <string name="query_failure_3">的相关信息。</string>
+    <string name="click2exit">再按一次退出小马快递</string>
+    <string name="sure_delete_history">您要删除该条记录吗？</string>
+    <string name="qrcode_create_success">生成成功,长按可保存</string>
+    <string name="qrcode_save_success">二维码已保存至/SDCard/Pictures/</string>
+    <string name="qrcode_no_sdcard">保存失败,SD卡不可用</string>
+    <string name="qrcode_save_failure">保存失败</string>
+    <string name="qrcode_input">请输入文本</string>
+    <string name="copyright">Copyright © 2015 王晨彦\nAll Right Reserved.</string>
+    <string name="share_content">我正在使用@小马快递，查询并跟踪快递，快递信息及时掌握！推荐你也试试~，在360手机助手就可以下载。</string>
+
+</resources>

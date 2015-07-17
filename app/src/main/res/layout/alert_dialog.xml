@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@mipmap/ic_alert_dialog_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/alert_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/alert_dialog_message"
+        style="@style/TextNormal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="@color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="#A9A9A9" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/alert_dialog_btn_left"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ic_alert_dialog_btn_left_pressed_effect"
+            android:textColor="@color/dodger_blue" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#A9A9A9" />
+
+        <Button
+            android:id="@+id/alert_dialog_btn_right"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ic_alert_dialog_btn_right_pressed_effect"
+            android:textColor="@color/dodger_blue" />
+    </LinearLayout>
+
+</LinearLayout>
