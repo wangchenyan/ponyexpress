@@ -26,9 +26,7 @@
     <string name="querying">正在查询…</string>
     <string name="uncheck">在途</string>
     <string name="ischeck">已签收</string>
-    <string name="query_failure_1">没有查到[</string>
-    <string name="query_failure_2">]运单号码为</string>
-    <string name="query_failure_3">的相关信息。</string>
+    <string name="query_failure">没有查到[%1$s]运单号码为%2$s的相关信息。</string>
     <string name="click2exit">再按一次退出小马快递</string>
     <string name="sure_delete_history">您要删除该条记录吗？</string>
     <string name="qrcode_create_success">生成成功,长按可保存</string>

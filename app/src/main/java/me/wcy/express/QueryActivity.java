@@ -2,8 +2,6 @@ package me.wcy.express;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
@@ -174,14 +172,12 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
     }
 
     private void onQueryFailure() {
+        String msg = getString(R.string.query_failure);
+        msg = String.format(msg, comName, postId);
         alertDialog = new MyAlertDialog(this, true);
         alertDialog.show();
         alertDialog.setTitle(getResources().getString(R.string.app_name));
-        alertDialog.setMessage(getResources().getString(
-                R.string.query_failure_1)
-                + comName
-                + getResources().getString(R.string.query_failure_2)
-                + postId + getResources().getString(R.string.query_failure_3));
+        alertDialog.setMessage(msg);
         alertDialog.setPositiveButton(getResources().getString(R.string.sure),
                 new OnClickListener() {
 
