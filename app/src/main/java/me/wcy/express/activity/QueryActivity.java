@@ -1,19 +1,5 @@
 package me.wcy.express.activity;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import me.wcy.express.R;
-import me.wcy.express.adapter.HistoryListAdapter;
-import me.wcy.express.database.History;
-import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.JsonRequest;
-import me.wcy.express.util.StorageManager;
-import me.wcy.express.util.Utils;
-import me.wcy.express.widget.MyAlertDialog;
-import me.wcy.express.widget.MyProgressDialog;
-import me.wcy.express.util.ViewInject;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog.Builder;
 import android.content.Intent;
@@ -42,15 +28,28 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.zxing.activity.CaptureActivity;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import me.wcy.express.R;
+import me.wcy.express.adapter.HistoryListAdapter;
+import me.wcy.express.database.History;
+import me.wcy.express.model.ExpressInfo;
+import me.wcy.express.model.QueryResult;
+import me.wcy.express.request.JsonRequest;
+import me.wcy.express.util.StorageManager;
+import me.wcy.express.util.Utils;
+import me.wcy.express.util.ViewInject;
+import me.wcy.express.widget.MyAlertDialog;
+import me.wcy.express.widget.MyProgressDialog;
+
+@SuppressLint("InflateParams")
 public class QueryActivity extends BaseActivity implements OnClickListener,
         TextWatcher, OnItemClickListener {
     public static final String QUERY_RESULT = "query_result";
-    public static final String POST_ID = "post_id";
-    public static final String COM_PARAM = "com_param";
-    public static final String COM_NAME = "com_name";
-    public static final String COM_ICON = "com_icon";
-    public static final String IS_CHECK = "is_check";
-    public static final int RESULT_COMPANY = 1;
+    public static final String EXPRESS_INFO = "express_info";
+    public static final int REQUEST_CAPTURE = 0;
+    public static final int REQUEST_COMPANY = 1;
 
     @ViewInject(id = R.id.post_id)
     private EditText postIdText;
@@ -78,10 +77,7 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
 
     private MyProgressDialog progressDialog;
     private MyAlertDialog alertDialog;
-    private String postId;
-    private String comParam;
-    private String comName;
-    private String comIcon;
+    private ExpressInfo expressInfo;
     private RequestQueue requestQueue;
     private StorageManager storageManager;
     private List<History> unCheckList;
@@ -103,6 +99,7 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
         progressDialog = new MyProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
         storageManager = new StorageManager(this);
+        expressInfo = new ExpressInfo();
     }
 
     private void initUnCheck() {
@@ -128,7 +125,8 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
         }
         progressDialog.show();
         progressDialog.setMessage(getResources().getString(R.string.querying));
-        JsonRequest<QueryResult> request = new JsonRequest<>(Utils.getQueryUrl(comParam, postId), QueryResult.class, new Listener<QueryResult>() {
+        JsonRequest<QueryResult> request = new JsonRequest<>(Utils.getQueryUrl(expressInfo),
+                QueryResult.class, new Listener<QueryResult>() {
             @Override
             public void onResponse(QueryResult queryResult) {
                 Log.i("Query", queryResult.getMessage());
@@ -156,8 +154,8 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
     private void onQuerySuccess(QueryResult queryResult) {
         Intent intent = new Intent();
         intent.setClass(this, ResultActivity.class);
-        queryResult.setCompanyName(comName);
-        queryResult.setCompanyIcon(comIcon);
+        queryResult.setCompanyName(expressInfo.getComName());
+        queryResult.setCompanyIcon(expressInfo.getComIcon());
         intent.putExtra(QUERY_RESULT, queryResult);
         startActivity(intent);
         try {
@@ -169,7 +167,7 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
 
     private void onQueryFailure() {
         String msg = getString(R.string.query_failure);
-        msg = String.format(msg, comName, postId);
+        msg = String.format(msg, expressInfo.getComName(), expressInfo.getPostId());
         alertDialog = new MyAlertDialog(this, true);
         alertDialog.show();
         alertDialog.setTitle(getResources().getString(R.string.app_name));
@@ -192,7 +190,6 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
         startActivity(Intent.createChooser(intent, getString(R.string.share)));
     }
 
-    @SuppressLint("InflateParams")
     private void about() {
         View dialogView = getLayoutInflater().inflate(R.layout.about_dialog,
                 null);
@@ -249,15 +246,15 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
         switch (v.getId()) {
             case R.id.choose_com:
                 intent.setClass(this, ChooseComActivity.class);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, REQUEST_COMPANY);
                 break;
             case R.id.query:
-                postId = postIdText.getText().toString();
+                expressInfo.setPostId(postIdText.getText().toString());
                 query();
                 break;
             case R.id.scan:
                 intent.setClass(this, CaptureActivity.class);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, REQUEST_CAPTURE);
                 break;
             case R.id.clear:
                 postIdText.setText("");
@@ -271,12 +268,12 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
         History history = unCheckList.get(position);
-        postId = history.getPost_id();
-        comParam = history.getType();
-        comName = history.getCom();
-        comIcon = history.getIcon();
-        comNameText.setText(comName);
-        postIdText.setText(postId);
+        expressInfo.setPostId(history.getPost_id());
+        expressInfo.setComParam(history.getType());
+        expressInfo.setComName(history.getCom());
+        expressInfo.setComIcon(history.getIcon());
+        comNameText.setText(expressInfo.getComName());
+        postIdText.setText(expressInfo.getPostId());
         postIdText.setSelection(postIdText.length());
         query();
     }
@@ -284,18 +281,26 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            // 处理扫描结果（在界面上显示）
-            String resultStr = data.getStringExtra(CaptureActivity.SCAN_RESULT);
-            resultStr = Utils.formatString(resultStr);
-            postIdText.setText(resultStr);
-            postIdText.setSelection(postIdText.length());
-        } else if (resultCode == RESULT_COMPANY) {
-            comName = data.getStringExtra(COM_NAME);
-            comIcon = data.getStringExtra(COM_ICON);
-            comParam = data.getStringExtra(COM_PARAM);
-            comNameText.setText(comName);
-            setBtnEnable();
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case REQUEST_CAPTURE:
+                // 处理扫描结果（在界面上显示）
+                String resultStr = data.getStringExtra(CaptureActivity.SCAN_RESULT);
+                resultStr = Utils.formatString(resultStr);
+                postIdText.setText(resultStr);
+                postIdText.setSelection(postIdText.length());
+                break;
+            case REQUEST_COMPANY:
+                String postId = expressInfo.getPostId();
+                expressInfo = (ExpressInfo) data.getSerializableExtra(EXPRESS_INFO);
+                expressInfo.setPostId(postId);
+                comNameText.setText(expressInfo.getComName());
+                setBtnEnable();
+                break;
+            default:
+                break;
         }
     }
 

@@ -35,6 +35,6 @@
     <string name="qrcode_save_failure">保存失败</string>
     <string name="qrcode_input">请输入文本</string>
     <string name="copyright">Copyright © 2015 王晨彦\nAll Right Reserved.</string>
-    <string name="share_content">我正在使用@小马快递，查询并跟踪快递，快递信息及时掌握！推荐你也试试~，在360手机助手就可以下载。</string>
+    <string name="share_content">我正在使用@小马快递，查询并跟踪快递，快递信息及时掌握！推荐你也试试：http://m.app.haosou.com/detail/index?pname=me.wcy.express&#038;id=2876860</string>
 
 </resources>

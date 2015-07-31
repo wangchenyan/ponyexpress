@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.wcy.express.R;
 import me.wcy.express.adapter.ComListAdapter;
+import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.util.Utils;
 import me.wcy.express.util.ViewInject;
 
@@ -75,11 +76,13 @@ public class ChooseComActivity extends BaseActivity implements
         if (comNames[position].length() == 1) {
             return;
         }
+        ExpressInfo expressInfo = new ExpressInfo();
+        expressInfo.setComName(comNames[position]);
+        expressInfo.setComIcon(comIcons[position]);
+        expressInfo.setComParam(comParams[position]);
         Intent intent = new Intent();
-        intent.putExtra(QueryActivity.COM_NAME, comNames[position]);
-        intent.putExtra(QueryActivity.COM_ICON, comIcons[position]);
-        intent.putExtra(QueryActivity.COM_PARAM, comParams[position]);
-        setResult(QueryActivity.RESULT_COMPANY, intent);
+        intent.putExtra(QueryActivity.EXPRESS_INFO, expressInfo);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

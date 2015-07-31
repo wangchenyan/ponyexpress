@@ -25,6 +25,7 @@ import java.util.List;
 import me.wcy.express.R;
 import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
+import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JsonRequest;
 import me.wcy.express.util.StorageManager;
@@ -44,10 +45,7 @@ public class HistoryActivity extends BaseActivity implements
 
     private MyProgressDialog progressDialog;
     private MyAlertDialog alertDialog;
-    private String postId;
-    private String comParam;
-    private String comName;
-    private String comIcon;
+    private ExpressInfo expressInfo;
     private RequestQueue requestQueue;
     private StorageManager storageManager;
     private List<History> historyList;
@@ -60,6 +58,7 @@ public class HistoryActivity extends BaseActivity implements
         progressDialog = new MyProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
         storageManager = new StorageManager(this);
+        expressInfo = new ExpressInfo();
     }
 
     private void init() {
@@ -87,7 +86,7 @@ public class HistoryActivity extends BaseActivity implements
         progressDialog.show();
         progressDialog.setMessage(getResources().getString(R.string.querying));
         JsonRequest<QueryResult> request = new JsonRequest<>(
-                Utils.getQueryUrl(comParam, postId), QueryResult.class,
+                Utils.getQueryUrl(expressInfo), QueryResult.class,
                 new Response.Listener<QueryResult>() {
 
                     @Override
@@ -118,8 +117,8 @@ public class HistoryActivity extends BaseActivity implements
     private void onQuerySuccess(QueryResult queryResult) {
         Intent intent = new Intent();
         intent.setClass(this, ResultActivity.class);
-        queryResult.setCompanyName(comName);
-        queryResult.setCompanyIcon(comIcon);
+        queryResult.setCompanyName(expressInfo.getComName());
+        queryResult.setCompanyIcon(expressInfo.getComIcon());
         intent.putExtra(QueryActivity.QUERY_RESULT, queryResult);
         startActivity(intent);
         StorageManager storageManager = new StorageManager(this);
@@ -132,7 +131,7 @@ public class HistoryActivity extends BaseActivity implements
 
     private void onQueryFailure() {
         String msg = getString(R.string.query_failure);
-        msg = String.format(msg, comName, postId);
+        msg = String.format(msg, expressInfo.getComName(), expressInfo.getPostId());
         alertDialog = new MyAlertDialog(this, true);
         alertDialog.show();
         alertDialog.setTitle(getResources().getString(R.string.app_name));
@@ -150,10 +149,10 @@ public class HistoryActivity extends BaseActivity implements
     @Override
     public void onItemClick(AdapterView<?> view, View arg1, int position,
                             long arg3) {
-        postId = historyList.get(position).getPost_id();
-        comParam = historyList.get(position).getType();
-        comName = historyList.get(position).getCom();
-        comIcon = historyList.get(position).getIcon();
+        expressInfo.setPostId(historyList.get(position).getPost_id());
+        expressInfo.setComParam(historyList.get(position).getType());
+        expressInfo.setComName(historyList.get(position).getCom());
+        expressInfo.setComIcon(historyList.get(position).getIcon());
         query();
     }
 
