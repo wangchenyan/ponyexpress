@@ -6,7 +6,7 @@ import java.util.List;
 import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.GsonRequest;
+import me.wcy.express.request.JsonRequest;
 import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
 import me.wcy.util.BaseActivity;
@@ -128,25 +128,21 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
         }
         progressDialog.show();
         progressDialog.setMessage(getResources().getString(R.string.querying));
-        GsonRequest<QueryResult> request = new GsonRequest<QueryResult>(
-                Utils.getQueryUrl(comParam, postId), QueryResult.class,
-                new Listener<QueryResult>() {
-
-                    @Override
-                    public void onResponse(QueryResult queryResult) {
-                        Log.i("Query", queryResult.getMessage());
-                        progressDialog.cancel();
-                        if (queryResult.getStatus().equals("200")) {
-                            onQuerySuccess(queryResult);
-                        } else {
-                            onQueryFailure();
-                        }
-                    }
-                }, new ErrorListener() {
-
+        JsonRequest<QueryResult> request = new JsonRequest<>(Utils.getQueryUrl(comParam, postId), QueryResult.class, new Listener<QueryResult>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Query", error.getMessage(), error);
+            public void onResponse(QueryResult queryResult) {
+                Log.i("Query", queryResult.getMessage());
+                progressDialog.cancel();
+                if (queryResult.getStatus().equals("200")) {
+                    onQuerySuccess(queryResult);
+                } else {
+                    onQueryFailure();
+                }
+            }
+        }, new ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("Query", volleyError.getMessage(), volleyError);
                 progressDialog.cancel();
                 Toast.makeText(QueryActivity.this,
                         R.string.system_busy, Toast.LENGTH_SHORT)

@@ -1,19 +1,5 @@
 package me.wcy.express;
 
-import java.sql.SQLException;
-import java.util.List;
-
-import me.wcy.express.adapter.HistoryListAdapter;
-import me.wcy.express.database.History;
-import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.GsonRequest;
-import me.wcy.express.util.StorageManager;
-import me.wcy.express.util.Utils;
-import me.wcy.util.BaseActivity;
-import me.wcy.util.MyAlertDialog;
-import me.wcy.util.MyProgressDialog;
-import me.wcy.util.ViewInject;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +18,20 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import me.wcy.express.adapter.HistoryListAdapter;
+import me.wcy.express.database.History;
+import me.wcy.express.model.QueryResult;
+import me.wcy.express.request.JsonRequest;
+import me.wcy.express.util.StorageManager;
+import me.wcy.express.util.Utils;
+import me.wcy.util.BaseActivity;
+import me.wcy.util.MyAlertDialog;
+import me.wcy.util.MyProgressDialog;
+import me.wcy.util.ViewInject;
 
 public class HistoryActivity extends BaseActivity implements
         OnItemClickListener, OnItemLongClickListener {
@@ -86,7 +86,7 @@ public class HistoryActivity extends BaseActivity implements
         }
         progressDialog.show();
         progressDialog.setMessage(getResources().getString(R.string.querying));
-        GsonRequest<QueryResult> request = new GsonRequest<>(
+        JsonRequest<QueryResult> request = new JsonRequest<>(
                 Utils.getQueryUrl(comParam, postId), QueryResult.class,
                 new Response.Listener<QueryResult>() {
 
