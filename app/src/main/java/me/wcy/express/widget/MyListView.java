@@ -1,7 +1,7 @@
 /**
  * 2015-3-31
  */
-package me.wcy.util;
+package me.wcy.express.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

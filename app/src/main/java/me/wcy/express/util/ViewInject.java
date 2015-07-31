@@ -1,7 +1,7 @@
 /**
  * 2015-5-27
  */
-package me.wcy.util;
+package me.wcy.express.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

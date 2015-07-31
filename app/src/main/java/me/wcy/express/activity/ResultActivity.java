@@ -1,9 +1,9 @@
-package me.wcy.express;
+package me.wcy.express.activity;
 
+import me.wcy.express.R;
 import me.wcy.express.adapter.ResultAdapter;
 import me.wcy.express.model.QueryResult;
-import me.wcy.util.BaseActivity;
-import me.wcy.util.ViewInject;
+import me.wcy.express.util.ViewInject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -41,7 +41,7 @@ public class ResultActivity extends BaseActivity {
         postId.setText(queryResult.getNu());
         comName.setText(queryResult.getCompanyName());
         int id = getResources().getIdentifier(queryResult.getCompanyIcon(),
-                "mipmap", getPackageName());
+                "drawable", getPackageName());
         comIcon.setImageResource(id);
         resultListView.setAdapter(new ResultAdapter(this, queryResult));
     }

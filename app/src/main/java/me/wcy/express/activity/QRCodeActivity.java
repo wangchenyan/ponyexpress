@@ -1,13 +1,13 @@
-package me.wcy.express;
+package me.wcy.express.activity;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import me.wcy.express.R;
 import me.wcy.express.util.Utils;
-import me.wcy.util.BaseActivity;
-import me.wcy.util.ViewInject;
+import me.wcy.express.util.ViewInject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -140,7 +140,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener,
             create.setBackgroundResource(R.drawable.ic_btn_blue_pressed_effect);
             create.setEnabled(true);
         } else {
-            create.setBackgroundResource(R.mipmap.ic_btn_grey);
+            create.setBackgroundResource(R.drawable.ic_btn_grey);
             create.setEnabled(false);
         }
     }

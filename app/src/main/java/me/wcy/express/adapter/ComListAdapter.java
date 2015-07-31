@@ -75,7 +75,7 @@ public class ComListAdapter extends BaseAdapter {
             holder.title.setVisibility(View.GONE);
             holder.com.setText(comNames[position]);
             int id = context.getResources().getIdentifier(comIcons[position],
-                    "mipmap", context.getPackageName());
+                    "drawable", context.getPackageName());
             holder.icon.setImageResource(id);
         }
         return convertView;

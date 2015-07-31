@@ -1,8 +1,10 @@
-package me.wcy.util;
+package me.wcy.express.activity;
 
 import java.lang.reflect.Field;
 
 import me.wcy.express.R;
+import me.wcy.express.util.SystemBarTintManager;
+import me.wcy.express.util.ViewInject;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +19,7 @@ public class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.mipmap.ic_actionbar_bg);
+            tintManager.setStatusBarTintResource(R.drawable.ic_actionbar_bg);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

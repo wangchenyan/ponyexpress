@@ -3,7 +3,7 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@mipmap/ic_alert_dialog_bg"
+    android:background="@drawable/ic_alert_dialog_bg"
     android:orientation="vertical">
 
     <TextView

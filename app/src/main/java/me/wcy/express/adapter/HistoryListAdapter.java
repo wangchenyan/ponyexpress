@@ -61,7 +61,7 @@ public class HistoryListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         int id = context.getResources().getIdentifier(
-                historyList.get(position).getIcon(), "mipmap",
+                historyList.get(position).getIcon(), "drawable",
                 context.getPackageName());
         String isCheck = historyList.get(position).getIs_check();
         if (isCheck.equals("1")) {

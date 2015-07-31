@@ -1,7 +1,7 @@
 /**
  * 2015-5-27
  */
-package me.wcy.util;
+package me.wcy.express.activity;
 
 import java.lang.reflect.Field;
 
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
+
+import me.wcy.express.util.ViewInject;
 
 /**
  * @author wcy

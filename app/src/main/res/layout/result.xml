@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@mipmap/ic_setting_strip_bg"
+        android:background="@drawable/ic_setting_strip_bg"
         android:orientation="horizontal"
         android:padding="10dp">
 

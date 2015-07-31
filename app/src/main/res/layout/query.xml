@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
-        android:background="@mipmap/ic_setting_strip_bg"
+        android:background="@drawable/ic_setting_strip_bg"
         android:paddingLeft="20dp">
 
         <TextView
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/icon_scan" />
+            android:src="@drawable/icon_scan" />
 
         <ImageView
             android:id="@+id/clear"
@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/icon_clear"
+            android:src="@drawable/icon_clear"
             android:visibility="gone" />
 
         <EditText
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@mipmap/ic_list_arrow_right" />
+            android:background="@drawable/ic_list_arrow_right" />
 
         <TextView
             android:id="@+id/com_name"
@@ -100,7 +100,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
-        android:background="@mipmap/ic_btn_grey"
+        android:background="@drawable/ic_btn_grey"
         android:text="@string/query"
         android:textColor="@color/white" />
 

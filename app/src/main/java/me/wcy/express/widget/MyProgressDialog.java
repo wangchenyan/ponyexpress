@@ -1,4 +1,4 @@
-package me.wcy.util;
+package me.wcy.express.widget;
 
 import me.wcy.express.R;
 import android.app.ProgressDialog;

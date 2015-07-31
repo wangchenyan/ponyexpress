@@ -1,12 +1,12 @@
-package me.wcy.express;
+package me.wcy.express.activity;
 
 import java.util.Arrays;
 import java.util.List;
 
+import me.wcy.express.R;
 import me.wcy.express.adapter.ComListAdapter;
 import me.wcy.express.util.Utils;
-import me.wcy.util.BaseActivity;
-import me.wcy.util.ViewInject;
+import me.wcy.express.util.ViewInject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.wcy.util;
+package me.wcy.express.util;
 
 import java.lang.reflect.Method;
 

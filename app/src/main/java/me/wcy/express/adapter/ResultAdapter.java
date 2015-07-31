@@ -18,6 +18,7 @@ import android.widget.TextView;
 /**
  * @author wcy
  */
+@SuppressLint({"InflateParams", "ViewHolder"})
 public class ResultAdapter extends BaseAdapter {
     private Context context;
     private QueryResult queryResult;
@@ -42,7 +43,6 @@ public class ResultAdapter extends BaseAdapter {
         return 0;
     }
 
-    @SuppressLint({"InflateParams", "ViewHolder"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(context).inflate(
@@ -61,7 +61,7 @@ public class ResultAdapter extends BaseAdapter {
                     R.color.black));
             holder.detailView.setTextColor(context.getResources().getColor(
                     R.color.black));
-            holder.logisticsView.setImageResource(R.mipmap.ic_logistics_blue);
+            holder.logisticsView.setImageResource(R.drawable.ic_logistics_blue);
         }
         return convertView;
     }

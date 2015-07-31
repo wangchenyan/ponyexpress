@@ -1,4 +1,4 @@
-package me.wcy.express;
+package me.wcy.express.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,16 +22,16 @@ import com.android.volley.toolbox.Volley;
 import java.sql.SQLException;
 import java.util.List;
 
+import me.wcy.express.R;
 import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JsonRequest;
 import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
-import me.wcy.util.BaseActivity;
-import me.wcy.util.MyAlertDialog;
-import me.wcy.util.MyProgressDialog;
-import me.wcy.util.ViewInject;
+import me.wcy.express.widget.MyAlertDialog;
+import me.wcy.express.widget.MyProgressDialog;
+import me.wcy.express.util.ViewInject;
 
 public class HistoryActivity extends BaseActivity implements
         OnItemClickListener, OnItemLongClickListener {

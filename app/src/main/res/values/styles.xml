@@ -5,12 +5,12 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="actionBarStyle">@style/AppTheme.ActionBarStyle</item>
         <item name="android:actionBarSize">50dp</item>
-        <item name="android:windowBackground">@mipmap/ic_background</item>
+        <item name="android:windowBackground">@drawable/ic_background</item>
     </style>
 
     <style name="AppTheme.ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid">
         <item name="titleTextStyle">@style/AppTheme.TitleTextStyle</item>
-        <item name="background">@mipmap/ic_actionbar_bg</item>
+        <item name="background">@drawable/ic_actionbar_bg</item>
     </style>
 
     <style name="AppTheme.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

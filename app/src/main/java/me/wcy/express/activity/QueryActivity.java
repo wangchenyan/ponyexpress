@@ -1,18 +1,18 @@
-package me.wcy.express;
+package me.wcy.express.activity;
 
 import java.sql.SQLException;
 import java.util.List;
 
+import me.wcy.express.R;
 import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JsonRequest;
 import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
-import me.wcy.util.BaseActivity;
-import me.wcy.util.MyAlertDialog;
-import me.wcy.util.MyProgressDialog;
-import me.wcy.util.ViewInject;
+import me.wcy.express.widget.MyAlertDialog;
+import me.wcy.express.widget.MyProgressDialog;
+import me.wcy.express.util.ViewInject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog.Builder;
@@ -187,11 +187,9 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
     private void share() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT,
-                getResources().getString(R.string.share_content));
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_content));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(Intent.createChooser(intent,
-                getResources().getString(R.string.share)));
+        startActivity(Intent.createChooser(intent, getString(R.string.share)));
     }
 
     @SuppressLint("InflateParams")
@@ -213,7 +211,7 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
             query.setBackgroundResource(R.drawable.ic_btn_blue_pressed_effect);
             query.setEnabled(true);
         } else {
-            query.setBackgroundResource(R.mipmap.ic_btn_grey);
+            query.setBackgroundResource(R.drawable.ic_btn_grey);
             query.setEnabled(false);
         }
     }
