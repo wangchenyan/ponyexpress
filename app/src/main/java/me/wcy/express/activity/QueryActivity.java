@@ -244,6 +244,10 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
+            case R.id.scan:
+                intent.setClass(this, CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_CAPTURE);
+                break;
             case R.id.choose_com:
                 intent.setClass(this, ChooseComActivity.class);
                 startActivityForResult(intent, REQUEST_COMPANY);
@@ -251,10 +255,6 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
             case R.id.query:
                 expressInfo.setPostId(postIdText.getText().toString());
                 query();
-                break;
-            case R.id.scan:
-                intent.setClass(this, CaptureActivity.class);
-                startActivityForResult(intent, REQUEST_CAPTURE);
                 break;
             case R.id.clear:
                 postIdText.setText("");

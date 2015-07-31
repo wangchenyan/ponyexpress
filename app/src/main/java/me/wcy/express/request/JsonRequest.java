@@ -10,7 +10,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by chenyan.wang on 2015/7/31.
+ * Created by wcy on 2015/7/31.
  */
 public class JsonRequest<T> extends Request<T> {
     private Class<T> mClass;
