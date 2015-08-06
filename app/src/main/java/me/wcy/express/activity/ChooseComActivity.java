@@ -3,11 +3,11 @@ package me.wcy.express.activity;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.ComListAdapter;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.util.Utils;
-import me.wcy.express.util.ViewInject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -27,11 +27,11 @@ import android.widget.ListView;
 public class ChooseComActivity extends BaseActivity implements
         OnItemClickListener {
 
-    @ViewInject(id = R.id.com_listview)
-    private ListView comListView;
+    @Bind(R.id.com_listview)
+    ListView comListView;
 
-    @ViewInject(id = R.id.index_layout)
-    private LinearLayout indexLayout;
+    @Bind(R.id.index_layout)
+    LinearLayout indexLayout;
 
     private String[] comNames;
     private String[] comIcons;

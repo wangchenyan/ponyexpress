@@ -5,7 +5,7 @@
     <color name="black">#000000</color>
     <color name="gray">#808080</color>
     <color name="transparent">#00000000</color>
-    <color name="divider">#BEBEBE</color>
+    <color name="gray_divider">#BEBEBE</color>
     <color name="white_gray">#DCDCDC</color>
     <color name="dodger_blue">#1E90FF</color>
     <color name="deep_sky_blue">#00BFFF</color>

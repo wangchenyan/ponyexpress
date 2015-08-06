@@ -1,7 +1,10 @@
 <resources>
 
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- 状态栏透明 -->
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppBaseTheme.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 

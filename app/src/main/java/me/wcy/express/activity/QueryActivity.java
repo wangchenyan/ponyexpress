@@ -4,10 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +36,8 @@ import com.zxing.activity.CaptureActivity;
 import java.sql.SQLException;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import me.wcy.express.R;
 import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
@@ -39,41 +46,46 @@ import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JsonRequest;
 import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
-import me.wcy.express.util.ViewInject;
 import me.wcy.express.widget.MyAlertDialog;
 import me.wcy.express.widget.MyProgressDialog;
 
 @SuppressLint("InflateParams")
-public class QueryActivity extends BaseActivity implements OnClickListener,
-        TextWatcher, OnItemClickListener {
+public class QueryActivity extends AppCompatActivity implements OnClickListener,
+        TextWatcher, OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     public static final String QUERY_RESULT = "query_result";
     public static final String EXPRESS_INFO = "express_info";
     public static final int REQUEST_CAPTURE = 0;
     public static final int REQUEST_COMPANY = 1;
 
-    @ViewInject(id = R.id.post_id)
-    private EditText postIdText;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
-    @ViewInject(id = R.id.scan)
-    private ImageView scan;
+    @Bind(R.id.navigation_view)
+    NavigationView navigationView;
 
-    @ViewInject(id = R.id.clear)
-    private ImageView clear;
+    @Bind(R.id.post_id)
+    EditText postIdText;
 
-    @ViewInject(id = R.id.choose_com)
-    private RelativeLayout chooseCom;
+    @Bind(R.id.scan)
+    ImageView scan;
 
-    @ViewInject(id = R.id.com_name)
-    private TextView comNameText;
+    @Bind(R.id.clear)
+    ImageView clear;
 
-    @ViewInject(id = R.id.list_divider)
-    private View listDivider;
+    @Bind(R.id.choose_com)
+    RelativeLayout chooseCom;
 
-    @ViewInject(id = R.id.query)
-    private Button query;
+    @Bind(R.id.com_name)
+    TextView comNameText;
 
-    @ViewInject(id = R.id.uncheck_list)
-    private ListView unCheckListView;
+    @Bind(R.id.query)
+    Button query;
+
+    @Bind(R.id.ll_uncheck)
+    LinearLayout llUnCheck;
+
+    @Bind(R.id.lv_uncheck)
+    ListView lvUnCheck;
 
     private MyProgressDialog progressDialog;
     private MyAlertDialog alertDialog;
@@ -87,8 +99,14 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.query);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ButterKnife.bind(this);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        navigationView.setNavigationItemSelectedListener(this);
         postIdText.addTextChangedListener(this);
         query.setOnClickListener(this);
         query.setEnabled(false);
@@ -108,12 +126,12 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        unCheckListView.setAdapter(new HistoryListAdapter(this, unCheckList));
-        unCheckListView.setOnItemClickListener(this);
+        lvUnCheck.setAdapter(new HistoryListAdapter(this, unCheckList));
+        lvUnCheck.setOnItemClickListener(this);
         if (unCheckList.size() == 0) {
-            listDivider.setVisibility(View.GONE);
+            llUnCheck.setVisibility(View.GONE);
         } else {
-            listDivider.setVisibility(View.VISIBLE);
+            llUnCheck.setVisibility(View.VISIBLE);
         }
     }
 
@@ -305,42 +323,51 @@ public class QueryActivity extends BaseActivity implements OnClickListener,
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_query, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent();
-        switch (item.getItemId()) {
-            case R.id.action_history:
-                intent.setClass(this, HistoryActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.action_qrcode:
-                intent.setClass(this, QRCodeActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.action_share:
-                share();
-                break;
-            case R.id.action_about:
-                about();
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        drawerLayout.closeDrawers();
+        Intent intent = new Intent();
+        switch (menuItem.getItemId()) {
+            case R.id.action_history:
+                intent.setClass(this, HistoryActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_qrcode:
+                intent.setClass(this, QRCodeActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_share:
+                share();
+                return true;
+            case R.id.action_about:
+                about();
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers();
+            return;
+        }
         if (System.currentTimeMillis() - exitTime > 2000) {
+            exitTime = System.currentTimeMillis();
             Toast.makeText(this, R.string.click2exit, Toast.LENGTH_SHORT)
                     .show();
         } else {
             finish();
         }
-        exitTime = System.currentTimeMillis();
     }
+
 
 }

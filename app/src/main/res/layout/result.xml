@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="10dp"
-        android:background="@color/divider" />
+        android:background="@color/gray_divider" />
 
     <ListView
         android:id="@+id/result_list"

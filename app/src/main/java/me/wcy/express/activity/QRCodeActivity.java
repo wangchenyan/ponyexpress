@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.util.Utils;
-import me.wcy.express.util.ViewInject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -32,14 +32,14 @@ import com.zxing.encoding.EncodingHandler;
 public class QRCodeActivity extends BaseActivity implements OnClickListener,
         OnLongClickListener, TextWatcher {
 
-    @ViewInject(id = R.id.string)
-    private EditText string;
+    @Bind(R.id.string)
+    EditText string;
 
-    @ViewInject(id = R.id.create)
-    private Button create;
+    @Bind(R.id.create)
+    Button create;
 
-    @ViewInject(id = R.id.qrcode)
-    private ImageView qrCode;
+    @Bind(R.id.qrcode)
+    ImageView qrCode;
 
     private Bitmap bitmap;
 

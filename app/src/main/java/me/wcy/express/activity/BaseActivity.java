@@ -1,15 +1,14 @@
 package me.wcy.express.activity;
 
-import java.lang.reflect.Field;
-
-import me.wcy.express.R;
-import me.wcy.express.util.SystemBarTintManager;
-import me.wcy.express.util.ViewInject;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
+
+import butterknife.ButterKnife;
+import me.wcy.express.R;
+import me.wcy.express.util.SystemBarTintManager;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -19,7 +18,9 @@ public class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(R.drawable.ic_actionbar_bg);
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+            tintManager.setStatusBarTintResource(typedValue.resourceId);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -33,29 +34,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(View view) {
         super.setContentView(view);
-        initInjectedView();
-    }
-
-    private void initInjectedView() {
-        Field[] fields = getClass().getDeclaredFields();
-        if (fields != null && fields.length > 0) {
-            for (Field field : fields) {
-                try {
-                    field.setAccessible(true);
-                    if (field.get(this) != null) {
-                        continue;
-                    }
-                    ViewInject viewInject = field
-                            .getAnnotation(ViewInject.class);
-                    if (viewInject != null) {
-                        int viewId = viewInject.id();
-                        field.set(this, findViewById(viewId));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        ButterKnife.bind(this);
     }
 
 }

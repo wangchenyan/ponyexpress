@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import java.sql.SQLException;
 import java.util.List;
 
+import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
@@ -32,16 +33,15 @@ import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
 import me.wcy.express.widget.MyAlertDialog;
 import me.wcy.express.widget.MyProgressDialog;
-import me.wcy.express.util.ViewInject;
 
 public class HistoryActivity extends BaseActivity implements
         OnItemClickListener, OnItemLongClickListener {
 
-    @ViewInject(id = R.id.history_list)
-    private ListView historyListView;
+    @Bind(R.id.history_list)
+    ListView historyListView;
 
-    @ViewInject(id = R.id.nothing)
-    private LinearLayout nothing;
+    @Bind(R.id.nothing)
+    LinearLayout nothing;
 
     private MyProgressDialog progressDialog;
     private MyAlertDialog alertDialog;

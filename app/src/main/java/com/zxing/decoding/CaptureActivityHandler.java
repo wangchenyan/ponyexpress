@@ -104,7 +104,7 @@ public final class CaptureActivityHandler extends Handler {
 			activity.finish();
 			break;
 		case R.id.launch_product_query:
-			Log.d(TAG, "Got product query message");
+			Log.d(TAG, "Got product query_include message");
 			String url = (String) message.obj;
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);

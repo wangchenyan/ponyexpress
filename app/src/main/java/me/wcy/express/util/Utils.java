@@ -24,7 +24,7 @@ public class Utils {
     public static final String GB2312 = "GB2312";
     public static final String PICTURE_DIR = Environment
             .getExternalStorageDirectory().getAbsolutePath() + "/Pictures/";
-    private static final String URL = "http://www.kuaidi100.com/query";
+    private static final String URL = "http://www.kuaidi100.com/query_include";
 
     public static String getQueryUrl(ExpressInfo expressInfo) {
         return URL + "?type=" + expressInfo.getComParam() + "&postid=" + expressInfo.getPostId();
