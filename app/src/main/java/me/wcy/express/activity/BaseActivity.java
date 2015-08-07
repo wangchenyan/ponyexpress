@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 import me.wcy.express.R;
 import me.wcy.express.util.SystemBarTintManager;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
