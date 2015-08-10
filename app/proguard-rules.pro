@@ -61,17 +61,32 @@
 #custom
 -dontshrink
 -dontoptimize
--dontwarn android.support.**
 
 -keepattributes *Annotation*,Exceptions,InnerClasses,Signature,SourceFile,LineNumberTable
 
 -keep public class * extends android.app.Fragment
 -keep public class * extends android.support.**
 
+#android-support
+-dontwarn android.support.**
 -keep class android.support.** {*;}
--keep class com.j256.ormlite.** {*;}
--keep class com.google.zxing.** {*;}
--keep class com.google.gson.** {*;}
--keep class com.android.volley.** {*;}
+
+#express
 -keep class me.wcy.express.database.** {*;}
 -keep class me.wcy.express.model.** {*;}
+
+#ormlite
+-keep class com.j256.ormlite.** {*;}
+
+#zxing
+-keep class com.google.zxing.** {*;}
+
+#volley
+-keep class com.android.volley.** {*;}
+
+#fastjson
+-dontwarn com.alibaba.fastjson.**
+-keep class com.alibaba.fastjson.** {*;}
+
+#butterknife
+-keep class butterknife.** { *; }

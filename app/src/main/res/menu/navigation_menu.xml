@@ -3,11 +3,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/action_history"
-            android:icon="@drawable/abc_ic_menu_paste_mtrl_am_alpha"
+            android:icon="@drawable/ic_menu_history"
             android:title="@string/title_activity_history" />
         <item
             android:id="@+id/action_qrcode"
-            android:icon="@drawable/ic_qrcode"
+            android:icon="@drawable/ic_menu_qrcode"
             android:title="@string/title_activity_qrcode" />
     </group>
 
