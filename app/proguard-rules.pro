@@ -87,3 +87,8 @@
 #fastjson
 -dontwarn com.alibaba.fastjson.**
 -keep class com.alibaba.fastjson.** {*;}
+
+#butterknife
+-dontwarn butterknife.internal.**
+-keep class **$$ViewInjector { *; }
+-keepnames class * { @butterknife.InjectView *;}

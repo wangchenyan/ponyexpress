@@ -8,25 +8,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.ResultAdapter;
 import me.wcy.express.model.QueryResult;
-import me.wcy.express.util.ViewInject;
 
 @SuppressLint("InlinedApi")
 public class ResultActivity extends BaseActivity {
 
-    @ViewInject(id = R.id.result_list)
-    private ListView resultListView;
+    @Bind(R.id.result_list)
+    ListView resultListView;
 
-    @ViewInject(id = R.id.post_id)
-    private TextView postId;
+    @Bind(R.id.post_id)
+    TextView postId;
 
-    @ViewInject(id = R.id.com)
-    private TextView comName;
+    @Bind(R.id.com)
+    TextView comName;
 
-    @ViewInject(id = R.id.icon)
-    private ImageView comIcon;
+    @Bind(R.id.icon)
+    ImageView comIcon;
 
     private QueryResult queryResult;
 

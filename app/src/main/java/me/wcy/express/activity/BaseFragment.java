@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import me.wcy.express.util.ViewInjector;
+import butterknife.ButterKnife;
 
 /**
  * @author wcy
@@ -17,7 +17,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        ViewInjector.initInjectedView(this, view);
+        ButterKnife.bind(this, view);
         init();
         super.onViewCreated(view, savedInstanceState);
     }

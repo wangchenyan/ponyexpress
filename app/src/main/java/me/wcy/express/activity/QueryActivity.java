@@ -36,6 +36,8 @@ import com.zxing.activity.CaptureActivity;
 import java.sql.SQLException;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import me.wcy.express.R;
 import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
@@ -44,8 +46,6 @@ import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JsonRequest;
 import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
-import me.wcy.express.util.ViewInject;
-import me.wcy.express.util.ViewInjector;
 import me.wcy.express.widget.MyAlertDialog;
 import me.wcy.express.widget.MyProgressDialog;
 
@@ -57,35 +57,35 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     public static final int REQUEST_CAPTURE = 0;
     public static final int REQUEST_COMPANY = 1;
 
-    @ViewInject(id = R.id.drawer_layout)
-    private DrawerLayout drawerLayout;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
-    @ViewInject(id = R.id.navigation_view)
-    private NavigationView navigationView;
+    @Bind(R.id.navigation_view)
+    NavigationView navigationView;
 
-    @ViewInject(id = R.id.post_id)
-    private EditText postIdText;
+    @Bind(R.id.post_id)
+    EditText postIdText;
 
-    @ViewInject(id = R.id.scan)
-    private ImageView scan;
+    @Bind(R.id.scan)
+    ImageView scan;
 
-    @ViewInject(id = R.id.clear)
-    private ImageView clear;
+    @Bind(R.id.clear)
+    ImageView clear;
 
-    @ViewInject(id = R.id.choose_com)
-    private RelativeLayout chooseCom;
+    @Bind(R.id.choose_com)
+    RelativeLayout chooseCom;
 
-    @ViewInject(id = R.id.com_name)
-    private TextView comNameText;
+    @Bind(R.id.com_name)
+    TextView comNameText;
 
-    @ViewInject(id = R.id.query)
-    private Button query;
+    @Bind(R.id.query)
+    Button query;
 
-    @ViewInject(id = R.id.ll_uncheck)
-    private LinearLayout llUnCheck;
+    @Bind(R.id.ll_uncheck)
+    LinearLayout llUnCheck;
 
-    @ViewInject(id = R.id.lv_uncheck)
-    private ListView lvUnCheck;
+    @Bind(R.id.lv_uncheck)
+    ListView lvUnCheck;
 
     private MyProgressDialog progressDialog;
     private MyAlertDialog alertDialog;
@@ -99,12 +99,14 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.query);
-        ViewInjector.initInjectedView(this);
+        ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
 
         navigationView.setNavigationItemSelectedListener(this);
         postIdText.addTextChangedListener(this);
