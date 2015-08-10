@@ -1,14 +1,5 @@
 package me.wcy.express.activity;
 
-import java.util.Arrays;
-import java.util.List;
-
-import butterknife.Bind;
-import me.wcy.express.R;
-import me.wcy.express.adapter.ComListAdapter;
-import me.wcy.express.model.ExpressInfo;
-import me.wcy.express.util.Utils;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,15 +14,24 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
+import java.util.Arrays;
+import java.util.List;
+
+import me.wcy.express.R;
+import me.wcy.express.adapter.ComListAdapter;
+import me.wcy.express.model.ExpressInfo;
+import me.wcy.express.util.Utils;
+import me.wcy.express.util.ViewInject;
+
 @SuppressLint("InlinedApi")
 public class ChooseComActivity extends BaseActivity implements
         OnItemClickListener {
 
-    @Bind(R.id.com_listview)
-    ListView comListView;
+    @ViewInject(id = R.id.com_listview)
+    private ListView comListView;
 
-    @Bind(R.id.index_layout)
-    LinearLayout indexLayout;
+    @ViewInject(id = R.id.index_layout)
+    private LinearLayout indexLayout;
 
     private String[] comNames;
     private String[] comIcons;

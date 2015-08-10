@@ -1,14 +1,5 @@
 package me.wcy.express.activity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import butterknife.Bind;
-import me.wcy.express.R;
-import me.wcy.express.util.Utils;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,17 +20,26 @@ import android.widget.Toast;
 import com.google.zxing.WriterException;
 import com.zxing.encoding.EncodingHandler;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import me.wcy.express.R;
+import me.wcy.express.util.Utils;
+import me.wcy.express.util.ViewInject;
+
 public class QRCodeActivity extends BaseActivity implements OnClickListener,
         OnLongClickListener, TextWatcher {
 
-    @Bind(R.id.string)
-    EditText string;
+    @ViewInject(id = R.id.string)
+    private EditText string;
 
-    @Bind(R.id.create)
-    Button create;
+    @ViewInject(id = R.id.create)
+    private Button create;
 
-    @Bind(R.id.qrcode)
-    ImageView qrCode;
+    @ViewInject(id = R.id.qrcode)
+    private ImageView qrCode;
 
     private Bitmap bitmap;
 

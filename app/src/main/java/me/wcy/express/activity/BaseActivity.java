@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 
-import butterknife.ButterKnife;
 import me.wcy.express.R;
 import me.wcy.express.util.SystemBarTintManager;
+import me.wcy.express.util.ViewInjector;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(View view) {
         super.setContentView(view);
-        ButterKnife.bind(this);
+        ViewInjector.initInjectedView(this);
     }
 
 }
