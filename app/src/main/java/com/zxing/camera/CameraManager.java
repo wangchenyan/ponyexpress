@@ -16,8 +16,6 @@
 
 package com.zxing.camera;
 
-import java.io.IOException;
-
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
@@ -27,6 +25,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
+
+import java.io.IOException;
 
 /**
  * This object wraps the Camera service object and expects to be the only one
@@ -323,6 +323,22 @@ public final class CameraManager {
 
     public Context getContext() {
         return context;
+    }
+
+    /**
+     * open or close flashlight
+     */
+    public void flashlight() {
+        if (camera != null) {
+            Camera.Parameters parameter = camera.getParameters();
+            String flashMode = parameter.getFlashMode();
+            if (Camera.Parameters.FLASH_MODE_OFF.equals(flashMode)) {
+                parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            } else {
+                parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            }
+            camera.setParameters(parameter);
+        }
     }
 
 }

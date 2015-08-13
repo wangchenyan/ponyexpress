@@ -1,10 +1,5 @@
 package com.zxing.activity;
 
-import java.io.IOException;
-import java.util.Vector;
-
-import me.wcy.express.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -30,13 +25,18 @@ import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
 import com.zxing.view.ViewfinderView;
 
+import java.io.IOException;
+import java.util.Vector;
+
+import me.wcy.express.R;
+
 /**
  * Initial the camera
  *
  * @author Ryan.Tang
  */
 @SuppressWarnings("deprecation")
-public class CaptureActivity extends Activity implements Callback {
+public class CaptureActivity extends Activity implements Callback, OnClickListener {
     public static final String SCAN_RESULT = "scan_result";
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
@@ -48,7 +48,6 @@ public class CaptureActivity extends Activity implements Callback {
     private boolean playBeep;
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
-    private ImageView back;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,9 +56,15 @@ public class CaptureActivity extends Activity implements Callback {
 
         CameraManager.init(getApplication());
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-        back = (ImageView) findViewById(R.id.back);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
+
+        ImageView back = (ImageView) findViewById(R.id.back);
+        ImageView flashlight = (ImageView) findViewById(R.id.flashlight);
+        ImageView album = (ImageView) findViewById(R.id.album);
+        back.setOnClickListener(this);
+        flashlight.setOnClickListener(this);
+        album.setOnClickListener(this);
     }
 
     @Override
@@ -83,15 +88,6 @@ public class CaptureActivity extends Activity implements Callback {
         }
         initBeepSound();
         vibrate = false;
-
-        // quit the scan view
-        back.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     @Override
@@ -218,4 +214,17 @@ public class CaptureActivity extends Activity implements Callback {
         }
     };
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.back:
+                finish();
+                break;
+            case R.id.flashlight:
+                CameraManager.get().flashlight();
+                break;
+            case R.id.album:
+                break;
+        }
+    }
 }
