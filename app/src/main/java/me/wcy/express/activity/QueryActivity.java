@@ -308,7 +308,6 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
             case REQUEST_CAPTURE:
                 // 处理扫描结果（在界面上显示）
                 String resultStr = data.getStringExtra(CaptureActivity.SCAN_RESULT);
-                resultStr = Utils.formatString(resultStr);
                 postIdText.setText(resultStr);
                 postIdText.setSelection(postIdText.length());
                 break;

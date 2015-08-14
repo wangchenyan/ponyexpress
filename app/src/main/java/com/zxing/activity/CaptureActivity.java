@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -19,16 +22,28 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
 import com.zxing.camera.CameraManager;
 import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
+import com.zxing.decoding.RGBLuminanceSource;
 import com.zxing.view.ViewfinderView;
 
+import org.apache.http.protocol.HTTP;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import me.wcy.express.R;
+import me.wcy.express.util.Utils;
+import me.wcy.express.widget.MyAlertDialog;
 
 /**
  * Initial the camera
@@ -38,6 +53,7 @@ import me.wcy.express.R;
 @SuppressWarnings("deprecation")
 public class CaptureActivity extends Activity implements Callback, OnClickListener {
     public static final String SCAN_RESULT = "scan_result";
+    private static final int REQUEST_ALBUM = 0;
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
     private boolean hasSurface;
@@ -120,6 +136,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
         if (resultString.equals("")) {
             Toast.makeText(this, "Scan failed!", Toast.LENGTH_SHORT).show();
         } else {
+            resultString = Utils.formatString(resultString);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(SCAN_RESULT, resultString);
             setResult(RESULT_OK, resultIntent);
@@ -224,7 +241,79 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
                 CameraManager.get().flashlight();
                 break;
             case R.id.album:
+                album();
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_ALBUM) {
+            Uri uri = data.getData();
+            analyzeImage(uri);
+        }
+    }
+
+    private void album() {
+        Intent innerIntent = new Intent();
+        innerIntent.setAction(Intent.ACTION_PICK);
+        innerIntent.setType("image/*");
+        startActivityForResult(innerIntent, REQUEST_ALBUM);
+    }
+
+    private void analyzeImage(Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true; // 仅获取大小
+            bitmap = BitmapFactory.decodeStream(getContentResolver()
+                    .openInputStream(uri), null, options);
+            //压缩尺寸,节约时间
+            int inSampleSize = options.outHeight / 200;
+            if (inSampleSize <= 0) {
+                inSampleSize = 1;
+            }
+            options.inSampleSize = inSampleSize;
+            options.inJustDecodeBounds = false; // 获取bitmap
+            bitmap = BitmapFactory.decodeStream(getContentResolver()
+                    .openInputStream(uri), null, options);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Hashtable<DecodeHintType, String> hints = new Hashtable<>();
+        hints.put(DecodeHintType.CHARACTER_SET, HTTP.ISO_8859_1);
+        RGBLuminanceSource source = new RGBLuminanceSource(bitmap);
+        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
+        MultiFormatReader reader = new MultiFormatReader();
+        Result result = null;
+        try {
+            result = reader.decode(binaryBitmap, hints);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        if (result == null || TextUtils.isEmpty(result.getText())) {
+            final MyAlertDialog dialog = new MyAlertDialog(this, true);
+            dialog.show();
+            dialog.setTitle(R.string.tips);
+            dialog.setMessage(R.string.analyze_fail);
+            dialog.setPositiveButton(R.string.sure, new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
+                }
+            });
+        } else {
+            String resultString = result.getText();
+            resultString = Utils.formatString(resultString);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(SCAN_RESULT, resultString);
+            setResult(RESULT_OK, resultIntent);
+            finish();
+        }
+    }
+
 }
