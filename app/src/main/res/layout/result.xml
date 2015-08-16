@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/gray"
+                android:textColor="@color/grey"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="10dp"
-        android:background="@color/gray_divider" />
+        android:background="@color/grey" />
 
     <ListView
         android:id="@+id/result_list"

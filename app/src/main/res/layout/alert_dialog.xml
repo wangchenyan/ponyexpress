@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/ic_alert_dialog_btn_left_pressed_effect"
-            android:textColor="@color/dodger_blue" />
+            android:textColor="@color/blue" />
 
         <View
             android:layout_width="1px"
@@ -56,7 +56,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/ic_alert_dialog_btn_right_pressed_effect"
-            android:textColor="@color/dodger_blue" />
+            android:textColor="@color/blue" />
     </LinearLayout>
 
 </LinearLayout>

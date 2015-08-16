@@ -31,7 +31,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/arrow"
-            android:textColor="@color/gray" />
+            android:textColor="@color/grey" />
 
         <LinearLayout
             android:id="@+id/layout"
@@ -55,7 +55,7 @@
                 android:id="@+id/post_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray"
+                android:textColor="@color/grey"
                 android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>

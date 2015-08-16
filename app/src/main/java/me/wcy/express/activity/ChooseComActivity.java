@@ -59,7 +59,7 @@ public class ChooseComActivity extends BaseActivity implements
             Button text = new Button(this);
             text.setText(id);
             text.setTextSize(14);
-            text.setTextColor(getResources().getColor(R.color.gray));
+            text.setTextColor(getResources().getColor(R.color.grey));
             text.setPadding(0, 0, 0, 0);
             text.setGravity(Gravity.CENTER);
             text.setBackgroundResource(R.color.transparent);

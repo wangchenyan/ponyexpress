@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="V 1.0.0"
-        android:textColor="@color/gray"
+        android:textColor="@color/grey"
         android:textSize="18sp" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="@string/copyright"
-        android:textColor="@color/gray"
+        android:textColor="@color/grey"
         android:textSize="16sp" />
 
 </LinearLayout>
