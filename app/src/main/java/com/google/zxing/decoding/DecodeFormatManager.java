@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zxing.decoding;
+package com.google.zxing.decoding;
 
 import android.content.Intent;
 import android.net.Uri;

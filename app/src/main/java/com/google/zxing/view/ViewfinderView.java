@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zxing.view;
+package com.google.zxing.view;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.google.zxing.ResultPoint;
-import com.zxing.camera.CameraManager;
+import com.google.zxing.camera.CameraManager;
 
 /**
  * This view is overlaid on top of the camera preview. It adds the viewfinder

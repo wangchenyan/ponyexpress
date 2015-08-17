@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zxing.camera;
+package com.google.zxing.camera;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -228,7 +228,7 @@ public final class CameraManager {
             if (camera == null) {
                 return null;
             }
-            int length = screenResolution.x * 3 / 4;
+            int length = screenResolution.x * 3 / 5;
             int leftOffset = (screenResolution.x - length) / 2;
             int topOffset = (screenResolution.y - length) / 2;
             framingRect = new Rect(leftOffset, topOffset, leftOffset + length,

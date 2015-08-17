@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zxing.camera;
+package com.google.zxing.camera;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

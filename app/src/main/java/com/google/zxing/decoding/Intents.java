@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zxing.decoding;
+package com.google.zxing.decoding;
 
 /**
  * This class provides the constants to use when sending an Intent to Barcode

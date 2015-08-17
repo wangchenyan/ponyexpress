@@ -31,7 +31,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.zxing.activity.CaptureActivity;
+import com.google.zxing.activity.CaptureActivity;
 
 import java.sql.SQLException;
 import java.util.List;

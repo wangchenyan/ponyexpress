@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zxing.decoding;
+package com.google.zxing.decoding;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,9 +28,9 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.zxing.activity.CaptureActivity;
-import com.zxing.camera.CameraManager;
-import com.zxing.camera.PlanarYUVLuminanceSource;
+import com.google.zxing.activity.CaptureActivity;
+import com.google.zxing.camera.CameraManager;
+import com.google.zxing.camera.PlanarYUVLuminanceSource;
 
 import java.util.Hashtable;
 

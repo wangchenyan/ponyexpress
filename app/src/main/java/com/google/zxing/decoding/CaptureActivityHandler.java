@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zxing.decoding;
+package com.google.zxing.decoding;
 
 import java.util.Vector;
 
@@ -31,9 +31,9 @@ import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.zxing.activity.CaptureActivity;
-import com.zxing.camera.CameraManager;
-import com.zxing.view.ViewfinderResultPointCallback;
+import com.google.zxing.activity.CaptureActivity;
+import com.google.zxing.camera.CameraManager;
+import com.google.zxing.view.ViewfinderResultPointCallback;
 
 /**
  * This class handles all the messaging which comprises the state machine for

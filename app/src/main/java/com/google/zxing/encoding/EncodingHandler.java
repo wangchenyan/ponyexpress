@@ -1,4 +1,4 @@
-package com.zxing.encoding;
+package com.google.zxing.encoding;
 
 import java.util.Hashtable;
 

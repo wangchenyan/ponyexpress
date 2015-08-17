@@ -1,4 +1,4 @@
-package com.zxing.activity;
+package com.google.zxing.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,12 +27,13 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
+import com.google.zxing.camera.CameraManager;
 import com.google.zxing.common.HybridBinarizer;
-import com.zxing.camera.CameraManager;
-import com.zxing.decoding.CaptureActivityHandler;
-import com.zxing.decoding.InactivityTimer;
-import com.zxing.decoding.RGBLuminanceSource;
-import com.zxing.view.ViewfinderView;
+import com.google.zxing.decoding.CaptureActivityHandler;
+import com.google.zxing.decoding.InactivityTimer;
+import com.google.zxing.decoding.RGBLuminanceSource;
+import com.google.zxing.decoding.ZXingUtils;
+import com.google.zxing.view.ViewfinderView;
 
 import org.apache.http.protocol.HTTP;
 
@@ -42,7 +43,6 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import me.wcy.express.R;
-import me.wcy.express.util.Utils;
 import me.wcy.express.widget.MyAlertDialog;
 
 /**
@@ -136,7 +136,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
         if (resultString.equals("")) {
             Toast.makeText(this, "Scan failed!", Toast.LENGTH_SHORT).show();
         } else {
-            resultString = Utils.formatString(resultString);
+            resultString = ZXingUtils.formatString(resultString);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(SCAN_RESULT, resultString);
             setResult(RESULT_OK, resultIntent);
@@ -308,7 +308,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             });
         } else {
             String resultString = result.getText();
-            resultString = Utils.formatString(resultString);
+            resultString = ZXingUtils.formatString(resultString);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(SCAN_RESULT, resultString);
             setResult(RESULT_OK, resultIntent);
