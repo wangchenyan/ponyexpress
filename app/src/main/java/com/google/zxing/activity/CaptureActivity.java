@@ -35,8 +35,6 @@ import com.google.zxing.decoding.RGBLuminanceSource;
 import com.google.zxing.decoding.ZXingUtils;
 import com.google.zxing.view.ViewfinderView;
 
-import org.apache.http.protocol.HTTP;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
@@ -285,7 +283,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             e.printStackTrace();
         }
         Hashtable<DecodeHintType, String> hints = new Hashtable<>();
-        hints.put(DecodeHintType.CHARACTER_SET, HTTP.ISO_8859_1);
+        hints.put(DecodeHintType.CHARACTER_SET, ZXingUtils.ISO_8859_1);
         RGBLuminanceSource source = new RGBLuminanceSource(bitmap);
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
         MultiFormatReader reader = new MultiFormatReader();

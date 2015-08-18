@@ -1,13 +1,13 @@
 package com.google.zxing.decoding;
 
-import org.apache.http.protocol.HTTP;
-
 import java.io.UnsupportedEncodingException;
 
 /**
  * Created by wcy on 2015/8/17.
  */
 public class ZXingUtils {
+    public static final String ISO_8859_1 = "ISO-8859-1";
+    public static final String UTF_8 = "UTF-8";
     public static final String GB2312 = "GB2312";
 
     /**
@@ -18,8 +18,7 @@ public class ZXingUtils {
         String GB_Str = "";
         boolean is_cN = false;
         try {
-            UTF_Str = new String(resultStr.getBytes(HTTP.ISO_8859_1),
-                    HTTP.UTF_8);
+            UTF_Str = new String(resultStr.getBytes(ISO_8859_1), UTF_8);
             is_cN = isChineseCharacter(UTF_Str);
             // 防止有人特意使用乱码来生成二维码来判断的情况
             boolean b = isSpecialCharacter(resultStr);
@@ -27,7 +26,7 @@ public class ZXingUtils {
                 is_cN = true;
             }
             if (!is_cN) {
-                GB_Str = new String(resultStr.getBytes(HTTP.ISO_8859_1), GB2312);
+                GB_Str = new String(resultStr.getBytes(ISO_8859_1), GB2312);
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
