@@ -12,7 +12,7 @@
     <color name="grey_300">#E0E0E0</color>
     <color name="transparent">#00000000</color>
     <color name="viewfinder_frame">#D3D3D3</color>
-    <color name="viewfinder_laser">#00FF00</color>
+    <color name="viewfinder_laser">#76FF03</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="result_view">#B0000000</color>
     <color name="possible_result_points">#00000000</color>

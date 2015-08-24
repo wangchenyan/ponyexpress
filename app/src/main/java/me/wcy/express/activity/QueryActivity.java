@@ -5,6 +5,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -335,6 +336,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         drawerLayout.closeDrawers();
+        menuItem.setChecked(false);
         Intent intent = new Intent();
         switch (menuItem.getItemId()) {
             case R.id.action_history:
@@ -363,8 +365,8 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         }
         if (System.currentTimeMillis() - exitTime > 2000) {
             exitTime = System.currentTimeMillis();
-            Toast.makeText(this, R.string.click2exit, Toast.LENGTH_SHORT)
-                    .show();
+            Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content),
+                    R.string.click2exit, Snackbar.LENGTH_SHORT).show();
         } else {
             finish();
         }
