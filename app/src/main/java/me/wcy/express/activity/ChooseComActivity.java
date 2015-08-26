@@ -4,15 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,14 +54,13 @@ public class ChooseComActivity extends BaseActivity implements
         comListView.setOnItemClickListener(this);
 
         for (String id : comIndexs) {
-            Button text = new Button(this);
+            TextView text = new TextView(this);
             text.setText(id);
             text.setTextSize(14);
             text.setTextColor(getResources().getColor(R.color.grey));
-            text.setPadding(0, 0, 0, 0);
             text.setGravity(Gravity.CENTER);
-            text.setBackgroundResource(R.color.transparent);
-            LayoutParams params = new LayoutParams(Utils.dip2px(this, 30), 0, 1);
+            text.setClickable(true);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Utils.dip2px(this, 30), 0, 1);
             text.setLayoutParams(params);
             text.setOnClickListener(new IndexListener(id));
             indexLayout.addView(text);
@@ -71,8 +68,7 @@ public class ChooseComActivity extends BaseActivity implements
     }
 
     @Override
-    public void onItemClick(AdapterView<?> view, View arg1, int position,
-                            long arg3) {
+    public void onItemClick(AdapterView<?> view, View arg1, int position, long arg3) {
         if (comNames[position].length() == 1) {
             return;
         }
@@ -102,18 +98,6 @@ public class ChooseComActivity extends BaseActivity implements
             comListView.setSelection(index);
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-        }
-        return false;
     }
 
 }

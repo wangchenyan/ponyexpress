@@ -3,7 +3,6 @@ package me.wcy.express.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -147,8 +146,7 @@ public class HistoryActivity extends BaseActivity implements
     }
 
     @Override
-    public void onItemClick(AdapterView<?> view, View arg1, int position,
-                            long arg3) {
+    public void onItemClick(AdapterView<?> view, View arg1, int position, long arg3) {
         expressInfo.setPostId(historyList.get(position).getPost_id());
         expressInfo.setComParam(historyList.get(position).getType());
         expressInfo.setComName(historyList.get(position).getCom());
@@ -157,8 +155,7 @@ public class HistoryActivity extends BaseActivity implements
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> view, View arg1,
-                                   int position, long arg3) {
+    public boolean onItemLongClick(AdapterView<?> view, View arg1, int position, long arg3) {
         final int which = position;
         alertDialog = new MyAlertDialog(this);
         alertDialog.show();
@@ -196,18 +193,6 @@ public class HistoryActivity extends BaseActivity implements
     protected void onResume() {
         super.onResume();
         init();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-        }
-        return false;
     }
 
 }
