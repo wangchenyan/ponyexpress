@@ -18,8 +18,8 @@
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_capture_back" />
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_menu_back" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,14 +32,14 @@
             android:id="@+id/flashlight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_flashlight_pressed_effect" />
+            android:src="@drawable/ic_capture_flashlight_pressed_effect" />
 
         <ImageView
             android:id="@+id/album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:src="@drawable/ic_album_pressed_effect" />
+            android:src="@drawable/ic_capture_album_pressed_effect" />
     </LinearLayout>
 
 </FrameLayout>

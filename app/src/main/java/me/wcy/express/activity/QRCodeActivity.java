@@ -118,10 +118,8 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener,
     @Override
     public void afterTextChanged(Editable s) {
         if (string.length() > 0) {
-            create.setBackgroundResource(R.drawable.ic_btn_blue_pressed_effect);
             create.setEnabled(true);
         } else {
-            create.setBackgroundResource(R.drawable.ic_btn_grey);
             create.setEnabled(false);
         }
     }

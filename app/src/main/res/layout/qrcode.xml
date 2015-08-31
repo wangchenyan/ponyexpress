@@ -22,14 +22,12 @@
         android:id="@+id/create"
         style="@style/TextNormal"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/ic_btn_grey"
         android:enabled="false"
-        android:text="@string/title_activity_qrcode"
-        android:textColor="@color/white" />
+        android:text="@string/title_activity_qrcode" />
 
     <LinearLayout
         android:layout_width="match_parent"

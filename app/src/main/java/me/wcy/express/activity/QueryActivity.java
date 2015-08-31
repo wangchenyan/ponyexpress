@@ -112,7 +112,6 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         navigationView.setNavigationItemSelectedListener(this);
         postIdText.addTextChangedListener(this);
         query.setOnClickListener(this);
-        query.setEnabled(false);
         chooseCom.setOnClickListener(this);
         scan.setOnClickListener(this);
         clear.setOnClickListener(this);
@@ -226,10 +225,8 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     private void setBtnEnable() {
         if (postIdText.length() != 0 && comNameText.length() != 0) {
-            query.setBackgroundResource(R.drawable.ic_btn_blue_pressed_effect);
             query.setEnabled(true);
         } else {
-            query.setBackgroundResource(R.drawable.ic_btn_grey);
             query.setEnabled(false);
         }
     }
