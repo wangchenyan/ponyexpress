@@ -1,47 +1,49 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
-
-    <EditText
-        android:id="@+id/string"
-        style="@style/TextNormal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/ic_setting_strip_bg"
-        android:hint="@string/qrcode_input"
-        android:paddingBottom="12dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="12dp"
-        android:textCursorDrawable="@null" />
-
-    <Button
-        android:id="@+id/create"
-        style="@style/TextNormal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:enabled="false"
-        android:text="@string/title_activity_qrcode" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/qrcode"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/string"
+            style="@style/TextNormal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:minHeight="300dp"
-            android:minWidth="300dp"
-            android:scaleType="fitXY" />
-    </LinearLayout>
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/qrcode_input"
+            android:minHeight="45dp"
+            android:textCursorDrawable="@null" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/create"
+            style="@style/TextNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:enabled="false"
+            android:text="@string/title_activity_qrcode" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/qrcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:minHeight="300dp"
+                android:minWidth="300dp"
+                android:scaleType="fitXY" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

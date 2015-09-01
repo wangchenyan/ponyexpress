@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/ic_setting_strip_bg"
+        android:background="@color/white"
         android:paddingLeft="20dp">
 
         <TextView
@@ -34,6 +34,19 @@
             android:layout_centerVertical="true"
             android:text="@string/post_id"
             android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/post_id"
+            style="@style/TextNormal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/post_id_text"
+            android:hint="@string/input_post_id"
+            android:inputType="textEmailAddress"
+            android:paddingRight="50dp"
+            android:singleLine="true"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/scan"
@@ -51,20 +64,6 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_clear"
             android:visibility="gone" />
-
-        <EditText
-            android:id="@+id/post_id"
-            style="@style/TextNormal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="50dp"
-            android:layout_toRightOf="@id/post_id_text"
-            android:background="@color/transparent"
-            android:hint="@string/input_post_id"
-            android:inputType="textEmailAddress"
-            android:singleLine="true"
-            android:textCursorDrawable="@null" />
     </RelativeLayout>
 
     <RelativeLayout
