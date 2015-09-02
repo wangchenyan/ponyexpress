@@ -82,6 +82,7 @@
 -keep class com.google.zxing.** {*;}
 
 #volley
+-dontwarn com.android.volley.**
 -keep class com.android.volley.** {*;}
 
 #fastjson
@@ -92,3 +93,6 @@
 -dontwarn butterknife.internal.**
 -keep class **$$ViewInjector { *; }
 -keepnames class * { @butterknife.InjectView *;}
+
+#roundedimageview
+-dontwarn com.makeramen.roundedimageview.**
