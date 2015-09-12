@@ -43,4 +43,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.zxing:core:3.2.0'
     compile 'com.makeramen:roundedimageview:2.1.2'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
 }

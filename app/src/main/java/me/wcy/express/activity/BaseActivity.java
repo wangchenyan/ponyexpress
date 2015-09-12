@@ -7,9 +7,10 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import butterknife.ButterKnife;
 import me.wcy.express.R;
-import me.wcy.express.util.SystemBarTintManager;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
