@@ -92,11 +92,7 @@ public class HistoryActivity extends BaseActivity implements
                     public void onResponse(QueryResult queryResult) {
                         Log.i("Query", queryResult.getMessage());
                         progressDialog.cancel();
-                        if (queryResult.getStatus().equals("200")) {
-                            onQuerySuccess(queryResult);
-                        } else {
-                            onQueryFailure();
-                        }
+                        onQuerySuccess(queryResult);
                     }
                 }, new ErrorListener() {
 
@@ -116,33 +112,21 @@ public class HistoryActivity extends BaseActivity implements
     private void onQuerySuccess(QueryResult queryResult) {
         Intent intent = new Intent();
         intent.setClass(this, ResultActivity.class);
-        queryResult.setCompanyName(expressInfo.getCompany_name());
-        queryResult.setCompanyIcon(expressInfo.getCompany_icon());
+        queryResult.setCompany_name(expressInfo.getCompany_name());
+        queryResult.setCompany_icon(expressInfo.getCompany_icon());
         intent.putExtra(QueryActivity.QUERY_RESULT, queryResult);
         startActivity(intent);
         StorageManager storageManager = new StorageManager(this);
+        if (queryResult.getStatus().equals("200")) {
+            expressInfo.setIs_check(queryResult.getIscheck());
+        } else {
+            expressInfo.setIs_check("0");
+        }
         try {
-            storageManager.storeData(queryResult);
+            storageManager.storeData(expressInfo);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    private void onQueryFailure() {
-        String msg = getString(R.string.query_failure);
-        msg = String.format(msg, expressInfo.getCompany_name(), expressInfo.getPost_id());
-        alertDialog = new MyAlertDialog(this, true);
-        alertDialog.show();
-        alertDialog.setTitle(getResources().getString(R.string.app_name));
-        alertDialog.setMessage(msg);
-        alertDialog.setPositiveButton(getResources().getString(R.string.sure),
-                new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.cancel();
-                    }
-                });
     }
 
     @Override

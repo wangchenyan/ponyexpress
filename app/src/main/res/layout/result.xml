@@ -14,11 +14,12 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/com_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_com_shentong" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,9 +29,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/com"
+                android:id="@+id/com_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="申通快递"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -39,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:text="12345678"
                 android:textColor="@color/grey"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -53,5 +56,31 @@
         android:divider="@color/transparent"
         android:dividerHeight="0dp"
         android:listSelector="@color/transparent" />
+
+    <LinearLayout
+        android:id="@+id/no_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="50dp"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/face_sad"
+            android:textSize="24sp" />
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/no_express_info"
+            android:textSize="14sp" />
+    </LinearLayout>
 
 </LinearLayout>

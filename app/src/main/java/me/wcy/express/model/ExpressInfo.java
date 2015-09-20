@@ -10,6 +10,15 @@ public class ExpressInfo implements Serializable {
     String company_icon;
     String company_param;
     String post_id;
+    String is_check;
+    RequestType request_type;
+
+    public enum RequestType {
+        // 手动输入
+        INPUT,
+        // 历史记录
+        HISTORY
+    }
 
     public String getCompany_name() {
         return company_name;
@@ -42,4 +51,21 @@ public class ExpressInfo implements Serializable {
     public void setPost_id(String post_id) {
         this.post_id = post_id;
     }
+
+    public String getIs_check() {
+        return is_check;
+    }
+
+    public void setIs_check(String is_check) {
+        this.is_check = is_check;
+    }
+
+    public RequestType getRequest_type() {
+        return request_type;
+    }
+
+    public void setRequest_type(RequestType request_type) {
+        this.request_type = request_type;
+    }
+
 }

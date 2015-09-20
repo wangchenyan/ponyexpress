@@ -23,9 +23,9 @@ public class QueryResult implements Serializable {
     // json
     ResultItem data[];
     // custom
-    String companyIcon;
+    String company_icon;
     // custom
-    String companyName;
+    String company_name;
 
     public String getStatus() {
         return status;
@@ -75,20 +75,20 @@ public class QueryResult implements Serializable {
         this.data = data;
     }
 
-    public String getCompanyIcon() {
-        return companyIcon;
+    public String getCompany_icon() {
+        return company_icon;
     }
 
-    public void setCompanyIcon(String companyIcon) {
-        this.companyIcon = companyIcon;
+    public void setCompany_icon(String company_icon) {
+        this.company_icon = company_icon;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getCompany_name() {
+        return company_name;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
     }
 
 }

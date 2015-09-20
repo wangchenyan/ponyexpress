@@ -124,10 +124,7 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/grey" />
+        <include layout="@layout/include_divider" />
 
         <ListView
             android:id="@+id/lv_uncheck"

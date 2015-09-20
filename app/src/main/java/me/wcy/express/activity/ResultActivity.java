@@ -3,7 +3,9 @@ package me.wcy.express.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,11 +23,14 @@ public class ResultActivity extends BaseActivity {
     @Bind(R.id.post_id)
     TextView postId;
 
-    @Bind(R.id.com)
+    @Bind(R.id.com_name)
     TextView comName;
 
-    @Bind(R.id.icon)
+    @Bind(R.id.com_icon)
     ImageView comIcon;
+
+    @Bind(R.id.no_info)
+    LinearLayout noInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +41,16 @@ public class ResultActivity extends BaseActivity {
         QueryResult queryResult = (QueryResult) intent
                 .getSerializableExtra(QueryActivity.QUERY_RESULT);
         postId.setText(queryResult.getNu());
-        comName.setText(queryResult.getCompanyName());
-        int id = getResources().getIdentifier(queryResult.getCompanyIcon(),
+        comName.setText(queryResult.getCompany_name());
+        int id = getResources().getIdentifier(queryResult.getCompany_icon(),
                 "drawable", getPackageName());
         comIcon.setImageResource(id);
-        resultListView.setAdapter(new ResultAdapter(this, queryResult));
+        if (queryResult.getStatus().equals("200")) {
+            resultListView.setAdapter(new ResultAdapter(this, queryResult));
+        } else {
+            resultListView.setVisibility(View.GONE);
+            noInfo.setVisibility(View.VISIBLE);
+        }
     }
 
 }
