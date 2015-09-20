@@ -61,7 +61,7 @@ public class HistoryListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         int id = context.getResources().getIdentifier(
-                historyList.get(position).getIcon(), "drawable",
+                historyList.get(position).getCompany_icon(), "drawable",
                 context.getPackageName());
         String isCheck = historyList.get(position).getIs_check();
         if (isCheck.equals("1")) {
@@ -72,7 +72,7 @@ public class HistoryListAdapter extends BaseAdapter {
                     .getString(R.string.uncheck);
         }
         holder.icon.setImageResource(id);
-        holder.com.setText(historyList.get(position).getCom());
+        holder.com.setText(historyList.get(position).getCompany_name());
         holder.postId.setText(historyList.get(position).getPost_id());
         holder.isCheck.setText(isCheck);
         return convertView;

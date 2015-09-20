@@ -22,7 +22,7 @@ public class Utils {
     private static final String URL = "http://www.kuaidi100.com/query";
 
     public static String getQueryUrl(ExpressInfo expressInfo) {
-        return URL + "?type=" + expressInfo.getComParam() + "&postid=" + expressInfo.getPostId();
+        return URL + "?type=" + expressInfo.getCompany_param() + "&postid=" + expressInfo.getPost_id();
     }
 
     public static String getVersion(Context context) {
@@ -58,7 +58,7 @@ public class Utils {
     }
 
     /**
-     * 根据手机的分辨率从dp的单位转成为px(像素)
+     * 根据手机的分辨率从dp的单位转成为px
      */
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -77,12 +77,12 @@ public class Utils {
      * /sdcard/Pictures/
      */
     public static String getPictureDir() {
-        String pictrueDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/";
-        File file = new File(pictrueDir);
+        String pictureDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/";
+        File file = new File(pictureDir);
         if (!file.exists()) {
             file.mkdirs();
         }
-        return pictrueDir;
+        return pictureDir;
     }
 
 }

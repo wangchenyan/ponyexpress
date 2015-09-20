@@ -174,8 +174,8 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     private void onQuerySuccess(QueryResult queryResult) {
         Intent intent = new Intent();
         intent.setClass(this, ResultActivity.class);
-        queryResult.setCompanyName(expressInfo.getComName());
-        queryResult.setCompanyIcon(expressInfo.getComIcon());
+        queryResult.setCompanyName(expressInfo.getCompany_name());
+        queryResult.setCompanyIcon(expressInfo.getCompany_icon());
         intent.putExtra(QUERY_RESULT, queryResult);
         startActivity(intent);
         try {
@@ -187,7 +187,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     private void onQueryFailure() {
         String msg = getString(R.string.query_failure);
-        msg = String.format(msg, expressInfo.getComName(), expressInfo.getPostId());
+        msg = String.format(msg, expressInfo.getCompany_name(), expressInfo.getPost_id());
         alertDialog = new MyAlertDialog(this, true);
         alertDialog.show();
         alertDialog.setTitle(getResources().getString(R.string.app_name));
@@ -271,7 +271,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                 startActivityForResult(intent, REQUEST_COMPANY);
                 break;
             case R.id.query:
-                expressInfo.setPostId(postIdText.getText().toString());
+                expressInfo.setPost_id(postIdText.getText().toString());
                 query();
                 break;
             case R.id.clear:
@@ -286,12 +286,12 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
         History history = unCheckList.get(position);
-        expressInfo.setPostId(history.getPost_id());
-        expressInfo.setComParam(history.getType());
-        expressInfo.setComName(history.getCom());
-        expressInfo.setComIcon(history.getIcon());
-        comNameText.setText(expressInfo.getComName());
-        postIdText.setText(expressInfo.getPostId());
+        expressInfo.setPost_id(history.getPost_id());
+        expressInfo.setCompany_param(history.getCompany_param());
+        expressInfo.setCompany_name(history.getCompany_name());
+        expressInfo.setCompany_icon(history.getCompany_icon());
+        comNameText.setText(expressInfo.getCompany_name());
+        postIdText.setText(expressInfo.getPost_id());
         postIdText.setSelection(postIdText.length());
         query();
     }
@@ -310,10 +310,10 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                 postIdText.setSelection(postIdText.length());
                 break;
             case REQUEST_COMPANY:
-                String postId = expressInfo.getPostId();
+                String postId = expressInfo.getPost_id();
                 expressInfo = (ExpressInfo) data.getSerializableExtra(EXPRESS_INFO);
-                expressInfo.setPostId(postId);
-                comNameText.setText(expressInfo.getComName());
+                expressInfo.setPost_id(postId);
+                comNameText.setText(expressInfo.getCompany_name());
                 setBtnEnable();
                 break;
             default:

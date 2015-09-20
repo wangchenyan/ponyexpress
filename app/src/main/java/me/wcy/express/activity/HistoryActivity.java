@@ -116,8 +116,8 @@ public class HistoryActivity extends BaseActivity implements
     private void onQuerySuccess(QueryResult queryResult) {
         Intent intent = new Intent();
         intent.setClass(this, ResultActivity.class);
-        queryResult.setCompanyName(expressInfo.getComName());
-        queryResult.setCompanyIcon(expressInfo.getComIcon());
+        queryResult.setCompanyName(expressInfo.getCompany_name());
+        queryResult.setCompanyIcon(expressInfo.getCompany_icon());
         intent.putExtra(QueryActivity.QUERY_RESULT, queryResult);
         startActivity(intent);
         StorageManager storageManager = new StorageManager(this);
@@ -130,7 +130,7 @@ public class HistoryActivity extends BaseActivity implements
 
     private void onQueryFailure() {
         String msg = getString(R.string.query_failure);
-        msg = String.format(msg, expressInfo.getComName(), expressInfo.getPostId());
+        msg = String.format(msg, expressInfo.getCompany_name(), expressInfo.getPost_id());
         alertDialog = new MyAlertDialog(this, true);
         alertDialog.show();
         alertDialog.setTitle(getResources().getString(R.string.app_name));
@@ -147,10 +147,10 @@ public class HistoryActivity extends BaseActivity implements
 
     @Override
     public void onItemClick(AdapterView<?> view, View arg1, int position, long arg3) {
-        expressInfo.setPostId(historyList.get(position).getPost_id());
-        expressInfo.setComParam(historyList.get(position).getType());
-        expressInfo.setComName(historyList.get(position).getCom());
-        expressInfo.setComIcon(historyList.get(position).getIcon());
+        expressInfo.setPost_id(historyList.get(position).getPost_id());
+        expressInfo.setCompany_param(historyList.get(position).getCompany_param());
+        expressInfo.setCompany_name(historyList.get(position).getCompany_name());
+        expressInfo.setCompany_icon(historyList.get(position).getCompany_icon());
         query();
     }
 

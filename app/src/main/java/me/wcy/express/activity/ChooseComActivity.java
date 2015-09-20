@@ -73,9 +73,9 @@ public class ChooseComActivity extends BaseActivity implements
             return;
         }
         ExpressInfo expressInfo = new ExpressInfo();
-        expressInfo.setComName(comNames[position]);
-        expressInfo.setComIcon(comIcons[position]);
-        expressInfo.setComParam(comParams[position]);
+        expressInfo.setCompany_name(comNames[position]);
+        expressInfo.setCompany_icon(comIcons[position]);
+        expressInfo.setCompany_param(comParams[position]);
         Intent intent = new Intent();
         intent.putExtra(QueryActivity.EXPRESS_INFO, expressInfo);
         setResult(RESULT_OK, intent);
