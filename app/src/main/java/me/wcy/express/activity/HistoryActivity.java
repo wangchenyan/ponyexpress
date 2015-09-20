@@ -114,6 +114,7 @@ public class HistoryActivity extends BaseActivity implements
         intent.setClass(this, ResultActivity.class);
         queryResult.setCompany_name(expressInfo.getCompany_name());
         queryResult.setCompany_icon(expressInfo.getCompany_icon());
+        queryResult.setNu(expressInfo.getPost_id());
         intent.putExtra(QueryActivity.QUERY_RESULT, queryResult);
         startActivity(intent);
         StorageManager storageManager = new StorageManager(this);
@@ -123,7 +124,7 @@ public class HistoryActivity extends BaseActivity implements
             expressInfo.setIs_check("0");
         }
         try {
-            storageManager.storeData(expressInfo);
+            storageManager.updateHistory(expressInfo);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -3,11 +3,6 @@
  */
 package me.wcy.express.adapter;
 
-import java.util.List;
-
-import me.wcy.express.R;
-import me.wcy.express.database.History;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
+
+import me.wcy.express.R;
+import me.wcy.express.database.History;
 
 /**
  * @author wcy
@@ -52,10 +52,11 @@ public class HistoryListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(
                     R.layout.history_list_item, null);
             holder = new ViewHolder();
-            holder.icon = (ImageView) convertView.findViewById(R.id.icon);
-            holder.com = (TextView) convertView.findViewById(R.id.com);
+            holder.comIcon = (ImageView) convertView.findViewById(R.id.com_icon);
+            holder.comName = (TextView) convertView.findViewById(R.id.com_name);
             holder.postId = (TextView) convertView.findViewById(R.id.post_id);
             holder.isCheck = (TextView) convertView.findViewById(R.id.is_check);
+            holder.remark = (TextView) convertView.findViewById(R.id.remark);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -64,24 +65,28 @@ public class HistoryListAdapter extends BaseAdapter {
                 historyList.get(position).getCompany_icon(), "drawable",
                 context.getPackageName());
         String isCheck = historyList.get(position).getIs_check();
-        if (isCheck.equals("1")) {
-            isCheck = context.getResources()
-                    .getString(R.string.ischeck);
+        int checkTextColor;
+        if (isCheck.equals("0")) {
+            isCheck = context.getString(R.string.uncheck);
+            checkTextColor = context.getResources().getColor(R.color.orange_700);
         } else {
-            isCheck = context.getResources()
-                    .getString(R.string.uncheck);
+            isCheck = context.getString(R.string.ischeck);
+            checkTextColor = context.getResources().getColor(R.color.grey);
         }
-        holder.icon.setImageResource(id);
-        holder.com.setText(historyList.get(position).getCompany_name());
+        holder.comIcon.setImageResource(id);
+        holder.comName.setText(historyList.get(position).getCompany_name());
         holder.postId.setText(historyList.get(position).getPost_id());
         holder.isCheck.setText(isCheck);
+        holder.isCheck.setTextColor(checkTextColor);
+        holder.remark.setText(historyList.get(position).getRemark());
         return convertView;
     }
 
     class ViewHolder {
-        ImageView icon;
-        TextView com;
+        ImageView comIcon;
+        TextView comName;
         TextView postId;
         TextView isCheck;
+        TextView remark;
     }
 }

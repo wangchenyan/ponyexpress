@@ -3,61 +3,70 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/com_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:scaleType="centerInside" />
-
-        <ImageView
-            android:id="@+id/arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_list_arrow_right" />
-
-        <TextView
-            android:id="@+id/is_check"
-            style="@style/TextNormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/arrow"
-            android:textColor="@color/grey" />
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_com_shentong" />
 
         <LinearLayout
             android:id="@+id/layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/is_check"
-            android:layout_toRightOf="@id/icon"
+            android:layout_weight="3"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/com"
+                android:id="@+id/com_name"
+                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:text="申通快递" />
 
             <TextView
                 android:id="@+id/post_id"
+                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
+                android:text="12345678"
+                android:textSize="14sp" />
         </LinearLayout>
-    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/remark"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/is_check"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="在途"
+                android:textColor="@color/orange_700"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

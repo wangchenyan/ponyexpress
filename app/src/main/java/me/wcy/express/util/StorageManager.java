@@ -19,17 +19,25 @@ import me.wcy.express.model.ExpressInfo;
  * @author wcy
  */
 public class StorageManager {
-    private DBHelper dbHelper;
     private Dao<History, String> historyDao;
 
     public StorageManager(Context context) {
         super();
-        dbHelper = new DBHelper(context);
+        DBHelper dbHelper = new DBHelper(context);
+        try {
+            historyDao = dbHelper.getDao(History.class);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void storeData(ExpressInfo expressInfo) throws SQLException {
-        historyDao = dbHelper.getDao(History.class);
-        History history = new History();
+    public void updateHistory(ExpressInfo expressInfo) throws SQLException {
+        History history;
+        if (historyDao.idExists(expressInfo.getPost_id())) {
+            history = historyDao.queryForId(expressInfo.getPost_id());
+        } else {
+            history = new History();
+        }
         history.setPost_id(expressInfo.getPost_id());
         history.setCompany_param(expressInfo.getCompany_param());
         history.setCompany_name(expressInfo.getCompany_name());
@@ -39,7 +47,6 @@ public class StorageManager {
     }
 
     public List<History> getHistoryList() throws SQLException {
-        historyDao = dbHelper.getDao(History.class);
         List<History> historyList = new ArrayList<>();
         for (History history : historyDao) {
             historyList.add(0, history);
@@ -48,7 +55,6 @@ public class StorageManager {
     }
 
     public List<History> getUnCheckList() throws SQLException {
-        historyDao = dbHelper.getDao(History.class);
         List<History> unCheckList = new ArrayList<>();
         for (History history : historyDao) {
             if (!history.getIs_check().equals("1")) {
@@ -61,4 +67,5 @@ public class StorageManager {
     public void deleteById(String id) throws SQLException {
         historyDao.deleteById(id);
     }
+
 }

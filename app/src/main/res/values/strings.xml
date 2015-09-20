@@ -40,5 +40,7 @@
     <string name="save_id">保存单号</string>
     <string name="face_sad">:(</string>
     <string name="no_express_info">快递可能刚刚寄出，还没有物流信息，过会儿再来看看吧~</string>
+    <string name="remark">运单备注</string>
+    <string name="remark_info">备注信息</string>
 
 </resources>

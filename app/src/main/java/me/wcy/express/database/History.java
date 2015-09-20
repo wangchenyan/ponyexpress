@@ -26,6 +26,10 @@ public class History {
     @DatabaseField
     String is_check;
 
+    // 运单备注
+    @DatabaseField
+    String remark;
+
     public History() {
     }
 
@@ -67,6 +71,14 @@ public class History {
 
     public void setIs_check(String is_check) {
         this.is_check = is_check;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
 }

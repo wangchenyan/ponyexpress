@@ -180,7 +180,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         startActivity(intent);
         expressInfo.setIs_check(queryResult.getIscheck());
         try {
-            storageManager.storeData(expressInfo);
+            storageManager.updateHistory(expressInfo);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -202,14 +202,14 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                             alertDialog.cancel();
                             expressInfo.setIs_check("0");
                             try {
-                                storageManager.storeData(expressInfo);
+                                storageManager.updateHistory(expressInfo);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
                             initUnCheck();
                         }
                     });
-            alertDialog.setNegativeButton(getResources().getString(R.string.cancle),
+            alertDialog.setNegativeButton(getString(R.string.cancle),
                     new OnClickListener() {
 
                         @Override
@@ -222,6 +222,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
             intent.setClass(this, ResultActivity.class);
             queryResult.setCompany_name(expressInfo.getCompany_name());
             queryResult.setCompany_icon(expressInfo.getCompany_icon());
+            queryResult.setNu(expressInfo.getPost_id());
             intent.putExtra(QUERY_RESULT, queryResult);
             startActivity(intent);
         }

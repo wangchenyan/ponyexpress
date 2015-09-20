@@ -52,7 +52,8 @@
     <ListView
         android:id="@+id/result_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:divider="@color/transparent"
         android:dividerHeight="0dp"
         android:listSelector="@color/transparent" />
@@ -60,27 +61,40 @@
     <LinearLayout
         android:id="@+id/no_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="50dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:visibility="gone">
 
-        <TextView
-            style="@style/TextNormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/face_sad"
-            android:textSize="24sp" />
-
-        <TextView
-            style="@style/TextNormal"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="@string/no_express_info"
-            android:textSize="14sp" />
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="50dp">
+
+            <TextView
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/face_sad"
+                android:textSize="24sp" />
+
+            <TextView
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="@string/no_express_info"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/remark" />
 
 </LinearLayout>
