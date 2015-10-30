@@ -22,12 +22,9 @@ import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.util.Utils;
 
 @SuppressLint("InlinedApi")
-public class ChooseComActivity extends BaseActivity implements
-        OnItemClickListener {
-
+public class ChooseComActivity extends BaseActivity implements OnItemClickListener {
     @Bind(R.id.com_listview)
     ListView comListView;
-
     @Bind(R.id.index_layout)
     LinearLayout indexLayout;
 
@@ -53,6 +50,7 @@ public class ChooseComActivity extends BaseActivity implements
         comListView.setAdapter(new ComListAdapter(this, comNames, comIcons));
         comListView.setOnItemClickListener(this);
 
+        List<String> comNameList = Arrays.asList(comNames);
         for (String id : comIndexs) {
             TextView text = new TextView(this);
             text.setText(id);
@@ -62,7 +60,8 @@ public class ChooseComActivity extends BaseActivity implements
             text.setClickable(true);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Utils.dip2px(this, 30), 0, 1);
             text.setLayoutParams(params);
-            text.setOnClickListener(new IndexListener(id));
+            int position = comNameList.indexOf(id);
+            text.setOnClickListener(new IndexListener(position));
             indexLayout.addView(text);
         }
     }
@@ -83,19 +82,15 @@ public class ChooseComActivity extends BaseActivity implements
     }
 
     class IndexListener implements OnClickListener {
-        private String id;
-        private List<String> comNameList;
+        private int position;
 
-        public IndexListener(String id) {
-            super();
-            this.id = id;
-            comNameList = Arrays.asList(comNames);
+        public IndexListener(int position) {
+            this.position = position;
         }
 
         @Override
         public void onClick(View v) {
-            int index = comNameList.indexOf(id);
-            comListView.setSelection(index);
+            comListView.setSelection(position);
         }
 
     }
