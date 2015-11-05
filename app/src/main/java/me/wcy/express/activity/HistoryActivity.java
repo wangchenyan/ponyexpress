@@ -27,7 +27,7 @@ import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.JSORequest;
+import me.wcy.express.request.JSONRequest;
 import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
 import me.wcy.express.widget.MyAlertDialog;
@@ -82,7 +82,7 @@ public class HistoryActivity extends BaseActivity implements
         }
         progressDialog.show();
         progressDialog.setMessage(getResources().getString(R.string.querying));
-        JSORequest<QueryResult> request = new JSORequest<>(
+        JSONRequest<QueryResult> request = new JSONRequest<>(
                 Utils.getQueryUrl(expressInfo), QueryResult.class,
                 new Response.Listener<QueryResult>() {
 

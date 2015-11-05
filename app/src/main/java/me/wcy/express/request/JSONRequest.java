@@ -12,17 +12,17 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by wcy on 2015/7/31.
  */
-public class JSORequest<T> extends Request<T> {
+public class JSONRequest<T> extends Request<T> {
     private Class<T> mClass;
     private Response.Listener<T> mListener;
 
-    public JSORequest(int method, String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public JSONRequest(int method, String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mClass = clazz;
         this.mListener = listener;
     }
 
-    public JSORequest(String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public JSONRequest(String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         this(Method.GET, url, clazz, listener, errorListener);
     }
 
