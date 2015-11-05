@@ -26,22 +26,16 @@ import me.wcy.express.model.QueryResult;
 
 @SuppressLint("InlinedApi")
 public class ResultActivity extends BaseActivity implements View.OnClickListener {
-
     @Bind(R.id.result_list)
     ListView resultListView;
-
     @Bind(R.id.post_id)
     TextView postId;
-
     @Bind(R.id.com_name)
     TextView comName;
-
     @Bind(R.id.com_icon)
     ImageView comIcon;
-
     @Bind(R.id.no_info)
     LinearLayout noInfo;
-
     @Bind(R.id.remark)
     Button remark;
 

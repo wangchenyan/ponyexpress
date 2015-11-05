@@ -31,13 +31,10 @@ import me.wcy.express.util.Utils;
 @SuppressLint("SimpleDateFormat")
 public class QRCodeActivity extends BaseActivity implements OnClickListener,
         OnLongClickListener, TextWatcher {
-
     @Bind(R.id.string)
     EditText string;
-
     @Bind(R.id.create)
     Button create;
-
     @Bind(R.id.qrcode)
     ImageView qrCode;
 

@@ -44,7 +44,7 @@ import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.JsonRequest;
+import me.wcy.express.request.JSORequest;
 import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
 import me.wcy.express.widget.MyAlertDialog;
@@ -60,31 +60,22 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
-
     @Bind(R.id.post_id)
     EditText postIdText;
-
     @Bind(R.id.scan)
     ImageView scan;
-
     @Bind(R.id.clear)
     ImageView clear;
-
     @Bind(R.id.choose_com)
     RelativeLayout chooseCom;
-
     @Bind(R.id.com_name)
     TextView comNameText;
-
     @Bind(R.id.query)
     Button query;
-
     @Bind(R.id.ll_uncheck)
     LinearLayout llUnCheck;
-
     @Bind(R.id.lv_uncheck)
     ListView lvUnCheck;
 
@@ -145,7 +136,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         }
         progressDialog.show();
         progressDialog.setMessage(getResources().getString(R.string.querying));
-        JsonRequest<QueryResult> request = new JsonRequest<>(Utils.getQueryUrl(expressInfo),
+        JSORequest<QueryResult> request = new JSORequest<>(Utils.getQueryUrl(expressInfo),
                 QueryResult.class, new Listener<QueryResult>() {
             @Override
             public void onResponse(QueryResult queryResult) {

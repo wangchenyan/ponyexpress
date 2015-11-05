@@ -27,7 +27,7 @@ import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.JsonRequest;
+import me.wcy.express.request.JSORequest;
 import me.wcy.express.util.StorageManager;
 import me.wcy.express.util.Utils;
 import me.wcy.express.widget.MyAlertDialog;
@@ -35,10 +35,8 @@ import me.wcy.express.widget.MyProgressDialog;
 
 public class HistoryActivity extends BaseActivity implements
         OnItemClickListener, OnItemLongClickListener {
-
     @Bind(R.id.history_list)
     ListView historyListView;
-
     @Bind(R.id.nothing)
     LinearLayout nothing;
 
@@ -84,7 +82,7 @@ public class HistoryActivity extends BaseActivity implements
         }
         progressDialog.show();
         progressDialog.setMessage(getResources().getString(R.string.querying));
-        JsonRequest<QueryResult> request = new JsonRequest<>(
+        JSORequest<QueryResult> request = new JSORequest<>(
                 Utils.getQueryUrl(expressInfo), QueryResult.class,
                 new Response.Listener<QueryResult>() {
 
