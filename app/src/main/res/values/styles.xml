@@ -6,13 +6,13 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/light_blue</item>
-        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorPrimaryDark">@color/light_blue_700</item>
         <item name="colorAccent">@color/teal</item>
     </style>
 
     <style name="AppBaseTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/light_blue</item>
-        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorPrimaryDark">@color/light_blue_700</item>
         <item name="colorAccent">@color/teal</item>
     </style>
 

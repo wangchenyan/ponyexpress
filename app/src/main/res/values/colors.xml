@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="light_blue">#03A9F4</color>
-    <color name="blue">#2196F3</color>
+    <color name="light_blue_700">#0288D1</color>
     <color name="cyan">#00BCD4</color>
     <color name="teal">#009688</color>
     <color name="green">#4CAF50</color>
@@ -17,5 +16,4 @@
     <color name="viewfinder_mask">#60000000</color>
     <color name="result_view">#B0000000</color>
     <color name="possible_result_points">#00000000</color>
-
 </resources>
