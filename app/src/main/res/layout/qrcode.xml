@@ -27,8 +27,11 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
+            android:background="@drawable/ic_btn_common_bg"
             android:enabled="false"
-            android:text="@string/title_activity_qrcode" />
+            android:text="@string/title_activity_qrcode"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
