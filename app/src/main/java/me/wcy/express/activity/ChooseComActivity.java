@@ -4,15 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -23,76 +24,122 @@ import me.wcy.express.util.Utils;
 
 @SuppressLint("InlinedApi")
 public class ChooseComActivity extends BaseActivity implements OnItemClickListener {
-    @Bind(R.id.com_listview)
-    ListView comListView;
-    @Bind(R.id.index_layout)
-    LinearLayout indexLayout;
+    @Bind(R.id.lv_com)
+    ListView lvCom;
+    @Bind(R.id.ll_indicator)
+    LinearLayout llIndicator;
+    @Bind(R.id.tv_indicator)
+    TextView tvIndicator;
 
-    private String[] comNames;
-    private String[] comIcons;
-    private String[] comParams;
-    private String[] comIndexs;
+    private String[] mComNames;
+    private String[] mComIcons;
+    private String[] mComParams;
+    private String[] mComIndexes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.choose_com);
 
-        comNames = getResources().getStringArray(R.array.company_names);
-        comIcons = getResources().getStringArray(R.array.company_icons);
-        comParams = getResources().getStringArray(R.array.company_params);
-        comIndexs = getResources().getStringArray(R.array.company_indexs);
+        mComNames = getResources().getStringArray(R.array.company_names);
+        mComIcons = getResources().getStringArray(R.array.company_icons);
+        mComParams = getResources().getStringArray(R.array.company_params);
+        mComIndexes = getResources().getStringArray(R.array.company_indexes);
 
         init();
     }
 
     private void init() {
-        comListView.setAdapter(new ComListAdapter(this, comNames, comIcons));
-        comListView.setOnItemClickListener(this);
+        lvCom.setAdapter(new ComListAdapter(this, mComNames, mComIcons));
+        lvCom.setOnItemClickListener(this);
+        llIndicator.setOnTouchListener(new IndicatorListener(mComIndexes.length, mComNames));
 
-        List<String> comNameList = Arrays.asList(comNames);
-        for (String id : comIndexs) {
+        for (String id : mComIndexes) {
             TextView text = new TextView(this);
             text.setText(id);
             text.setTextSize(14);
             text.setTextColor(getResources().getColor(R.color.grey));
             text.setGravity(Gravity.CENTER);
-            text.setClickable(true);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Utils.dip2px(this, 30), 0, 1);
             text.setLayoutParams(params);
-            int position = comNameList.indexOf(id);
-            text.setOnClickListener(new IndexListener(position));
-            indexLayout.addView(text);
+            llIndicator.addView(text);
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> view, View arg1, int position, long arg3) {
-        if (comNames[position].length() == 1) {
+        if (mComNames[position].length() == 1) {
             return;
         }
         ExpressInfo expressInfo = new ExpressInfo();
-        expressInfo.setCompany_name(comNames[position]);
-        expressInfo.setCompany_icon(comIcons[position]);
-        expressInfo.setCompany_param(comParams[position]);
+        expressInfo.setCompany_name(mComNames[position]);
+        expressInfo.setCompany_icon(mComIcons[position]);
+        expressInfo.setCompany_param(mComParams[position]);
         Intent intent = new Intent();
         intent.putExtra(QueryActivity.EXPRESS_INFO, expressInfo);
         setResult(RESULT_OK, intent);
         finish();
     }
 
-    class IndexListener implements OnClickListener {
-        private int position;
+    class IndicatorListener implements View.OnTouchListener {
+        private int mCount;
+        private int mHeight;
+        private List<String> mComNameList;
 
-        public IndexListener(int position) {
-            this.position = position;
+        public IndicatorListener(int count, String[] comNames) {
+            this.mCount = count;
+            mComNameList = new ArrayList<>();
+            Collections.addAll(mComNameList, comNames);
         }
 
         @Override
-        public void onClick(View v) {
-            comListView.setSelection(position);
+        public boolean onTouch(View v, MotionEvent event) {
+            int y;
+            int index;
+            int position;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    tvIndicator.setVisibility(View.VISIBLE);
+                    y = (int) event.getY();
+                    mHeight = v.getHeight();
+                    index = mCount * y / mHeight;
+                    if (index < 0) {//防止数组越界
+                        index = 0;
+                    } else if (index >= mCount) {
+                        index = mCount - 1;
+                    }
+                    position = mComNameList.indexOf(mComIndexes[index]);
+                    tvIndicator.setText(mComNameList.get(position));
+                    lvCom.setSelection(position);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    y = (int) event.getY();
+                    index = mCount * y / mHeight;
+                    if (index < 0) {
+                        index = 0;
+                    } else if (index >= mCount) {
+                        index = mCount - 1;
+                    }
+                    position = mComNameList.indexOf(mComIndexes[index]);
+                    tvIndicator.setText(mComNameList.get(position));
+                    lvCom.setSelection(position);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    tvIndicator.setVisibility(View.GONE);
+                    y = (int) event.getY();
+                    index = mCount * y / mHeight;
+                    if (index < 0) {
+                        index = 0;
+                    } else if (index >= mCount) {
+                        index = mCount - 1;
+                    }
+                    position = mComNameList.indexOf(mComIndexes[index]);
+                    tvIndicator.setText(mComNameList.get(position));
+                    lvCom.setSelection(position);
+                    break;
+            }
+            return true;
         }
-
     }
 
 }

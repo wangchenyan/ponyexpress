@@ -409,7 +409,7 @@
         <item>zhongtong</item>
         <item>zhongyouwuliu</item>
     </string-array>
-    <string-array name="company_indexs">
+    <string-array name="company_indexes">
         <item>★</item>
         <item>A</item>
         <item>B</item>
