@@ -18,11 +18,11 @@
 
     <TextView
         android:id="@+id/alert_dialog_message"
-        style="@style/TextNormal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_common" />
 
     <View
         android:layout_width="match_parent"
@@ -37,12 +37,12 @@
 
         <Button
             android:id="@+id/alert_dialog_btn_left"
-            style="@style/TextNormal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/ic_alert_dialog_btn_left_pressed_effect"
-            android:textColor="@color/light_blue_700" />
+            android:textColor="@color/light_blue_700"
+            android:textSize="@dimen/text_size_common" />
 
         <View
             android:layout_width="1px"
@@ -51,12 +51,12 @@
 
         <Button
             android:id="@+id/alert_dialog_btn_right"
-            style="@style/TextNormal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/ic_alert_dialog_btn_right_pressed_effect"
-            android:textColor="@color/light_blue_700" />
+            android:textColor="@color/light_blue_700"
+            android:textSize="@dimen/text_size_common" />
     </LinearLayout>
 
 </LinearLayout>

@@ -28,17 +28,18 @@
 
             <TextView
                 android:id="@+id/com_name"
-                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="申通快递" />
+                android:text="申通快递"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_common" />
 
             <TextView
                 android:id="@+id/post_id"
-                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12345678"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -52,15 +53,15 @@
 
             <TextView
                 android:id="@+id/remark"
-                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_common" />
 
             <TextView
                 android:id="@+id/is_check"
-                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="在途"
@@ -68,5 +69,4 @@
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

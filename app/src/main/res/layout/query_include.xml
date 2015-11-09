@@ -30,16 +30,15 @@
 
         <TextView
             android:id="@+id/post_id_text"
-            style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/post_id"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_common" />
 
         <EditText
             android:id="@+id/post_id"
-            style="@style/TextNormal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
@@ -48,7 +47,8 @@
             android:inputType="textEmailAddress"
             android:paddingRight="50dp"
             android:singleLine="true"
-            android:textCursorDrawable="@null" />
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/text_size_common" />
 
         <ImageView
             android:id="@+id/scan"
@@ -79,12 +79,12 @@
 
         <TextView
             android:id="@+id/com_name_text"
-            style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/company"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_common" />
 
         <ImageView
             android:id="@+id/arrow"
@@ -96,7 +96,6 @@
 
         <TextView
             android:id="@+id/com_name"
-            style="@style/TextNormal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -105,7 +104,8 @@
             android:layout_toLeftOf="@id/arrow"
             android:layout_toRightOf="@id/com_name_text"
             android:hint="@string/choose_company"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_common" />
     </RelativeLayout>
 
     <Button
@@ -119,7 +119,7 @@
         android:enabled="false"
         android:text="@string/query"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="@dimen/text_size_common" />
 
     <LinearLayout
         android:id="@+id/ll_uncheck"

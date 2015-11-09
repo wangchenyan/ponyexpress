@@ -45,7 +45,7 @@ import me.wcy.express.database.History;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JSONRequest;
-import me.wcy.express.util.StorageManager;
+import me.wcy.express.util.DataManager;
 import me.wcy.express.util.Utils;
 import me.wcy.express.widget.MyAlertDialog;
 import me.wcy.express.widget.MyProgressDialog;
@@ -79,13 +79,13 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     @Bind(R.id.lv_uncheck)
     ListView lvUnCheck;
 
-    private MyProgressDialog progressDialog;
-    private MyAlertDialog alertDialog;
-    private ExpressInfo expressInfo;
-    private RequestQueue requestQueue;
-    private StorageManager storageManager;
-    private List<History> unCheckList;
-    private long exitTime = 0;
+    private MyProgressDialog mProgressDialog;
+    private MyAlertDialog mAlertDialog;
+    private ExpressInfo mExpressInfo;
+    private RequestQueue mRequestQueue;
+    private DataManager mDataManager;
+    private List<History> mUnCheckList;
+    private long mExitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,21 +107,21 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         scan.setOnClickListener(this);
         clear.setOnClickListener(this);
 
-        progressDialog = new MyProgressDialog(this);
-        requestQueue = Volley.newRequestQueue(this);
-        storageManager = StorageManager.getInstance().setContext(this);
-        expressInfo = new ExpressInfo();
+        mProgressDialog = new MyProgressDialog(this);
+        mRequestQueue = Volley.newRequestQueue(this);
+        mDataManager = DataManager.getInstance().setContext(this);
+        mExpressInfo = new ExpressInfo();
     }
 
     private void initUnCheck() {
         try {
-            unCheckList = storageManager.getUnCheckList();
+            mUnCheckList = mDataManager.getUnCheckList();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        lvUnCheck.setAdapter(new HistoryListAdapter(this, unCheckList));
+        lvUnCheck.setAdapter(new HistoryListAdapter(this, mUnCheckList));
         lvUnCheck.setOnItemClickListener(this);
-        if (unCheckList.size() == 0) {
+        if (mUnCheckList.size() == 0) {
             llUnCheck.setVisibility(View.GONE);
         } else {
             llUnCheck.setVisibility(View.VISIBLE);
@@ -134,14 +134,14 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                     .show();
             return;
         }
-        progressDialog.show();
-        progressDialog.setMessage(getResources().getString(R.string.querying));
-        JSONRequest<QueryResult> request = new JSONRequest<>(Utils.getQueryUrl(expressInfo),
+        mProgressDialog.show();
+        mProgressDialog.setMessage(getResources().getString(R.string.querying));
+        JSONRequest<QueryResult> request = new JSONRequest<>(Utils.getQueryUrl(mExpressInfo),
                 QueryResult.class, new Listener<QueryResult>() {
             @Override
             public void onResponse(QueryResult queryResult) {
                 Log.i("Query", queryResult.getMessage());
-                progressDialog.cancel();
+                mProgressDialog.cancel();
                 if (queryResult.getStatus().equals("200")) {
                     onQuerySuccess(queryResult);
                 } else {
@@ -152,68 +152,68 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("Query", volleyError.getMessage(), volleyError);
-                progressDialog.cancel();
+                mProgressDialog.cancel();
                 Toast.makeText(QueryActivity.this,
                         R.string.system_busy, Toast.LENGTH_SHORT)
                         .show();
             }
         });
         request.setShouldCache(false);
-        requestQueue.add(request);
+        mRequestQueue.add(request);
     }
 
     private void onQuerySuccess(QueryResult queryResult) {
         Intent intent = new Intent();
         intent.setClass(this, ResultActivity.class);
-        queryResult.setCompany_name(expressInfo.getCompany_name());
-        queryResult.setCompany_icon(expressInfo.getCompany_icon());
+        queryResult.setCompany_name(mExpressInfo.getCompany_name());
+        queryResult.setCompany_icon(mExpressInfo.getCompany_icon());
         intent.putExtra(QUERY_RESULT, queryResult);
         startActivity(intent);
-        expressInfo.setIs_check(queryResult.getIscheck());
+        mExpressInfo.setIs_check(queryResult.getIscheck());
         try {
-            storageManager.updateHistory(expressInfo);
+            mDataManager.updateHistory(mExpressInfo);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void onQueryFailure(QueryResult queryResult) {
-        if (expressInfo.getRequest_type() == ExpressInfo.RequestType.INPUT) {
+        if (mExpressInfo.getRequest_type() == ExpressInfo.RequestType.INPUT) {
             String msg = getString(R.string.query_failure);
-            msg = String.format(msg, expressInfo.getCompany_name(), expressInfo.getPost_id());
-            alertDialog = new MyAlertDialog(this, false);
-            alertDialog.show();
-            alertDialog.setTitle(getString(R.string.app_name));
-            alertDialog.setMessage(msg);
-            alertDialog.setPositiveButton(R.string.save_id,
+            msg = String.format(msg, mExpressInfo.getCompany_name(), mExpressInfo.getPost_id());
+            mAlertDialog = new MyAlertDialog(this, false);
+            mAlertDialog.show();
+            mAlertDialog.setTitle(getString(R.string.app_name));
+            mAlertDialog.setMessage(msg);
+            mAlertDialog.setPositiveButton(R.string.save_id,
                     new OnClickListener() {
 
                         @Override
                         public void onClick(View v) {
-                            alertDialog.cancel();
-                            expressInfo.setIs_check("0");
+                            mAlertDialog.cancel();
+                            mExpressInfo.setIs_check("0");
                             try {
-                                storageManager.updateHistory(expressInfo);
+                                mDataManager.updateHistory(mExpressInfo);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
                             initUnCheck();
                         }
                     });
-            alertDialog.setNegativeButton(getString(R.string.cancle),
+            mAlertDialog.setNegativeButton(getString(R.string.cancle),
                     new OnClickListener() {
 
                         @Override
                         public void onClick(View v) {
-                            alertDialog.cancel();
+                            mAlertDialog.cancel();
                         }
                     });
         } else {
             Intent intent = new Intent();
             intent.setClass(this, ResultActivity.class);
-            queryResult.setCompany_name(expressInfo.getCompany_name());
-            queryResult.setCompany_icon(expressInfo.getCompany_icon());
-            queryResult.setNu(expressInfo.getPost_id());
+            queryResult.setCompany_name(mExpressInfo.getCompany_name());
+            queryResult.setCompany_icon(mExpressInfo.getCompany_icon());
+            queryResult.setNu(mExpressInfo.getPost_id());
             intent.putExtra(QUERY_RESULT, queryResult);
             startActivity(intent);
         }
@@ -287,8 +287,8 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                 startActivityForResult(intent, REQUEST_COMPANY);
                 break;
             case R.id.query:
-                expressInfo.setPost_id(postIdText.getText().toString());
-                expressInfo.setRequest_type(ExpressInfo.RequestType.INPUT);
+                mExpressInfo.setPost_id(postIdText.getText().toString());
+                mExpressInfo.setRequest_type(ExpressInfo.RequestType.INPUT);
                 query();
                 break;
             case R.id.clear:
@@ -301,14 +301,14 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        History history = unCheckList.get(position);
-        expressInfo.setPost_id(history.getPost_id());
-        expressInfo.setCompany_param(history.getCompany_param());
-        expressInfo.setCompany_name(history.getCompany_name());
-        expressInfo.setCompany_icon(history.getCompany_icon());
-        expressInfo.setRequest_type(ExpressInfo.RequestType.HISTORY);
-        comNameText.setText(expressInfo.getCompany_name());
-        postIdText.setText(expressInfo.getPost_id());
+        History history = mUnCheckList.get(position);
+        mExpressInfo.setPost_id(history.getPost_id());
+        mExpressInfo.setCompany_param(history.getCompany_param());
+        mExpressInfo.setCompany_name(history.getCompany_name());
+        mExpressInfo.setCompany_icon(history.getCompany_icon());
+        mExpressInfo.setRequest_type(ExpressInfo.RequestType.HISTORY);
+        comNameText.setText(mExpressInfo.getCompany_name());
+        postIdText.setText(mExpressInfo.getPost_id());
         postIdText.setSelection(postIdText.length());
         query();
     }
@@ -327,10 +327,10 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                 postIdText.setSelection(postIdText.length());
                 break;
             case REQUEST_COMPANY:
-                String postId = expressInfo.getPost_id();
-                expressInfo = (ExpressInfo) data.getSerializableExtra(EXPRESS_INFO);
-                expressInfo.setPost_id(postId);
-                comNameText.setText(expressInfo.getCompany_name());
+                String postId = mExpressInfo.getPost_id();
+                mExpressInfo = (ExpressInfo) data.getSerializableExtra(EXPRESS_INFO);
+                mExpressInfo.setPost_id(postId);
+                comNameText.setText(mExpressInfo.getCompany_name());
                 setBtnEnable();
                 break;
             default:
@@ -377,8 +377,8 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
             drawerLayout.closeDrawers();
             return;
         }
-        if (System.currentTimeMillis() - exitTime > 2000) {
-            exitTime = System.currentTimeMillis();
+        if (System.currentTimeMillis() - mExitTime > 2000) {
+            mExitTime = System.currentTimeMillis();
             Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content),
                     R.string.click2exit, Snackbar.LENGTH_SHORT).show();
         } else {

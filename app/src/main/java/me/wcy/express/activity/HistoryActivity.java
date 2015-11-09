@@ -28,7 +28,7 @@ import me.wcy.express.database.History;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JSONRequest;
-import me.wcy.express.util.StorageManager;
+import me.wcy.express.util.DataManager;
 import me.wcy.express.util.Utils;
 import me.wcy.express.widget.MyAlertDialog;
 import me.wcy.express.widget.MyProgressDialog;
@@ -40,34 +40,34 @@ public class HistoryActivity extends BaseActivity implements
     @Bind(R.id.nothing)
     LinearLayout nothing;
 
-    private MyProgressDialog progressDialog;
-    private MyAlertDialog alertDialog;
-    private ExpressInfo expressInfo;
-    private RequestQueue requestQueue;
-    private StorageManager storageManager;
-    private List<History> historyList;
+    private MyProgressDialog mProgressDialog;
+    private MyAlertDialog mAlertDialog;
+    private ExpressInfo mExpressInfo;
+    private RequestQueue mRequestQueue;
+    private DataManager mDataManager;
+    private List<History> mHistoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history);
 
-        progressDialog = new MyProgressDialog(this);
-        requestQueue = Volley.newRequestQueue(this);
-        storageManager = StorageManager.getInstance().setContext(this);
-        expressInfo = new ExpressInfo();
+        mProgressDialog = new MyProgressDialog(this);
+        mRequestQueue = Volley.newRequestQueue(this);
+        mDataManager = DataManager.getInstance().setContext(this);
+        mExpressInfo = new ExpressInfo();
     }
 
     private void init() {
         try {
-            historyList = storageManager.getHistoryList();
+            mHistoryList = mDataManager.getHistoryList();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        historyListView.setAdapter(new HistoryListAdapter(this, historyList));
+        historyListView.setAdapter(new HistoryListAdapter(this, mHistoryList));
         historyListView.setOnItemClickListener(this);
         historyListView.setOnItemLongClickListener(this);
-        if (historyList.size() == 0) {
+        if (mHistoryList.size() == 0) {
             nothing.setVisibility(View.VISIBLE);
         } else {
             nothing.setVisibility(View.GONE);
@@ -80,16 +80,16 @@ public class HistoryActivity extends BaseActivity implements
                     .show();
             return;
         }
-        progressDialog.show();
-        progressDialog.setMessage(getResources().getString(R.string.querying));
+        mProgressDialog.show();
+        mProgressDialog.setMessage(getResources().getString(R.string.querying));
         JSONRequest<QueryResult> request = new JSONRequest<>(
-                Utils.getQueryUrl(expressInfo), QueryResult.class,
+                Utils.getQueryUrl(mExpressInfo), QueryResult.class,
                 new Response.Listener<QueryResult>() {
 
                     @Override
                     public void onResponse(QueryResult queryResult) {
                         Log.i("Query", queryResult.getMessage());
-                        progressDialog.cancel();
+                        mProgressDialog.cancel();
                         onQuerySuccess(queryResult);
                     }
                 }, new ErrorListener() {
@@ -97,31 +97,31 @@ public class HistoryActivity extends BaseActivity implements
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Query", error.getMessage(), error);
-                progressDialog.cancel();
+                mProgressDialog.cancel();
                 Toast.makeText(HistoryActivity.this,
                         R.string.system_busy, Toast.LENGTH_SHORT)
                         .show();
             }
         });
         request.setShouldCache(false);
-        requestQueue.add(request);
+        mRequestQueue.add(request);
     }
 
     private void onQuerySuccess(QueryResult queryResult) {
         Intent intent = new Intent();
         intent.setClass(this, ResultActivity.class);
-        queryResult.setCompany_name(expressInfo.getCompany_name());
-        queryResult.setCompany_icon(expressInfo.getCompany_icon());
-        queryResult.setNu(expressInfo.getPost_id());
+        queryResult.setCompany_name(mExpressInfo.getCompany_name());
+        queryResult.setCompany_icon(mExpressInfo.getCompany_icon());
+        queryResult.setNu(mExpressInfo.getPost_id());
         intent.putExtra(QueryActivity.QUERY_RESULT, queryResult);
         startActivity(intent);
         if (queryResult.getStatus().equals("200")) {
-            expressInfo.setIs_check(queryResult.getIscheck());
+            mExpressInfo.setIs_check(queryResult.getIscheck());
         } else {
-            expressInfo.setIs_check("0");
+            mExpressInfo.setIs_check("0");
         }
         try {
-            storageManager.updateHistory(expressInfo);
+            mDataManager.updateHistory(mExpressInfo);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -129,29 +129,29 @@ public class HistoryActivity extends BaseActivity implements
 
     @Override
     public void onItemClick(AdapterView<?> view, View arg1, int position, long arg3) {
-        expressInfo.setPost_id(historyList.get(position).getPost_id());
-        expressInfo.setCompany_param(historyList.get(position).getCompany_param());
-        expressInfo.setCompany_name(historyList.get(position).getCompany_name());
-        expressInfo.setCompany_icon(historyList.get(position).getCompany_icon());
+        mExpressInfo.setPost_id(mHistoryList.get(position).getPost_id());
+        mExpressInfo.setCompany_param(mHistoryList.get(position).getCompany_param());
+        mExpressInfo.setCompany_name(mHistoryList.get(position).getCompany_name());
+        mExpressInfo.setCompany_icon(mHistoryList.get(position).getCompany_icon());
         query();
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> view, View arg1, int position, long arg3) {
         final int which = position;
-        alertDialog = new MyAlertDialog(this);
-        alertDialog.show();
-        alertDialog.setTitle(getResources().getString(R.string.tips));
-        alertDialog.setMessage(getResources().getString(
+        mAlertDialog = new MyAlertDialog(this);
+        mAlertDialog.show();
+        mAlertDialog.setTitle(getResources().getString(R.string.tips));
+        mAlertDialog.setMessage(getResources().getString(
                 R.string.sure_delete_history));
-        alertDialog.setPositiveButton(getResources().getString(R.string.sure),
+        mAlertDialog.setPositiveButton(getResources().getString(R.string.sure),
                 new OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-                        alertDialog.cancel();
+                        mAlertDialog.cancel();
                         try {
-                            storageManager.deleteById(historyList.get(which)
+                            mDataManager.deleteById(mHistoryList.get(which)
                                     .getPost_id());
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -159,13 +159,13 @@ public class HistoryActivity extends BaseActivity implements
                         init();
                     }
                 });
-        alertDialog.setNegativeButton(
+        mAlertDialog.setNegativeButton(
                 getResources().getString(R.string.cancle),
                 new OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-                        alertDialog.cancel();
+                        mAlertDialog.cancel();
                     }
                 });
         return true;

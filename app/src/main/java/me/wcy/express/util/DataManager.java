@@ -18,20 +18,20 @@ import me.wcy.express.model.ExpressInfo;
 /**
  * @author wcy
  */
-public class StorageManager {
+public class DataManager {
     private Context mContext;
-    private DBHelper dbHelper;
-    private Dao<History, String> historyDao;
+    private DBHelper mDBHelper;
+    private Dao<History, String> mHistoryDao;
 
-    public static StorageManager getInstance() {
+    public static DataManager getInstance() {
         return SingletonHolder.instance;
     }
 
-    public StorageManager setContext(Context context) {
+    public DataManager setContext(Context context) {
         mContext = context;
-        dbHelper = new DBHelper(mContext);
+        mDBHelper = new DBHelper(mContext);
         try {
-            historyDao = dbHelper.getDao(History.class);
+            mHistoryDao = mDBHelper.getDao(History.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -39,16 +39,16 @@ public class StorageManager {
     }
 
     private static class SingletonHolder {
-        private static StorageManager instance = new StorageManager();
+        private static DataManager instance = new DataManager();
     }
 
-    private StorageManager() {
+    private DataManager() {
     }
 
     public void updateHistory(ExpressInfo expressInfo) throws SQLException {
         History history;
-        if (historyDao.idExists(expressInfo.getPost_id())) {
-            history = historyDao.queryForId(expressInfo.getPost_id());
+        if (mHistoryDao.idExists(expressInfo.getPost_id())) {
+            history = mHistoryDao.queryForId(expressInfo.getPost_id());
         } else {
             history = new History();
         }
@@ -57,12 +57,12 @@ public class StorageManager {
         history.setCompany_name(expressInfo.getCompany_name());
         history.setCompany_icon(expressInfo.getCompany_icon());
         history.setIs_check(expressInfo.getIs_check());
-        historyDao.createOrUpdate(history);
+        mHistoryDao.createOrUpdate(history);
     }
 
     public List<History> getHistoryList() throws SQLException {
         List<History> historyList = new ArrayList<>();
-        for (History history : historyDao) {
+        for (History history : mHistoryDao) {
             historyList.add(0, history);
         }
         return historyList;
@@ -70,7 +70,7 @@ public class StorageManager {
 
     public List<History> getUnCheckList() throws SQLException {
         List<History> unCheckList = new ArrayList<>();
-        for (History history : historyDao) {
+        for (History history : mHistoryDao) {
             if (!history.getIs_check().equals("1")) {
                 unCheckList.add(0, history);
             }
@@ -79,7 +79,7 @@ public class StorageManager {
     }
 
     public void deleteById(String id) throws SQLException {
-        historyDao.deleteById(id);
+        mHistoryDao.deleteById(id);
     }
 
 }

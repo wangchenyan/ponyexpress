@@ -5,10 +5,11 @@
 
     <EditText
         android:id="@+id/et_remark"
-        style="@style/TextNormal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="备注信息" />
+        android:hint="备注信息"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_common" />
 
 </LinearLayout>

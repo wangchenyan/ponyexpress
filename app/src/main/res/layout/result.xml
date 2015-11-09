@@ -74,27 +74,30 @@
             android:padding="50dp">
 
             <TextView
-                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/face_sad"
+                android:textColor="@color/black"
                 android:textSize="24sp" />
 
             <TextView
-                style="@style/TextNormal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="@string/no_express_info"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
     <Button
-        android:id="@+id/remark"
+        android:id="@+id/btn_remark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/remark" />
+        android:background="@drawable/ic_btn_common_bg"
+        android:text="@string/remark"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_common" />
 
 </LinearLayout>

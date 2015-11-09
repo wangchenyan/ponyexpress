@@ -36,8 +36,8 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     ImageView comIcon;
     @Bind(R.id.no_info)
     LinearLayout noInfo;
-    @Bind(R.id.remark)
-    Button remark;
+    @Bind(R.id.btn_remark)
+    Button btnRemark;
 
     private QueryResult queryResult;
 
@@ -58,7 +58,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
             resultListView.setVisibility(View.GONE);
             noInfo.setVisibility(View.VISIBLE);
         }
-        remark.setOnClickListener(this);
+        btnRemark.setOnClickListener(this);
     }
 
     @Override

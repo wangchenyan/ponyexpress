@@ -10,7 +10,6 @@
 
         <EditText
             android:id="@+id/string"
-            style="@style/TextNormal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -18,7 +17,9 @@
             android:layout_marginTop="20dp"
             android:hint="@string/qrcode_input"
             android:minHeight="45dp"
-            android:textCursorDrawable="@null" />
+            android:textColor="@color/black"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/text_size_common" />
 
         <Button
             android:id="@+id/create"
@@ -31,7 +32,7 @@
             android:enabled="false"
             android:text="@string/title_activity_qrcode"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_common" />
 
         <LinearLayout
             android:layout_width="match_parent"
