@@ -109,7 +109,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
         progressDialog = new MyProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
-        storageManager = new StorageManager(this);
+        storageManager = StorageManager.getInstance().setContext(this);
         expressInfo = new ExpressInfo();
     }
 
@@ -231,7 +231,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         View dialogView = getLayoutInflater().inflate(R.layout.about_dialog,
                 null);
         TextView version = (TextView) dialogView.findViewById(R.id.version);
-        version.setText("V " + Utils.getVersion(this));
+        version.setText(Utils.getVersion(this));
         Builder builder = new Builder(this);
         builder.setTitle(R.string.about);
         builder.setView(dialogView);

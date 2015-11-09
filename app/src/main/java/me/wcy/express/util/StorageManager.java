@@ -19,16 +19,30 @@ import me.wcy.express.model.ExpressInfo;
  * @author wcy
  */
 public class StorageManager {
+    private Context mContext;
+    private DBHelper dbHelper;
     private Dao<History, String> historyDao;
 
-    public StorageManager(Context context) {
-        super();
-        DBHelper dbHelper = new DBHelper(context);
+    public static StorageManager getInstance() {
+        return SingletonHolder.instance;
+    }
+
+    public StorageManager setContext(Context context) {
+        mContext = context;
+        dbHelper = new DBHelper(mContext);
         try {
             historyDao = dbHelper.getDao(History.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return this;
+    }
+
+    private static class SingletonHolder {
+        private static StorageManager instance = new StorageManager();
+    }
+
+    private StorageManager() {
     }
 
     public void updateHistory(ExpressInfo expressInfo) throws SQLException {

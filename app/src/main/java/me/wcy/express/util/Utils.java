@@ -33,7 +33,7 @@ public class Utils {
         } catch (NameNotFoundException e) {
             e.printStackTrace();
         }
-        return versionName;
+        return "V " + versionName;
     }
 
     /**

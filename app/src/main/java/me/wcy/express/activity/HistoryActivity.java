@@ -54,7 +54,7 @@ public class HistoryActivity extends BaseActivity implements
 
         progressDialog = new MyProgressDialog(this);
         requestQueue = Volley.newRequestQueue(this);
-        storageManager = new StorageManager(this);
+        storageManager = StorageManager.getInstance().setContext(this);
         expressInfo = new ExpressInfo();
     }
 
@@ -115,7 +115,6 @@ public class HistoryActivity extends BaseActivity implements
         queryResult.setNu(expressInfo.getPost_id());
         intent.putExtra(QueryActivity.QUERY_RESULT, queryResult);
         startActivity(intent);
-        StorageManager storageManager = new StorageManager(this);
         if (queryResult.getStatus().equals("200")) {
             expressInfo.setIs_check(queryResult.getIscheck());
         } else {
