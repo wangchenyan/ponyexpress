@@ -9,6 +9,7 @@
     <color name="green">#4CAF50</color>
     <color name="grey">#9E9E9E</color>
     <color name="grey_300">#E0E0E0</color>
+    <color name="grey_700">#616161</color>
     <color name="orange_700">#F57C00</color>
     <color name="transparent">#00000000</color>
     <color name="viewfinder_frame">#D3D3D3</color>

@@ -42,11 +42,11 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
 
     private void init(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.IndexBar);
-        float indexTextSize = ta.getDimension(R.styleable.IndexBar_indexTextSize, 42.0f);
-        int indexTextColor = ta.getColor(R.styleable.IndexBar_indexTextColor, 0xFF9E9E9E);
+        float indexTextSize = ta.getDimension(R.styleable.IndexBar_indexTextSize, 36.0f);
+        int indexTextColor = ta.getColor(R.styleable.IndexBar_indexTextColor, 0xFF616161);
         ta.recycle();
 
-        mIndexes = new String[]{"★", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
+        mIndexes = new String[]{"☆", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
         setOrientation(VERTICAL);
         setOnTouchListener(this);
         for (String index : mIndexes) {
@@ -74,6 +74,7 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
         int position;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                setBackgroundColor(0x40000000);
                 tvIndicator.setVisibility(View.VISIBLE);
                 y = (int) event.getY();
                 mHeight = v.getHeight();
@@ -104,6 +105,7 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                setBackgroundColor(0x00000000);
                 tvIndicator.setVisibility(View.GONE);
                 y = (int) event.getY();
                 i = mIndexes.length * y / mHeight;

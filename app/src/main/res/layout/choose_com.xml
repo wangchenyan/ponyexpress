@@ -11,11 +11,11 @@
 
     <me.wcy.express.widget.IndexBar
         android:id="@+id/ll_indicator"
-        android:layout_width="30dp"
+        android:layout_width="25dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
-        indexBar:indexTextColor="@color/grey"
-        indexBar:indexTextSize="14sp" />
+        indexBar:indexTextColor="@color/grey_700"
+        indexBar:indexTextSize="12sp" />
 
     <TextView
         android:id="@+id/tv_indicator"
