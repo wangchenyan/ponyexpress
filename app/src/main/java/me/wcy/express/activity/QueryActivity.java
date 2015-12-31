@@ -179,8 +179,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     private void onQueryFailure(QueryResult queryResult) {
         if (mExpressInfo.getRequest_type() == ExpressInfo.RequestType.INPUT) {
-            String msg = getString(R.string.query_failure);
-            msg = String.format(msg, mExpressInfo.getCompany_name(), mExpressInfo.getPost_id());
+            String msg = getString(R.string.query_failure, mExpressInfo.getCompany_name(), mExpressInfo.getPost_id());
             mAlertDialog = new MyAlertDialog(this, false);
             mAlertDialog.show();
             mAlertDialog.setTitle(getString(R.string.app_name));
