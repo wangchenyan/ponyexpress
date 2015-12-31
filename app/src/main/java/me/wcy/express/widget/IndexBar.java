@@ -21,10 +21,10 @@ import me.wcy.express.R;
  * Created by hzwangchenyan on 2015/12/31.
  */
 public class IndexBar extends LinearLayout implements View.OnTouchListener {
-    private String[] mIndexes;
-    private List<String> mTitles;
     private ListView lvData;
     private TextView tvIndicator;
+    private List<String> mTitles;
+    private String[] mIndexes;
     private int mHeight;
 
     public IndexBar(Context context) {
@@ -70,35 +70,35 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int y;
-        int index;
+        int i;
         int position;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 tvIndicator.setVisibility(View.VISIBLE);
                 y = (int) event.getY();
                 mHeight = v.getHeight();
-                index = mIndexes.length * y / mHeight;
-                if (index < 0) {// 防止数组越界
-                    index = 0;
-                } else if (index >= mIndexes.length) {
-                    index = mIndexes.length - 1;
+                i = mIndexes.length * y / mHeight;
+                if (i < 0) {// 防止数组越界
+                    i = 0;
+                } else if (i >= mIndexes.length) {
+                    i = mIndexes.length - 1;
                 }
-                position = mTitles.indexOf(mIndexes[index]);
-                tvIndicator.setText(mIndexes[index]);
+                position = mTitles.indexOf(mIndexes[i]);
+                tvIndicator.setText(mIndexes[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 y = (int) event.getY();
-                index = mIndexes.length * y / mHeight;
-                if (index < 0) {
-                    index = 0;
-                } else if (index >= mIndexes.length) {
-                    index = mIndexes.length - 1;
+                i = mIndexes.length * y / mHeight;
+                if (i < 0) {
+                    i = 0;
+                } else if (i >= mIndexes.length) {
+                    i = mIndexes.length - 1;
                 }
-                position = mTitles.indexOf(mIndexes[index]);
-                tvIndicator.setText(mIndexes[index]);
+                position = mTitles.indexOf(mIndexes[i]);
+                tvIndicator.setText(mIndexes[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
                 }
@@ -106,14 +106,14 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
             case MotionEvent.ACTION_UP:
                 tvIndicator.setVisibility(View.GONE);
                 y = (int) event.getY();
-                index = mIndexes.length * y / mHeight;
-                if (index < 0) {
-                    index = 0;
-                } else if (index >= mIndexes.length) {
-                    index = mIndexes.length - 1;
+                i = mIndexes.length * y / mHeight;
+                if (i < 0) {
+                    i = 0;
+                } else if (i >= mIndexes.length) {
+                    i = mIndexes.length - 1;
                 }
-                position = mTitles.indexOf(mIndexes[index]);
-                tvIndicator.setText(mIndexes[index]);
+                position = mTitles.indexOf(mIndexes[i]);
+                tvIndicator.setText(mIndexes[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
                 }
