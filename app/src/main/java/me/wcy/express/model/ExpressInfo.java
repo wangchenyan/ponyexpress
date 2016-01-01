@@ -14,10 +14,8 @@ public class ExpressInfo implements Serializable {
     RequestType request_type;
 
     public enum RequestType {
-        // 手动输入
-        INPUT,
-        // 历史记录
-        HISTORY
+        INPUT,// 手动输入
+        HISTORY// 历史记录
     }
 
     public String getCompany_name() {
@@ -67,5 +65,4 @@ public class ExpressInfo implements Serializable {
     public void setRequest_type(RequestType request_type) {
         this.request_type = request_type;
     }
-
 }

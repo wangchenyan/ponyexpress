@@ -22,8 +22,7 @@ import android.content.DialogInterface;
 /**
  * Simple listener used to exit the app in a few cases.
  */
-public final class FinishListener implements DialogInterface.OnClickListener,
-        DialogInterface.OnCancelListener, Runnable {
+public final class FinishListener implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener, Runnable {
     private final Activity activityToFinish;
 
     public FinishListener(Activity activityToFinish) {
@@ -41,5 +40,4 @@ public final class FinishListener implements DialogInterface.OnClickListener,
     public void run() {
         activityToFinish.finish();
     }
-
 }

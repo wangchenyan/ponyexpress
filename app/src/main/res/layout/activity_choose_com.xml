@@ -10,7 +10,7 @@
         android:layout_height="match_parent" />
 
     <me.wcy.express.widget.IndexBar
-        android:id="@+id/ll_indicator"
+        android:id="@+id/ib_indicator"
         android:layout_width="25dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"

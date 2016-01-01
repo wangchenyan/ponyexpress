@@ -35,13 +35,11 @@ final class AutoFocusCallback implements Camera.AutoFocusCallback {
 
     public void onAutoFocus(boolean success, Camera camera) {
         if (autoFocusHandler != null) {
-            Message message = autoFocusHandler.obtainMessage(autoFocusMessage,
-                    success);
+            Message message = autoFocusHandler.obtainMessage(autoFocusMessage, success);
             autoFocusHandler.sendMessageDelayed(message, AUTOFOCUS_INTERVAL_MS);
             autoFocusHandler = null;
         } else {
             Log.d(TAG, "Got auto-focus callback, but no handler for it");
         }
     }
-
 }

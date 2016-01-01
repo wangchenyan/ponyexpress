@@ -193,5 +193,4 @@ public final class Intents {
         private Share() {
         }
     }
-
 }

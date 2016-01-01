@@ -20,20 +20,19 @@ import me.wcy.express.R;
 public class ComListAdapter extends BaseAdapter {
     public static final int TYPE_TITLE = 0;
     public static final int TYPE_COMPANY = 1;
-    private Context context;
-    private String[] comNames;
-    private String[] comIcons;
+    private Context mContext;
+    private String[] mComNames;
+    private String[] mComIcons;
 
     public ComListAdapter(Context context, String[] comNames, String[] comIcons) {
-        super();
-        this.context = context;
-        this.comNames = comNames;
-        this.comIcons = comIcons;
+        this.mContext = context;
+        this.mComNames = comNames;
+        this.mComIcons = comIcons;
     }
 
     @Override
     public int getCount() {
-        return comNames.length;
+        return mComNames.length;
     }
 
     @Override
@@ -48,7 +47,7 @@ public class ComListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (comNames[position].length() == 1) {
+        if (mComNames[position].length() == 1) {
             return TYPE_TITLE;
         } else {
             return TYPE_COMPANY;
@@ -68,44 +67,43 @@ public class ComListAdapter extends BaseAdapter {
         switch (getItemViewType(position)) {
             case TYPE_TITLE:
                 if (convertView == null) {
-                    convertView = LayoutInflater.from(context).inflate(R.layout.choose_com_list_item_title, null);
+                    convertView = LayoutInflater.from(mContext).inflate(R.layout.activity_choose_com_list_item_title, null);
                     titleHolder = new TitleViewHolder();
-                    titleHolder.title = (TextView) convertView.findViewById(R.id.title);
+                    titleHolder.tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
                     convertView.setTag(titleHolder);
                 } else {
                     titleHolder = (TitleViewHolder) convertView.getTag();
                 }
-                if (comNames[position].equals("★")) {
-                    titleHolder.title.setText("常用快递");
+                if (mComNames[position].equals("★")) {
+                    titleHolder.tvTitle.setText("常用快递");
                 } else {
-                    titleHolder.title.setText(comNames[position]);
+                    titleHolder.tvTitle.setText(mComNames[position]);
                 }
                 break;
             case TYPE_COMPANY:
                 if (convertView == null) {
-                    convertView = LayoutInflater.from(context).inflate(R.layout.choose_com_list_item_com, null);
+                    convertView = LayoutInflater.from(mContext).inflate(R.layout.activity_choose_com_list_item_com, null);
                     comHolder = new ComViewHolder();
-                    comHolder.com = (TextView) convertView.findViewById(R.id.com);
-                    comHolder.icon = (ImageView) convertView.findViewById(R.id.icon);
+                    comHolder.ivComIcon = (ImageView) convertView.findViewById(R.id.iv_com_icon);
+                    comHolder.tvComName = (TextView) convertView.findViewById(R.id.tv_com_name);
                     convertView.setTag(comHolder);
                 } else {
                     comHolder = (ComViewHolder) convertView.getTag();
                 }
-                comHolder.com.setText(comNames[position]);
-                int id = context.getResources().getIdentifier(comIcons[position],
-                        "drawable", context.getPackageName());
-                comHolder.icon.setImageResource(id);
+                int id = mContext.getResources().getIdentifier(mComIcons[position], "drawable", mContext.getPackageName());
+                comHolder.ivComIcon.setImageResource(id);
+                comHolder.tvComName.setText(mComNames[position]);
                 break;
         }
         return convertView;
     }
 
     class TitleViewHolder {
-        TextView title;
+        TextView tvTitle;
     }
 
     class ComViewHolder {
-        TextView com;
-        ImageView icon;
+        ImageView ivComIcon;
+        TextView tvComName;
     }
 }

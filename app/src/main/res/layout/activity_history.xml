@@ -5,12 +5,12 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/history_list"
+        android:id="@+id/lv_history_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <LinearLayout
-        android:id="@+id/nothing"
+        android:id="@+id/ll_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -30,5 +30,4 @@
             android:textColor="@color/grey"
             android:textSize="@dimen/text_size_common" />
     </LinearLayout>
-
 </LinearLayout>

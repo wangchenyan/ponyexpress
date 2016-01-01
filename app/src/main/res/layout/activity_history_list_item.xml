@@ -11,14 +11,13 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/com_icon"
+            android:id="@+id/iv_com_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="centerInside"
             android:src="@drawable/icon_com_shentong" />
 
         <LinearLayout
-            android:id="@+id/layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -27,7 +26,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/com_name"
+                android:id="@+id/tv_com_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="申通快递"
@@ -35,7 +34,7 @@
                 android:textSize="@dimen/text_size_common" />
 
             <TextView
-                android:id="@+id/post_id"
+                android:id="@+id/tv_post_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12345678"
@@ -52,7 +51,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/remark"
+                android:id="@+id/tv_remark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -61,7 +60,7 @@
                 android:textSize="@dimen/text_size_common" />
 
             <TextView
-                android:id="@+id/is_check"
+                android:id="@+id/tv_is_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="在途"

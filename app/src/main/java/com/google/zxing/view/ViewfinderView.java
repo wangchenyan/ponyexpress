@@ -16,11 +16,6 @@
 
 package com.google.zxing.view;
 
-import java.util.Collection;
-import java.util.HashSet;
-
-import me.wcy.express.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -32,6 +27,11 @@ import android.view.View;
 
 import com.google.zxing.ResultPoint;
 import com.google.zxing.camera.CameraManager;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+import me.wcy.express.R;
 
 /**
  * This view is overlaid on top of the camera preview. It adds the viewfinder
@@ -66,7 +66,7 @@ public final class ViewfinderView extends View {
         laserColor = resources.getColor(R.color.viewfinder_laser);
         resultPointColor = resources.getColor(R.color.possible_result_points);
         scannerAlpha = 0;
-        possibleResultPoints = new HashSet<ResultPoint>(5);
+        possibleResultPoints = new HashSet<>(5);
     }
 
     @Override
@@ -82,8 +82,7 @@ public final class ViewfinderView extends View {
         paint.setColor(resultBitmap != null ? resultColor : maskColor);
         canvas.drawRect(0, 0, width, frame.top, paint);
         canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
-        canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1,
-                paint);
+        canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
         canvas.drawRect(0, frame.bottom + 1, width, height, paint);
 
         if (resultBitmap != null) {
@@ -93,14 +92,10 @@ public final class ViewfinderView extends View {
         } else {
             // Draw a two pixel solid black border inside the framing rect
             paint.setColor(frameColor);
-            canvas.drawRect(frame.left, frame.top, frame.right + 1,
-                    frame.top + 2, paint);
-            canvas.drawRect(frame.left, frame.top + 2, frame.left + 2,
-                    frame.bottom - 1, paint);
-            canvas.drawRect(frame.right - 1, frame.top, frame.right + 1,
-                    frame.bottom - 1, paint);
-            canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1,
-                    frame.bottom + 1, paint);
+            canvas.drawRect(frame.left, frame.top, frame.right + 1, frame.top + 2, paint);
+            canvas.drawRect(frame.left, frame.top + 2, frame.left + 2, frame.bottom - 1, paint);
+            canvas.drawRect(frame.right - 1, frame.top, frame.right + 1, frame.bottom - 1, paint);
+            canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
 
             // Draw a red "laser scanner" line through the middle to show
             // decoding is active
@@ -108,8 +103,7 @@ public final class ViewfinderView extends View {
             paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
             scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
             int middle = frame.height() / 2 + frame.top;
-            canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1,
-                    middle + 2, paint);
+            canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
 
             Collection<ResultPoint> currentPossible = possibleResultPoints;
             Collection<ResultPoint> currentLast = lastPossibleResultPoints;
@@ -121,24 +115,21 @@ public final class ViewfinderView extends View {
                 paint.setAlpha(OPAQUE);
                 paint.setColor(resultPointColor);
                 for (ResultPoint point : currentPossible) {
-                    canvas.drawCircle(frame.left + point.getX(), frame.top
-                            + point.getY(), 6.0f, paint);
+                    canvas.drawCircle(frame.left + point.getX(), frame.top + point.getY(), 6.0f, paint);
                 }
             }
             if (currentLast != null) {
                 paint.setAlpha(OPAQUE / 2);
                 paint.setColor(resultPointColor);
                 for (ResultPoint point : currentLast) {
-                    canvas.drawCircle(frame.left + point.getX(), frame.top
-                            + point.getY(), 3.0f, paint);
+                    canvas.drawCircle(frame.left + point.getX(), frame.top + point.getY(), 3.0f, paint);
                 }
             }
 
             // Request another update at the animation interval, but only
             // repaint the laser line,
             // not the entire viewfinder mask.
-            postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top,
-                    frame.right, frame.bottom);
+            postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top, frame.right, frame.bottom);
         }
     }
 
@@ -161,5 +152,4 @@ public final class ViewfinderView extends View {
     public void addPossibleResultPoint(ResultPoint point) {
         possibleResultPoints.add(point);
     }
-
 }

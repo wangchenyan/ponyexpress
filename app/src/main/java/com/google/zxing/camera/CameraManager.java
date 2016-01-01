@@ -107,8 +107,7 @@ public final class CameraManager {
         // 3 = Cupcake
         useOneShotPreviewCallback = Integer.parseInt(Build.VERSION.SDK) > 3;
 
-        previewCallback = new PreviewCallback(configManager,
-                useOneShotPreviewCallback);
+        previewCallback = new PreviewCallback(configManager, useOneShotPreviewCallback);
         autoFocusCallback = new AutoFocusCallback();
     }
 
@@ -232,8 +231,7 @@ public final class CameraManager {
             int height = screenResolution.y / 4;
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
-            framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
-                    topOffset + height);
+            framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
             Log.d(TAG, "Calculated framing rect: " + framingRect);
         }
         return framingRect;
@@ -292,8 +290,7 @@ public final class CameraManager {
      * @param height The height of the image.
      * @return A PlanarYUVLuminanceSource instance.
      */
-    public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data,
-                                                         int width, int height) {
+    public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
         Rect rect = getFramingRectInPreview();
         int previewFormat = configManager.getPreviewFormat();
         String previewFormatString = configManager.getPreviewFormatString();
@@ -306,20 +303,17 @@ public final class CameraManager {
                 // we only care
                 // about the Y channel, so allow it.
             case PixelFormat.YCbCr_422_SP:
-                return new PlanarYUVLuminanceSource(data, width, height, rect.left,
-                        rect.top, rect.width(), rect.height());
+                return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height());
             default:
                 // The Samsung Moment incorrectly uses this variant instead of the
                 // 'sp' version.
                 // Fortunately, it too has all the Y data up front, so we can read
                 // it.
                 if ("yuv420p".equals(previewFormatString)) {
-                    return new PlanarYUVLuminanceSource(data, width, height,
-                            rect.left, rect.top, rect.width(), rect.height());
+                    return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height());
                 }
         }
-        throw new IllegalArgumentException("Unsupported picture format: "
-                + previewFormat + '/' + previewFormatString);
+        throw new IllegalArgumentException("Unsupported picture format: " + previewFormat + '/' + previewFormatString);
     }
 
     public Context getContext() {
@@ -341,5 +335,4 @@ public final class CameraManager {
             camera.setParameters(parameter);
         }
     }
-
 }

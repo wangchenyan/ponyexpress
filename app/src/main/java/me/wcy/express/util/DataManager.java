@@ -19,8 +19,6 @@ import me.wcy.express.model.ExpressInfo;
  * @author wcy
  */
 public class DataManager {
-    private Context mContext;
-    private DBHelper mDBHelper;
     private Dao<History, String> mHistoryDao;
 
     public static DataManager getInstance() {
@@ -28,8 +26,7 @@ public class DataManager {
     }
 
     public DataManager setContext(Context context) {
-        mContext = context;
-        mDBHelper = new DBHelper(mContext);
+        DBHelper mDBHelper = new DBHelper(context);
         try {
             mHistoryDao = mDBHelper.getDao(History.class);
         } catch (SQLException e) {
@@ -81,5 +78,4 @@ public class DataManager {
     public void deleteById(String id) throws SQLException {
         mHistoryDao.deleteById(id);
     }
-
 }

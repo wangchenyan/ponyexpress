@@ -3,9 +3,6 @@
  */
 package me.wcy.express.adapter;
 
-import me.wcy.express.R;
-import me.wcy.express.model.QueryResult;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,22 +12,25 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import me.wcy.express.R;
+import me.wcy.express.model.QueryResult;
+
 /**
  * @author wcy
  */
 @SuppressLint({"InflateParams", "ViewHolder"})
 public class ResultAdapter extends BaseAdapter {
-    private Context context;
-    private QueryResult queryResult;
+    private Context mContext;
+    private QueryResult mQueryResult;
 
     public ResultAdapter(Context context, QueryResult queryResult) {
-        this.context = context;
-        this.queryResult = queryResult;
+        this.mContext = context;
+        this.mQueryResult = queryResult;
     }
 
     @Override
     public int getCount() {
-        return queryResult.getData().length;
+        return mQueryResult.getData().length;
     }
 
     @Override
@@ -45,31 +45,25 @@ public class ResultAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(
-                R.layout.result_list_item, null);
+        convertView = LayoutInflater.from(mContext).inflate(R.layout.activity_result_list_item, null);
         ViewHolder holder = new ViewHolder();
-        holder.timeView = (TextView) convertView.findViewById(R.id.time_view);
-        holder.detailView = (TextView) convertView
-                .findViewById(R.id.detail_view);
-        holder.logisticsView = (ImageView) convertView
-                .findViewById(R.id.logistics);
+        holder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
+        holder.tvDetail = (TextView) convertView.findViewById(R.id.tv_detail);
+        holder.ivLogistics = (ImageView) convertView.findViewById(R.id.iv_logistics);
 
-        holder.timeView.setText(queryResult.getData()[position].getTime());
-        holder.detailView.setText(queryResult.getData()[position].getContext());
+        holder.tvTime.setText(mQueryResult.getData()[position].getTime());
+        holder.tvDetail.setText(mQueryResult.getData()[position].getContext());
         if (position == 0) {
-            holder.timeView.setTextColor(context.getResources().getColor(
-                    R.color.black));
-            holder.detailView.setTextColor(context.getResources().getColor(
-                    R.color.black));
-            holder.logisticsView.setImageResource(R.drawable.ic_logistics_blue);
+            holder.tvTime.setTextColor(mContext.getResources().getColor(R.color.black));
+            holder.tvDetail.setTextColor(mContext.getResources().getColor(R.color.black));
+            holder.ivLogistics.setImageResource(R.drawable.ic_logistics_blue);
         }
         return convertView;
     }
 
     class ViewHolder {
-        public TextView timeView;
-        public TextView detailView;
-        public ImageView logisticsView;
+        public TextView tvTime;
+        public TextView tvDetail;
+        public ImageView ivLogistics;
     }
-
 }

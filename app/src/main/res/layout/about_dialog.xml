@@ -14,7 +14,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/version"
+        android:id="@+id/tv_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -32,5 +32,4 @@
         android:text="@string/copyright"
         android:textColor="@color/grey"
         android:textSize="16sp" />
-
 </LinearLayout>

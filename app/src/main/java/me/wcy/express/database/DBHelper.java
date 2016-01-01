@@ -36,5 +36,4 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
         onCreate(arg0, arg1);
     }
-
 }

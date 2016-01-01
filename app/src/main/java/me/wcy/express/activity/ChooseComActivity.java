@@ -23,8 +23,8 @@ import me.wcy.express.widget.IndexBar;
 public class ChooseComActivity extends BaseActivity implements OnItemClickListener {
     @Bind(R.id.lv_com)
     ListView lvCom;
-    @Bind(R.id.ll_indicator)
-    IndexBar llIndicator;
+    @Bind(R.id.ib_indicator)
+    IndexBar ibIndicator;
     @Bind(R.id.tv_indicator)
     TextView tvIndicator;
 
@@ -35,7 +35,7 @@ public class ChooseComActivity extends BaseActivity implements OnItemClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.choose_com);
+        setContentView(R.layout.activity_choose_com);
 
         mComNames = getResources().getStringArray(R.array.company_names);
         mComIcons = getResources().getStringArray(R.array.company_icons);
@@ -49,7 +49,7 @@ public class ChooseComActivity extends BaseActivity implements OnItemClickListen
         lvCom.setOnItemClickListener(this);
         List<String> data = new ArrayList<>();
         Collections.addAll(data, mComNames);
-        llIndicator.setData(data, lvCom, tvIndicator);
+        ibIndicator.setData(data, lvCom, tvIndicator);
     }
 
     @Override

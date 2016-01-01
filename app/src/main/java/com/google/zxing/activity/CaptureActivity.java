@@ -66,16 +66,16 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.capture);
+        setContentView(R.layout.activity_capture);
 
         CameraManager.init(getApplication());
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
 
-        ImageView back = (ImageView) findViewById(R.id.back);
-        ImageView flashlight = (ImageView) findViewById(R.id.flashlight);
-        ImageView album = (ImageView) findViewById(R.id.album);
+        ImageView back = (ImageView) findViewById(R.id.iv_back);
+        ImageView flashlight = (ImageView) findViewById(R.id.iv_flashlight);
+        ImageView album = (ImageView) findViewById(R.id.iv_album);
         back.setOnClickListener(this);
         flashlight.setOnClickListener(this);
         album.setOnClickListener(this);
@@ -149,14 +149,12 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             return;
         }
         if (handler == null) {
-            handler = new CaptureActivityHandler(this, decodeFormats,
-                    characterSet);
+            handler = new CaptureActivityHandler(this, decodeFormats, characterSet);
         }
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                               int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
 
     @Override
@@ -186,19 +184,16 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
 
     private void initBeepSound() {
         if (playBeep && mediaPlayer == null) {
-            // The volume on STREAM_SYSTEM is not adjustable, and users found it
-            // too loud,
+            // The volume on STREAM_SYSTEM is not adjustable, and users found it too loud,
             // so we now play on the music stream.
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnCompletionListener(beepListener);
 
-            AssetFileDescriptor file = getResources().openRawResourceFd(
-                    R.raw.beep);
+            AssetFileDescriptor file = getResources().openRawResourceFd(R.raw.beep);
             try {
-                mediaPlayer.setDataSource(file.getFileDescriptor(),
-                        file.getStartOffset(), file.getLength());
+                mediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
                 file.close();
                 mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
                 mediaPlayer.prepare();
@@ -224,6 +219,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
      * When the beep has finished playing, rewind to queue up another one.
      */
     private final OnCompletionListener beepListener = new OnCompletionListener() {
+        @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
             mediaPlayer.seekTo(0);
         }
@@ -232,13 +228,13 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back:
+            case R.id.iv_back:
                 finish();
                 break;
-            case R.id.flashlight:
+            case R.id.iv_flashlight:
                 CameraManager.get().flashlight();
                 break;
-            case R.id.album:
+            case R.id.iv_album:
                 album();
                 break;
         }
@@ -268,8 +264,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true; // 仅获取大小
-            bitmap = BitmapFactory.decodeStream(getContentResolver()
-                    .openInputStream(uri), null, options);
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
             //压缩尺寸,节约时间
             int inSampleSize = options.outHeight / 200;
             if (inSampleSize <= 0) {
@@ -277,8 +272,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             }
             options.inSampleSize = inSampleSize;
             options.inJustDecodeBounds = false; // 获取bitmap
-            bitmap = BitmapFactory.decodeStream(getContentResolver()
-                    .openInputStream(uri), null, options);
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -313,5 +307,4 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             finish();
         }
     }
-
 }

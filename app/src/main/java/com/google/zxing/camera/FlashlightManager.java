@@ -16,11 +16,11 @@
 
 package com.google.zxing.camera;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import android.os.IBinder;
 import android.util.Log;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * This class is used to activate the weak light on some camera phones (not
@@ -73,8 +73,7 @@ final class FlashlightManager {
             return null;
         }
 
-        Method getServiceMethod = maybeGetMethod(serviceManagerClass,
-                "getService", String.class);
+        Method getServiceMethod = maybeGetMethod(serviceManagerClass, "getService", String.class);
         if (getServiceMethod == null) {
             return null;
         }
@@ -89,8 +88,7 @@ final class FlashlightManager {
             return null;
         }
 
-        Method asInterfaceMethod = maybeGetMethod(iHardwareServiceStubClass,
-                "asInterface", IBinder.class);
+        Method asInterfaceMethod = maybeGetMethod(iHardwareServiceStubClass, "asInterface", IBinder.class);
         if (asInterfaceMethod == null) {
             return null;
         }
@@ -118,8 +116,7 @@ final class FlashlightManager {
         }
     }
 
-    private static Method maybeGetMethod(Class<?> clazz, String name,
-                                         Class<?>... argClasses) {
+    private static Method maybeGetMethod(Class<?> clazz, String name, Class<?>... argClasses) {
         try {
             return clazz.getMethod(name, argClasses);
         } catch (NoSuchMethodException nsme) {
@@ -138,8 +135,7 @@ final class FlashlightManager {
             Log.w(TAG, "Unexpected error while invoking " + method, e);
             return null;
         } catch (InvocationTargetException e) {
-            Log.w(TAG, "Unexpected error while invoking " + method,
-                    e.getCause());
+            Log.w(TAG, "Unexpected error while invoking " + method, e.getCause());
             return null;
         } catch (RuntimeException re) {
             Log.w(TAG, "Unexpected error while invoking " + method, re);
@@ -152,5 +148,4 @@ final class FlashlightManager {
             invoke(setFlashEnabledMethod, iHardwareService, active);
         }
     }
-
 }

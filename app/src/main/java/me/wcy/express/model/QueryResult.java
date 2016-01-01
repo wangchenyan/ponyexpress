@@ -90,5 +90,4 @@ public class QueryResult implements Serializable {
     public void setCompany_name(String company_name) {
         this.company_name = company_name;
     }
-
 }

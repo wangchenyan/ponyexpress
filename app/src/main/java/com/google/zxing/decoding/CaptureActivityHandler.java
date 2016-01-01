@@ -16,10 +16,6 @@
 
 package com.google.zxing.decoding;
 
-import java.util.Vector;
-
-import me.wcy.express.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -34,6 +30,10 @@ import com.google.zxing.Result;
 import com.google.zxing.activity.CaptureActivity;
 import com.google.zxing.camera.CameraManager;
 import com.google.zxing.view.ViewfinderResultPointCallback;
+
+import java.util.Vector;
+
+import me.wcy.express.R;
 
 /**
  * This class handles all the messaging which comprises the state machine for
@@ -50,11 +50,9 @@ public final class CaptureActivityHandler extends Handler {
         PREVIEW, SUCCESS, DONE
     }
 
-    public CaptureActivityHandler(CaptureActivity activity,
-                                  Vector<BarcodeFormat> decodeFormats, String characterSet) {
+    public CaptureActivityHandler(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats, String characterSet) {
         this.activity = activity;
-        decodeThread = new DecodeThread(activity, decodeFormats, characterSet,
-                new ViewfinderResultPointCallback(activity.getViewfinderView()));
+        decodeThread = new DecodeThread(activity, decodeFormats, characterSet, new ViewfinderResultPointCallback(activity.getViewfinderView()));
         decodeThread.start();
         state = State.SUCCESS;
         // Start ourselves capturing previews and decoding.
@@ -95,8 +93,7 @@ public final class CaptureActivityHandler extends Handler {
                 // We're decoding as fast as possible, so when one decode fails,
                 // start another.
                 state = State.PREVIEW;
-                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(),
-                        R.id.decode);
+                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
                 break;
             case R.id.return_scan_result:
                 Log.d(TAG, "Got return scan result message");
@@ -132,11 +129,9 @@ public final class CaptureActivityHandler extends Handler {
     private void restartPreviewAndDecode() {
         if (state == State.SUCCESS) {
             state = State.PREVIEW;
-            CameraManager.get().requestPreviewFrame(decodeThread.getHandler(),
-                    R.id.decode);
+            CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
             CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
             activity.drawViewfinder();
         }
     }
-
 }

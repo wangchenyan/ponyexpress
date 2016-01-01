@@ -38,7 +38,7 @@ public class ZXingUtils {
         }
     }
 
-    public static boolean isChineseCharacter(String chineseStr) {
+    private static boolean isChineseCharacter(String chineseStr) {
         char[] charArray = chineseStr.toCharArray();
         for (char aCharArray : charArray) {
             // 是否是Unicode编码,除了"�"这个字符.这个字符要另外处理
@@ -49,9 +49,8 @@ public class ZXingUtils {
         return true;
     }
 
-    public static boolean isSpecialCharacter(String str) {
+    private static boolean isSpecialCharacter(String str) {
         // 是"�"这个特殊字符的乱码情况
         return str.contains("ï¿½");
     }
-
 }

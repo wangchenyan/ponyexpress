@@ -11,5 +11,4 @@
         android:hint="备注信息"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_common" />
-
 </LinearLayout>

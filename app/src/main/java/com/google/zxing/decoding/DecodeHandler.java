@@ -83,8 +83,7 @@ final class DecodeHandler extends Handler {
         width = height;
         height = tmp;
 
-        PlanarYUVLuminanceSource source = CameraManager.get()
-                .buildLuminanceSource(rotatedData, width, height);
+        PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         try {
             rawResult = multiFormatReader.decodeWithState(bitmap);
@@ -96,21 +95,16 @@ final class DecodeHandler extends Handler {
 
         if (rawResult != null) {
             long end = System.currentTimeMillis();
-            Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n"
-                    + rawResult.toString());
-            Message message = Message.obtain(activity.getHandler(),
-                    R.id.decode_succeeded, rawResult);
+            Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
+            Message message = Message.obtain(activity.getHandler(), R.id.decode_succeeded, rawResult);
             Bundle bundle = new Bundle();
-            bundle.putParcelable(DecodeThread.BARCODE_BITMAP,
-                    source.renderCroppedGreyscaleBitmap());
+            bundle.putParcelable(DecodeThread.BARCODE_BITMAP, source.renderCroppedGreyscaleBitmap());
             message.setData(bundle);
             // Log.d(TAG, "Sending decode succeeded message...");
             message.sendToTarget();
         } else {
-            Message message = Message.obtain(activity.getHandler(),
-                    R.id.decode_failed);
+            Message message = Message.obtain(activity.getHandler(), R.id.decode_failed);
             message.sendToTarget();
         }
     }
-
 }

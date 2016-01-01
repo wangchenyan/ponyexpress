@@ -40,12 +40,10 @@ public class Utils {
      * 检查网络连接
      */
     public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager localConnectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager localConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         int k;
         if (localConnectivityManager != null) {
-            NetworkInfo[] arrayOfNetworkInfo = localConnectivityManager
-                    .getAllNetworkInfo();
+            NetworkInfo[] arrayOfNetworkInfo = localConnectivityManager.getAllNetworkInfo();
             if (arrayOfNetworkInfo != null) {
                 int j = arrayOfNetworkInfo.length;
                 for (k = 0; k < j; k++) {
@@ -60,7 +58,7 @@ public class Utils {
     /**
      * 根据手机的分辨率从dp的单位转成为px
      */
-    public static int dip2px(Context context, float dpValue) {
+    public static int dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
@@ -68,7 +66,7 @@ public class Utils {
     /**
      * px转dp
      */
-    public static int px2dip(Context context, float pxValue) {
+    public static int px2dp(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
@@ -84,5 +82,4 @@ public class Utils {
         }
         return pictureDir;
     }
-
 }

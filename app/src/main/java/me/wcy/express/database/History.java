@@ -5,7 +5,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "History")
 public class History {
-
     // 运单号
     @DatabaseField(id = true)
     String post_id;
@@ -80,5 +79,4 @@ public class History {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
 }

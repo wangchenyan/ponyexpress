@@ -30,5 +30,4 @@ public class ResultItem implements Serializable {
     public void setContext(String context) {
         this.context = context;
     }
-
 }

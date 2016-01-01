@@ -29,34 +29,33 @@ import me.wcy.express.R;
 import me.wcy.express.util.Utils;
 
 @SuppressLint("SimpleDateFormat")
-public class QRCodeActivity extends BaseActivity implements OnClickListener,
-        OnLongClickListener, TextWatcher {
-    @Bind(R.id.string)
-    EditText string;
-    @Bind(R.id.create)
-    Button create;
-    @Bind(R.id.qrcode)
-    ImageView qrCode;
+public class QRCodeActivity extends BaseActivity implements OnClickListener, OnLongClickListener, TextWatcher {
+    @Bind(R.id.et_text)
+    EditText etText;
+    @Bind(R.id.btn_create)
+    Button btnCreate;
+    @Bind(R.id.iv_qr_code)
+    ImageView ivQRCode;
 
-    private Bitmap bitmap;
+    private Bitmap mBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qrcode);
+        setContentView(R.layout.activity_qr_code);
 
-        string.addTextChangedListener(this);
-        create.setOnClickListener(this);
-        qrCode.setOnLongClickListener(this);
-        qrCode.setVisibility(View.GONE);
+        etText.addTextChangedListener(this);
+        btnCreate.setOnClickListener(this);
+        ivQRCode.setOnLongClickListener(this);
+        ivQRCode.setVisibility(View.GONE);
     }
 
     private void createQRCode() {
         try {
-            String contentString = string.getText().toString();
-            bitmap = EncodingHandler.createQRCode(contentString, 500);
-            qrCode.setImageBitmap(bitmap);
-            qrCode.setVisibility(View.VISIBLE);
+            String contentString = etText.getText().toString();
+            mBitmap = EncodingHandler.createQRCode(contentString, 500);
+            ivQRCode.setImageBitmap(mBitmap);
+            ivQRCode.setVisibility(View.VISIBLE);
             Toast.makeText(this, R.string.qrcode_create_success, Toast.LENGTH_SHORT).show();
         } catch (WriterException e) {
             e.printStackTrace();
@@ -75,7 +74,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener,
         File file = new File(Utils.getPictureDir() + fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
             fos.close();
         } catch (Exception e) {
@@ -96,7 +95,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.create:
+            case R.id.btn_create:
                 createQRCode();
                 break;
         }
@@ -105,7 +104,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener,
     @Override
     public boolean onLongClick(View v) {
         switch (v.getId()) {
-            case R.id.qrcode:
+            case R.id.iv_qr_code:
                 saveQRCode();
                 break;
         }
@@ -114,10 +113,10 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener,
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (string.length() > 0) {
-            create.setEnabled(true);
+        if (etText.length() > 0) {
+            btnCreate.setEnabled(true);
         } else {
-            create.setEnabled(false);
+            btnCreate.setEnabled(false);
         }
     }
 
@@ -128,5 +127,4 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener,
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
     }
-
 }

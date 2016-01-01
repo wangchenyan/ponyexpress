@@ -26,49 +26,49 @@ import me.wcy.express.model.QueryResult;
 
 @SuppressLint("InlinedApi")
 public class ResultActivity extends BaseActivity implements View.OnClickListener {
-    @Bind(R.id.result_list)
-    ListView resultListView;
-    @Bind(R.id.post_id)
-    TextView postId;
-    @Bind(R.id.com_name)
-    TextView comName;
-    @Bind(R.id.com_icon)
-    ImageView comIcon;
-    @Bind(R.id.no_info)
-    LinearLayout noInfo;
+    @Bind(R.id.lv_result_list)
+    ListView lvResultList;
+    @Bind(R.id.tv_post_id)
+    TextView tvPostId;
+    @Bind(R.id.tv_com_name)
+    TextView tvComName;
+    @Bind(R.id.iv_com_icon)
+    ImageView ivComIcon;
+    @Bind(R.id.ll_empty)
+    LinearLayout llEmpty;
     @Bind(R.id.btn_remark)
     Button btnRemark;
 
-    private QueryResult queryResult;
+    private QueryResult mQueryResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.result);
+        setContentView(R.layout.activity_result);
 
         Intent intent = getIntent();
-        queryResult = (QueryResult) intent.getSerializableExtra(QueryActivity.QUERY_RESULT);
-        postId.setText(queryResult.getNu());
-        comName.setText(queryResult.getCompany_name());
-        int id = getResources().getIdentifier(queryResult.getCompany_icon(), "drawable", getPackageName());
-        comIcon.setImageResource(id);
-        if (queryResult.getStatus().equals("200")) {
-            resultListView.setAdapter(new ResultAdapter(this, queryResult));
+        mQueryResult = (QueryResult) intent.getSerializableExtra(QueryActivity.QUERY_RESULT);
+        tvPostId.setText(mQueryResult.getNu());
+        tvComName.setText(mQueryResult.getCompany_name());
+        int id = getResources().getIdentifier(mQueryResult.getCompany_icon(), "drawable", getPackageName());
+        ivComIcon.setImageResource(id);
+        if (mQueryResult.getStatus().equals("200")) {
+            lvResultList.setAdapter(new ResultAdapter(this, mQueryResult));
         } else {
-            resultListView.setVisibility(View.GONE);
-            noInfo.setVisibility(View.VISIBLE);
+            lvResultList.setVisibility(View.GONE);
+            llEmpty.setVisibility(View.VISIBLE);
         }
         btnRemark.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.remark) {
+        if (v.getId() == R.id.btn_remark) {
             try {
                 DBHelper dbHelper = new DBHelper(this);
                 final Dao<History, String> dao = dbHelper.getDao(History.class);
-                final History history = dao.queryForId(queryResult.getNu());
-                View view = getLayoutInflater().inflate(R.layout.result_dialog, null);
+                final History history = dao.queryForId(mQueryResult.getNu());
+                View view = getLayoutInflater().inflate(R.layout.activity_result_dialog, null);
                 final EditText etRemark = (EditText) view.findViewById(R.id.et_remark);
                 etRemark.setText(history.getRemark());
                 etRemark.setSelection(etRemark.length());
@@ -93,5 +93,4 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
             }
         }
     }
-
 }

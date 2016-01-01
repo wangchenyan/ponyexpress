@@ -11,7 +11,7 @@
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true">
 
-        <include layout="@layout/query_include" />
+        <include layout="@layout/activity_query_include" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -21,5 +21,4 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_header"
         app:menu="@menu/navigation_menu" />
-
 </android.support.v4.widget.DrawerLayout>

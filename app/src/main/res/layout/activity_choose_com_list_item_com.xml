@@ -6,7 +6,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/iv_com_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
@@ -14,7 +14,7 @@
         android:src="@drawable/icon_com_shentong" />
 
     <TextView
-        android:id="@+id/com"
+        android:id="@+id/tv_com_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

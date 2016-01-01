@@ -11,8 +11,8 @@ import me.wcy.express.R;
  * @author wcy
  */
 public class MyProgressDialog extends ProgressDialog {
-    private Context context;
-    private TextView message;
+    private Context mContext;
+    private TextView tvMessage;
 
     /**
      * 自定义进度条的构造函数
@@ -21,7 +21,15 @@ public class MyProgressDialog extends ProgressDialog {
      */
     public MyProgressDialog(Context context) {
         super(context, R.style.AppTheme_Dialog);
-        this.context = context;
+        this.mContext = context;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setCanceledOnTouchOutside(false);
+        setContentView(R.layout.progress_dialog);
+        tvMessage = (TextView) findViewById(R.id.tv_progress_dialog_message);
     }
 
     /**
@@ -32,7 +40,7 @@ public class MyProgressDialog extends ProgressDialog {
     @Override
     public void setMessage(CharSequence message) {
         super.setMessage(message);
-        this.message.setText(message);
+        this.tvMessage.setText(message);
     }
 
     /**
@@ -41,16 +49,7 @@ public class MyProgressDialog extends ProgressDialog {
      * @param messageId 消息Id
      */
     public void setMessage(int messageId) {
-        String message = context.getString(messageId);
+        String message = mContext.getString(messageId);
         setMessage(message);
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setCanceledOnTouchOutside(false);
-        setContentView(R.layout.progress_dialog);
-        message = (TextView) findViewById(R.id.progress_dialog_message);
-    }
-
 }

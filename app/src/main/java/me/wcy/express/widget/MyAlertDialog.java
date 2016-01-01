@@ -13,12 +13,12 @@ import me.wcy.express.R;
  * @author wcy
  */
 public class MyAlertDialog extends AlertDialog {
-    private Context context;
-    private boolean singleButton;
-    private TextView title;
-    private TextView message;
-    private Button leftButton;
-    private Button rightButton;
+    private Context mContext;
+    private boolean mSingleButton;
+    private TextView tvTitle;
+    private TextView tvMessage;
+    private Button btnLeft;
+    private Button btnRight;
 
     /**
      * 自定义对话框的构造函数,默认为两个按钮
@@ -37,8 +37,24 @@ public class MyAlertDialog extends AlertDialog {
      */
     public MyAlertDialog(Context context, boolean singleButton) {
         super(context, R.style.AppTheme_Dialog);
-        this.context = context;
-        this.singleButton = singleButton;
+        this.mContext = context;
+        this.mSingleButton = singleButton;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setCanceledOnTouchOutside(false);
+        setContentView(R.layout.alert_dialog);
+        tvTitle = (TextView) findViewById(R.id.tv_alert_dialog_title);
+        tvMessage = (TextView) findViewById(R.id.tv_alert_dialog_message);
+        btnLeft = (Button) findViewById(R.id.btn_alert_dialog_btn_left);
+        btnRight = (Button) findViewById(R.id.btn_alert_dialog_btn_right);
+        tvTitle.getPaint().setFakeBoldText(true);
+        if (mSingleButton) {
+            btnLeft.setBackgroundResource(R.drawable.ic_alert_dialog_btn_pressed_effect);
+            btnRight.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -49,7 +65,7 @@ public class MyAlertDialog extends AlertDialog {
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
-        this.title.setText(title);
+        this.tvTitle.setText(title);
     }
 
     /**
@@ -60,7 +76,7 @@ public class MyAlertDialog extends AlertDialog {
     @Override
     public void setTitle(int titleId) {
         super.setTitle(titleId);
-        String title = context.getString(titleId);
+        String title = mContext.getString(titleId);
         setTitle(title);
     }
 
@@ -72,7 +88,7 @@ public class MyAlertDialog extends AlertDialog {
     @Override
     public void setMessage(CharSequence message) {
         super.setMessage(message);
-        this.message.setText(message);
+        this.tvMessage.setText(message);
     }
 
     /**
@@ -81,7 +97,7 @@ public class MyAlertDialog extends AlertDialog {
      * @param messageId 消息Id
      */
     public void setMessage(int messageId) {
-        String message = context.getString(messageId);
+        String message = mContext.getString(messageId);
         setMessage(message);
     }
 
@@ -92,8 +108,8 @@ public class MyAlertDialog extends AlertDialog {
      * @param listener 监听器
      */
     public void setPositiveButton(CharSequence text, View.OnClickListener listener) {
-        leftButton.setText(text);
-        leftButton.setOnClickListener(listener);
+        btnLeft.setText(text);
+        btnLeft.setOnClickListener(listener);
     }
 
     /**
@@ -103,7 +119,7 @@ public class MyAlertDialog extends AlertDialog {
      * @param listener 监听器
      */
     public void setPositiveButton(int textId, View.OnClickListener listener) {
-        String text = context.getString(textId);
+        String text = mContext.getString(textId);
         setPositiveButton(text, listener);
     }
 
@@ -114,8 +130,8 @@ public class MyAlertDialog extends AlertDialog {
      * @param listener 监听器
      */
     public void setNegativeButton(CharSequence text, View.OnClickListener listener) {
-        rightButton.setText(text);
-        rightButton.setOnClickListener(listener);
+        btnRight.setText(text);
+        btnRight.setOnClickListener(listener);
     }
 
     /**
@@ -125,24 +141,7 @@ public class MyAlertDialog extends AlertDialog {
      * @param listener 监听器
      */
     public void setNegativeButton(int textId, View.OnClickListener listener) {
-        String text = context.getString(textId);
+        String text = mContext.getString(textId);
         setNegativeButton(text, listener);
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setCanceledOnTouchOutside(false);
-        setContentView(R.layout.alert_dialog);
-        title = (TextView) findViewById(R.id.alert_dialog_title);
-        message = (TextView) findViewById(R.id.alert_dialog_message);
-        leftButton = (Button) findViewById(R.id.alert_dialog_btn_left);
-        rightButton = (Button) findViewById(R.id.alert_dialog_btn_right);
-        title.getPaint().setFakeBoldText(true);
-        if (singleButton) {
-            leftButton.setBackgroundResource(R.drawable.ic_alert_dialog_btn_pressed_effect);
-            rightButton.setVisibility(View.GONE);
-        }
-    }
-
 }

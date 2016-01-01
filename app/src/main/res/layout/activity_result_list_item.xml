@@ -11,7 +11,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/logistics"
+            android:id="@+id/iv_logistics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -27,14 +27,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/detail_view"
+                android:id="@+id/tv_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/grey"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/time_view"
+                android:id="@+id/tv_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"

@@ -9,7 +9,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/string"
+            android:id="@+id/et_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -22,7 +22,7 @@
             android:textSize="@dimen/text_size_common" />
 
         <Button
-            android:id="@+id/create"
+            android:id="@+id/btn_create"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -40,7 +40,7 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/qrcode"
+                android:id="@+id/iv_qr_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"

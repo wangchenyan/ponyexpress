@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/alert_dialog_title"
+        android:id="@+id/tv_alert_dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -17,7 +17,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/alert_dialog_message"
+        android:id="@+id/tv_alert_dialog_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -36,7 +36,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/alert_dialog_btn_left"
+            android:id="@+id/btn_alert_dialog_btn_left"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -50,7 +50,7 @@
             android:background="#A9A9A9" />
 
         <Button
-            android:id="@+id/alert_dialog_btn_right"
+            android:id="@+id/btn_alert_dialog_btn_right"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -58,5 +58,4 @@
             android:textColor="@color/light_blue_700"
             android:textSize="@dimen/text_size_common" />
     </LinearLayout>
-
 </LinearLayout>

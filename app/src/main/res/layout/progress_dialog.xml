@@ -13,12 +13,11 @@
         android:layout_height="30dp" />
 
     <TextView
-        android:id="@+id/progress_dialog_message"
+        android:id="@+id/tv_progress_dialog_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="@string/loading"
         android:textColor="@color/white"
         android:textSize="14sp" />
-
 </LinearLayout>

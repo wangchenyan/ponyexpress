@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -51,8 +52,8 @@ import me.wcy.express.widget.MyAlertDialog;
 import me.wcy.express.widget.MyProgressDialog;
 
 @SuppressLint("InflateParams")
-public class QueryActivity extends AppCompatActivity implements OnClickListener,
-        TextWatcher, OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class QueryActivity extends AppCompatActivity implements OnClickListener, TextWatcher,
+        OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     public static final String QUERY_RESULT = "query_result";
     public static final String EXPRESS_INFO = "express_info";
     public static final int REQUEST_CAPTURE = 0;
@@ -62,21 +63,21 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
-    @Bind(R.id.post_id)
-    EditText postIdText;
-    @Bind(R.id.scan)
-    ImageView scan;
-    @Bind(R.id.clear)
-    ImageView clear;
-    @Bind(R.id.choose_com)
-    RelativeLayout chooseCom;
-    @Bind(R.id.com_name)
-    TextView comNameText;
-    @Bind(R.id.query)
-    Button query;
-    @Bind(R.id.ll_uncheck)
+    @Bind(R.id.et_post_id)
+    EditText etPostId;
+    @Bind(R.id.iv_scan)
+    ImageView ivScan;
+    @Bind(R.id.iv_clear)
+    ImageView ivClear;
+    @Bind(R.id.rl_choose_com)
+    RelativeLayout rlChooseCom;
+    @Bind(R.id.tv_com_name)
+    TextView tvComName;
+    @Bind(R.id.btn_query)
+    Button btnQuery;
+    @Bind(R.id.ll_un_check)
     LinearLayout llUnCheck;
-    @Bind(R.id.lv_uncheck)
+    @Bind(R.id.lv_un_check)
     ListView lvUnCheck;
 
     private MyProgressDialog mProgressDialog;
@@ -90,7 +91,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.query);
+        setContentView(R.layout.activity_query);
         ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -101,11 +102,11 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         }
 
         navigationView.setNavigationItemSelectedListener(this);
-        postIdText.addTextChangedListener(this);
-        query.setOnClickListener(this);
-        chooseCom.setOnClickListener(this);
-        scan.setOnClickListener(this);
-        clear.setOnClickListener(this);
+        etPostId.addTextChangedListener(this);
+        btnQuery.setOnClickListener(this);
+        rlChooseCom.setOnClickListener(this);
+        ivScan.setOnClickListener(this);
+        ivClear.setOnClickListener(this);
 
         mProgressDialog = new MyProgressDialog(this);
         mRequestQueue = Volley.newRequestQueue(this);
@@ -130,8 +131,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     private void query() {
         if (!Utils.isNetworkAvailable(this)) {
-            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             return;
         }
         mProgressDialog.show();
@@ -153,9 +153,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("Query", volleyError.getMessage(), volleyError);
                 mProgressDialog.cancel();
-                Toast.makeText(QueryActivity.this,
-                        R.string.system_busy, Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(QueryActivity.this, R.string.system_busy, Toast.LENGTH_SHORT).show();
             }
         });
         request.setShouldCache(false);
@@ -227,9 +225,8 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     }
 
     private void about() {
-        View dialogView = getLayoutInflater().inflate(R.layout.about_dialog,
-                null);
-        TextView version = (TextView) dialogView.findViewById(R.id.version);
+        View dialogView = getLayoutInflater().inflate(R.layout.about_dialog, null);
+        TextView version = (TextView) dialogView.findViewById(R.id.tv_version);
         version.setText(Utils.getVersion(this));
         Builder builder = new Builder(this);
         builder.setTitle(R.string.about);
@@ -240,10 +237,10 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     }
 
     private void setBtnEnable() {
-        if (postIdText.length() != 0 && comNameText.length() != 0) {
-            query.setEnabled(true);
+        if (etPostId.length() != 0 && tvComName.length() != 0) {
+            btnQuery.setEnabled(true);
         } else {
-            query.setEnabled(false);
+            btnQuery.setEnabled(false);
         }
     }
 
@@ -255,12 +252,17 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (postIdText.length() != 0) {
-            scan.setVisibility(View.GONE);
-            clear.setVisibility(View.VISIBLE);
+        if (s.toString().contains(" ")) {
+            etPostId.setText(s.toString().replace(" ", ""));
+            etPostId.setSelection(etPostId.length());
+            return;
+        }
+        if (etPostId.length() > 0) {
+            ivScan.setVisibility(View.GONE);
+            ivClear.setVisibility(View.VISIBLE);
         } else {
-            scan.setVisibility(View.VISIBLE);
-            clear.setVisibility(View.GONE);
+            ivScan.setVisibility(View.VISIBLE);
+            ivClear.setVisibility(View.GONE);
         }
         setBtnEnable();
     }
@@ -277,21 +279,21 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
-            case R.id.scan:
+            case R.id.iv_scan:
                 intent.setClass(this, CaptureActivity.class);
                 startActivityForResult(intent, REQUEST_CAPTURE);
                 break;
-            case R.id.choose_com:
+            case R.id.rl_choose_com:
                 intent.setClass(this, ChooseComActivity.class);
                 startActivityForResult(intent, REQUEST_COMPANY);
                 break;
-            case R.id.query:
-                mExpressInfo.setPost_id(postIdText.getText().toString());
+            case R.id.btn_query:
+                mExpressInfo.setPost_id(etPostId.getText().toString());
                 mExpressInfo.setRequest_type(ExpressInfo.RequestType.INPUT);
                 query();
                 break;
-            case R.id.clear:
-                postIdText.setText("");
+            case R.id.iv_clear:
+                etPostId.setText("");
                 break;
             default:
                 break;
@@ -306,9 +308,9 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         mExpressInfo.setCompany_name(history.getCompany_name());
         mExpressInfo.setCompany_icon(history.getCompany_icon());
         mExpressInfo.setRequest_type(ExpressInfo.RequestType.HISTORY);
-        comNameText.setText(mExpressInfo.getCompany_name());
-        postIdText.setText(mExpressInfo.getPost_id());
-        postIdText.setSelection(postIdText.length());
+        tvComName.setText(mExpressInfo.getCompany_name());
+        etPostId.setText(mExpressInfo.getPost_id());
+        etPostId.setSelection(etPostId.length());
         query();
     }
 
@@ -322,14 +324,14 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
             case REQUEST_CAPTURE:
                 // 处理扫描结果（在界面上显示）
                 String resultStr = data.getStringExtra(CaptureActivity.SCAN_RESULT);
-                postIdText.setText(resultStr);
-                postIdText.setSelection(postIdText.length());
+                etPostId.setText(resultStr);
+                etPostId.setSelection(etPostId.length());
                 break;
             case REQUEST_COMPANY:
                 String postId = mExpressInfo.getPost_id();
                 mExpressInfo = (ExpressInfo) data.getSerializableExtra(EXPRESS_INFO);
                 mExpressInfo.setPost_id(postId);
-                comNameText.setText(mExpressInfo.getCompany_name());
+                tvComName.setText(mExpressInfo.getCompany_name());
                 setBtnEnable();
                 break;
             default:
@@ -347,11 +349,16 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(final MenuItem item) {
         drawerLayout.closeDrawers();
-        menuItem.setChecked(false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                item.setChecked(false);
+            }
+        }, 500);
         Intent intent = new Intent();
-        switch (menuItem.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_history:
                 intent.setClass(this, HistoryActivity.class);
                 startActivity(intent);
@@ -384,6 +391,4 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
             finish();
         }
     }
-
-
 }

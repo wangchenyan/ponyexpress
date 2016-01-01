@@ -52,5 +52,4 @@
             android:label="@string/title_activity_qrcode"
             android:screenOrientation="portrait" />
     </application>
-
 </manifest>

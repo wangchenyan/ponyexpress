@@ -22,17 +22,17 @@ import me.wcy.express.database.History;
  */
 @SuppressLint("InflateParams")
 public class HistoryListAdapter extends BaseAdapter {
-    private Context context;
-    private List<History> historyList;
+    private Context mContext;
+    private List<History> mData;
 
-    public HistoryListAdapter(Context context, List<History> historyList) {
-        this.context = context;
-        this.historyList = historyList;
+    public HistoryListAdapter(Context context, List<History> data) {
+        this.mContext = context;
+        this.mData = data;
     }
 
     @Override
     public int getCount() {
-        return historyList.size();
+        return mData.size();
     }
 
     @Override
@@ -49,44 +49,41 @@ public class HistoryListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(
-                    R.layout.history_list_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.activity_history_list_item, null);
             holder = new ViewHolder();
-            holder.comIcon = (ImageView) convertView.findViewById(R.id.com_icon);
-            holder.comName = (TextView) convertView.findViewById(R.id.com_name);
-            holder.postId = (TextView) convertView.findViewById(R.id.post_id);
-            holder.isCheck = (TextView) convertView.findViewById(R.id.is_check);
-            holder.remark = (TextView) convertView.findViewById(R.id.remark);
+            holder.ivComIcon = (ImageView) convertView.findViewById(R.id.iv_com_icon);
+            holder.tvComName = (TextView) convertView.findViewById(R.id.tv_com_name);
+            holder.tvPostId = (TextView) convertView.findViewById(R.id.tv_post_id);
+            holder.tvIsCheck = (TextView) convertView.findViewById(R.id.tv_is_check);
+            holder.tvRemark = (TextView) convertView.findViewById(R.id.tv_remark);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        int id = context.getResources().getIdentifier(
-                historyList.get(position).getCompany_icon(), "drawable",
-                context.getPackageName());
-        String isCheck = historyList.get(position).getIs_check();
+        int id = mContext.getResources().getIdentifier(mData.get(position).getCompany_icon(), "drawable", mContext.getPackageName());
+        String isCheck = mData.get(position).getIs_check();
         int checkTextColor;
         if (isCheck.equals("0")) {
-            isCheck = context.getString(R.string.uncheck);
-            checkTextColor = context.getResources().getColor(R.color.orange_700);
+            isCheck = mContext.getString(R.string.uncheck);
+            checkTextColor = mContext.getResources().getColor(R.color.orange_700);
         } else {
-            isCheck = context.getString(R.string.ischeck);
-            checkTextColor = context.getResources().getColor(R.color.grey);
+            isCheck = mContext.getString(R.string.ischeck);
+            checkTextColor = mContext.getResources().getColor(R.color.grey);
         }
-        holder.comIcon.setImageResource(id);
-        holder.comName.setText(historyList.get(position).getCompany_name());
-        holder.postId.setText(historyList.get(position).getPost_id());
-        holder.isCheck.setText(isCheck);
-        holder.isCheck.setTextColor(checkTextColor);
-        holder.remark.setText(historyList.get(position).getRemark());
+        holder.ivComIcon.setImageResource(id);
+        holder.tvComName.setText(mData.get(position).getCompany_name());
+        holder.tvPostId.setText(mData.get(position).getPost_id());
+        holder.tvIsCheck.setText(isCheck);
+        holder.tvIsCheck.setTextColor(checkTextColor);
+        holder.tvRemark.setText(mData.get(position).getRemark());
         return convertView;
     }
 
     class ViewHolder {
-        ImageView comIcon;
-        TextView comName;
-        TextView postId;
-        TextView isCheck;
-        TextView remark;
+        ImageView ivComIcon;
+        TextView tvComName;
+        TextView tvPostId;
+        TextView tvIsCheck;
+        TextView tvRemark;
     }
 }
