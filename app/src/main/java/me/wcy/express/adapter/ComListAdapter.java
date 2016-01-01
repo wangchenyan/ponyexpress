@@ -74,7 +74,7 @@ public class ComListAdapter extends BaseAdapter {
                 } else {
                     titleHolder = (TitleViewHolder) convertView.getTag();
                 }
-                if (mComNames[position].equals("★")) {
+                if (mComNames[position].equals("☆")) {
                     titleHolder.tvTitle.setText("常用快递");
                 } else {
                     titleHolder.tvTitle.setText(mComNames[position]);
