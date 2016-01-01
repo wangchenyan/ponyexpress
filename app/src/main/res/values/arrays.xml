@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="company_names">
-        <item>★</item>
+        <item>☆</item>
         <item>申通快递</item>
         <item>圆通速递</item>
         <item>中通快递</item>
