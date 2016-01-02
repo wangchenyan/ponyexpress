@@ -7,5 +7,4 @@
     <style name="AppTheme.NoActionBar" parent="AppBaseTheme.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
-
 </resources>

@@ -21,5 +21,4 @@
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
-
 </resources>
