@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.wcy.express.R;
+import me.wcy.express.util.Utils;
 
 /**
  * 快速定位侧边栏
@@ -42,7 +43,7 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
 
     private void init(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.IndexBar);
-        float indexTextSize = ta.getDimension(R.styleable.IndexBar_indexTextSize, 36.0f);
+        float indexTextSize = ta.getDimension(R.styleable.IndexBar_indexTextSize, Utils.sp2px(getContext(), 12));
         int indexTextColor = ta.getColor(R.styleable.IndexBar_indexTextColor, 0xFF616161);
         ta.recycle();
 
