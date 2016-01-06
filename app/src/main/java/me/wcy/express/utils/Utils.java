@@ -1,7 +1,7 @@
 /**
  *
  */
-package me.wcy.express.util;
+package me.wcy.express.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

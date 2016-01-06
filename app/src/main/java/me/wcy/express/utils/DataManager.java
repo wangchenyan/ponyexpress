@@ -1,7 +1,7 @@
 /**
  * 2015-4-2
  */
-package me.wcy.express.util;
+package me.wcy.express.utils;
 
 import android.content.Context;
 

@@ -28,8 +28,8 @@ import me.wcy.express.database.History;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JSONRequest;
-import me.wcy.express.util.DataManager;
-import me.wcy.express.util.Utils;
+import me.wcy.express.utils.DataManager;
+import me.wcy.express.utils.Utils;
 import me.wcy.express.widget.MyAlertDialog;
 import me.wcy.express.widget.MyProgressDialog;
 

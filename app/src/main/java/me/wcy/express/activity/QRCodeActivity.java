@@ -26,7 +26,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import me.wcy.express.R;
-import me.wcy.express.util.Utils;
+import me.wcy.express.utils.Utils;
 
 @SuppressLint("SimpleDateFormat")
 public class QRCodeActivity extends BaseActivity implements OnClickListener, OnLongClickListener, TextWatcher {

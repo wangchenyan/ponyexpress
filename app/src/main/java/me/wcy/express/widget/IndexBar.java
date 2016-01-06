@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.wcy.express.R;
-import me.wcy.express.util.Utils;
+import me.wcy.express.utils.Utils;
 
 /**
  * 快速定位侧边栏
