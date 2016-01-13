@@ -7,4 +7,4 @@
 * Json解析：[fastjson](https://github.com/alibaba/fastjson)
 * 数据存储：[ormlite](https://github.com/j256/ormlite-android)<br>
 <br>
-[下载链接](http://zhushou.360.cn/detail/index/soft_id/2876860)
+[APP下载](http://zhushou.360.cn/detail/index/soft_id/2876860)
