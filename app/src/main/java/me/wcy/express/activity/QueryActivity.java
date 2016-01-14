@@ -2,6 +2,7 @@ package me.wcy.express.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +13,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -226,14 +229,18 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     private void about() {
         View dialogView = getLayoutInflater().inflate(R.layout.about_dialog, null);
-        TextView version = (TextView) dialogView.findViewById(R.id.tv_version);
-        version.setText(Utils.getVersion(this));
+        TextView tvVersion = (TextView) dialogView.findViewById(R.id.tv_version);
+        TextView tvSource = (TextView) dialogView.findViewById(R.id.tv_source);
+        tvVersion.setText(Utils.getVersion(this));
+        tvSource.setText(Html.fromHtml(getString(R.string.source_link)));
+        tvSource.setMovementMethod(LinkMovementMethod.getInstance());
         Builder builder = new Builder(this);
         builder.setTitle(R.string.about);
         builder.setView(dialogView);
         builder.setPositiveButton(R.string.sure, null);
-        builder.setCancelable(false);
-        builder.show();
+        Dialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
     }
 
     private void setBtnEnable() {
