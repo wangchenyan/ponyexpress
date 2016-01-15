@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="light_blue">#03A9F4</color>
-    <color name="light_blue_700">#0288D1</color>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="colorAccent">#009688</color>
+    <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
     <color name="cyan">#00BCD4</color>
-    <color name="teal">#009688</color>
     <color name="green">#4CAF50</color>
     <color name="grey">#9E9E9E</color>
     <color name="grey_300">#E0E0E0</color>
     <color name="grey_700">#616161</color>
     <color name="orange_700">#F57C00</color>
-    <color name="transparent">#00000000</color>
     <!--zxing-->
-    <color name="viewfinder_frame">#D3D3D3</color>
-    <color name="viewfinder_laser">#76FF03</color>
+    <color name="viewfinder_frame">@color/colorPrimary</color>
+    <color name="viewfinder_laser">@color/colorPrimary</color>
     <color name="viewfinder_mask">#60000000</color>
-    <color name="result_view">#B0000000</color>
-    <color name="possible_result_points">#00000000</color>
 </resources>
