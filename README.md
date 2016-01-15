@@ -1,6 +1,6 @@
 # PonyExpress
 一款开源快递查询应用。<br>
-![](https://github.com/ChanWong21/Express/blob/master/screenshot/screenshot.gif)<br>
+![](https://github.com/ChanWong21/Express/blob/master/art/screenshot.gif)<br>
 * 快递接口：[快递100](http://www.kuaidi100.com/)
 * 条码扫描：[ZXing](https://github.com/zxing/zxing)
 * 网络请求：[Volley](https://developer.android.com/training/volley/index.html)
