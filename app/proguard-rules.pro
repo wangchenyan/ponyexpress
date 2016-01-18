@@ -16,7 +16,7 @@
 #   public *;
 #}
 
-#proguard.cfg
+# proguard.cfg
 -optimizationpasses 5
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
@@ -58,7 +58,7 @@
   public static final android.os.Parcelable$Creator *;
 }
 
-#custom
+# custom
 -dontshrink
 -dontoptimize
 
@@ -67,32 +67,32 @@
 -keep public class * extends android.app.Fragment
 -keep public class * extends android.support.**
 
-#android-support
+# android-support
 -dontwarn android.support.**
 -keep class android.support.** {*;}
 
-#express
+# app
 -keep class me.wcy.express.database.** {*;}
 -keep class me.wcy.express.model.** {*;}
 
-#ormlite
--keep class com.j256.ormlite.** {*;}
-
-#zxing
--keep class com.google.zxing.** {*;}
-
-#volley
--dontwarn com.android.volley.**
--keep class com.android.volley.** {*;}
-
-#fastjson
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.** {*;}
-
-#butterknife
+# butterknife
 -dontwarn butterknife.internal.**
 -keep class **$$ViewInjector { *; }
 -keepnames class * { @butterknife.InjectView *;}
 
-#roundedimageview
+# volley
+-dontwarn com.android.volley.**
+-keep class com.android.volley.** {*;}
+
+# fastjson
+-dontwarn com.alibaba.fastjson.**
+-keep class com.alibaba.fastjson.** {*;}
+
+# ormlite
+-keep class com.j256.ormlite.** {*;}
+
+# zxing
+-keep class com.google.zxing.** {*;}
+
+# roundedimageview
 -dontwarn com.makeramen.roundedimageview.**
