@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
         android:text="@string/app_name"
         android:textColor="@color/black"
         android:textSize="18sp" />
@@ -29,5 +29,5 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:text="源码下载"
-        android:textSize="16sp" />
+        android:textSize="@dimen/text_size_common" />
 </LinearLayout>
