@@ -37,7 +37,7 @@ import me.wcy.express.R;
  * animation and result points.
  */
 public final class ViewfinderView extends View {
-    private static final long ANIMATION_DELAY = 50L;
+    private static final long ANIMATION_DELAY = 25L;
     private static int BORDER_WIDTH;
     private static int BORDER_HEIGHT;
     private static int LASER_HEIGHT;
