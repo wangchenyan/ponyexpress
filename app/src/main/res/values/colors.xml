@@ -10,7 +10,8 @@
     <color name="grey">#9E9E9E</color>
     <color name="grey_300">#E0E0E0</color>
     <color name="grey_700">#616161</color>
-    <color name="orange_700">#F57C00</color>
+    <color name="orange_700">#F57C00</color>translucent
+    <color name="translucent_70p">#B3000000</color>
     <!--zxing-->
     <color name="viewfinder_mask">#60000000</color>
     <color name="viewfinder_frame">@color/colorPrimary</color>

@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,9 +26,10 @@ import java.util.Date;
 import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.utils.Utils;
+import me.wcy.express.widget.MyAlertDialog;
 
 @SuppressLint("SimpleDateFormat")
-public class QRCodeActivity extends BaseActivity implements OnClickListener, OnLongClickListener, TextWatcher {
+public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
     @Bind(R.id.et_text)
     EditText etText;
     @Bind(R.id.btn_create)
@@ -46,8 +46,20 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnL
 
         etText.addTextChangedListener(this);
         btnCreate.setOnClickListener(this);
-        ivQRCode.setOnLongClickListener(this);
+        ivQRCode.setOnClickListener(this);
         ivQRCode.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_create:
+                createQRCode();
+                break;
+            case R.id.iv_qr_code:
+                saveDialog();
+                break;
+        }
     }
 
     private void createQRCode() {
@@ -56,10 +68,29 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnL
             mBitmap = EncodingHandler.createQRCode(contentString, 500);
             ivQRCode.setImageBitmap(mBitmap);
             ivQRCode.setVisibility(View.VISIBLE);
-            Toast.makeText(this, R.string.qrcode_create_success, Toast.LENGTH_SHORT).show();
         } catch (WriterException e) {
             e.printStackTrace();
         }
+    }
+
+    private void saveDialog() {
+        final MyAlertDialog dialog = new MyAlertDialog(this);
+        dialog.show();
+        dialog.setTitle(R.string.tips);
+        dialog.setMessage(R.string.qrcode_save_tips);
+        dialog.setPositiveButton(R.string.save, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+                saveQRCode();
+            }
+        });
+        dialog.setNegativeButton(R.string.cancel, new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
     }
 
     private void saveQRCode() {
@@ -70,7 +101,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnL
             return;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String fileName = "QRCode" + sdf.format(new Date(System.currentTimeMillis())) + ".png";
+        String fileName = getString(R.string.qrcode_file_name, sdf.format(new Date(System.currentTimeMillis())));
         File file = new File(Utils.getPictureDir() + fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
@@ -88,27 +119,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, OnL
         intent.setData(uri);
         sendBroadcast(intent);
 
-        String dir = getResources().getString(R.string.qrcode_save_success);
-        Toast.makeText(this, dir + fileName, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_create:
-                createQRCode();
-                break;
-        }
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_qr_code:
-                saveQRCode();
-                break;
-        }
-        return false;
+        Toast.makeText(this, getString(R.string.qrcode_save_success, fileName), Toast.LENGTH_SHORT).show();
     }
 
     @Override

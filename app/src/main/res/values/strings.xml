@@ -10,7 +10,8 @@
     <string name="more">更多</string>
     <string name="tips">温馨提示</string>
     <string name="sure">确定</string>
-    <string name="cancle">取消</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
     <string name="loading">请稍候…</string>
     <string name="system_busy">系统繁忙，请稍候再试</string>
     <string name="network_error">网络异常，请检查网络设置</string>
@@ -26,11 +27,12 @@
     <string name="query_failure">没有查到[%1$s]运单号码为%2$s的相关信息。</string>
     <string name="click2exit">再按一次退出小马快递</string>
     <string name="sure_delete_history">您要删除该条记录吗？</string>
-    <string name="qrcode_create_success">生成成功，长按可保存</string>
-    <string name="qrcode_save_success">二维码已保存至/SDCard/Pictures/</string>
+    <string name="qrcode_input">请输入文本</string>
+    <string name="qrcode_save_tips">是否保存二维码？</string>
+    <string name="qrcode_file_name">QRCode%s.png</string>
+    <string name="qrcode_save_success">二维码已保存至/SDCard/Pictures/%s</string>
     <string name="qrcode_no_sdcard">保存失败，SD卡不可用</string>
     <string name="qrcode_save_failure">保存失败</string>
-    <string name="qrcode_input">请输入文本</string>
     <string name="share_content">我正在使用@小马快递，查询并跟踪快递，快递信息及时掌握！推荐你也试试：http://m.app.haosou.com/detail/index?pname=me.wcy.express&#038;id=2876860</string>
     <string name="analyze_fail">抱歉，未在图中发现条码！</string>
     <string name="save_id">保存单号</string>

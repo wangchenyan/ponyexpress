@@ -86,7 +86,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
                         }
                     }
                 });
-                dialog.setNegativeButton(R.string.cancle, null);
+                dialog.setNegativeButton(R.string.cancel, null);
                 dialog.show().setCanceledOnTouchOutside(false);
             } catch (SQLException e) {
                 e.printStackTrace();

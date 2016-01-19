@@ -200,7 +200,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                             initUnCheck();
                         }
                     });
-            mAlertDialog.setNegativeButton(getString(R.string.cancle),
+            mAlertDialog.setNegativeButton(getString(R.string.cancel),
                     new OnClickListener() {
 
                         @Override

@@ -159,7 +159,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
                         init();
                     }
                 });
-        mAlertDialog.setNegativeButton(getResources().getString(R.string.cancle),
+        mAlertDialog.setNegativeButton(getResources().getString(R.string.cancel),
                 new OnClickListener() {
 
                     @Override
