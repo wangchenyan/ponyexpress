@@ -32,7 +32,6 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.decoding.CaptureActivityHandler;
 import com.google.zxing.decoding.InactivityTimer;
 import com.google.zxing.decoding.RGBLuminanceSource;
-import com.google.zxing.decoding.ZXingUtils;
 import com.google.zxing.view.ViewfinderView;
 
 import java.io.FileNotFoundException;
@@ -131,10 +130,9 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
         playBeepSoundAndVibrate();
         String resultString = result.getText();
         // FIXME
-        if (resultString.equals("")) {
+        if (TextUtils.isEmpty(resultString)) {
             Toast.makeText(this, "Scan failed!", Toast.LENGTH_SHORT).show();
         } else {
-            resultString = ZXingUtils.formatString(resultString);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(SCAN_RESULT, resultString);
             setResult(RESULT_OK, resultIntent);
@@ -277,7 +275,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             e.printStackTrace();
         }
         Hashtable<DecodeHintType, String> hints = new Hashtable<>();
-        hints.put(DecodeHintType.CHARACTER_SET, ZXingUtils.ISO_8859_1);
+        hints.put(DecodeHintType.CHARACTER_SET, characterSet);
         RGBLuminanceSource source = new RGBLuminanceSource(bitmap);
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
         MultiFormatReader reader = new MultiFormatReader();
@@ -300,7 +298,6 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             });
         } else {
             String resultString = result.getText();
-            resultString = ZXingUtils.formatString(resultString);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(SCAN_RESULT, resultString);
             setResult(RESULT_OK, resultIntent);
