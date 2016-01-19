@@ -12,7 +12,8 @@
     <color name="grey_700">#616161</color>
     <color name="orange_700">#F57C00</color>
     <!--zxing-->
-    <color name="viewfinder_frame">@color/colorPrimary</color>
-    <color name="viewfinder_laser">@color/colorPrimary</color>
     <color name="viewfinder_mask">#60000000</color>
+    <color name="viewfinder_frame">@color/colorPrimary</color>
+    <color name="viewfinder_laser">#FF03A9F4</color>
+    <color name="viewfinder_laser_transparent">#0003A9F4</color>
 </resources>
