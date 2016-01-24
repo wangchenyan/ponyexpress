@@ -17,10 +17,8 @@
 package com.google.zxing.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -49,7 +47,7 @@ public final class ViewfinderView extends View {
     private final int mMaskColor;
     private final int mFrameColor;
     private final int mLaserColor;
-    private Bitmap mLaserLine;
+    private Drawable mLaserDrawable;
     private int mLaserOffset = 0;
 
     // This constructor is used when the class is built from an XML resource.
@@ -68,6 +66,7 @@ public final class ViewfinderView extends View {
         mMaskColor = getResources().getColor(R.color.viewfinder_mask);
         mFrameColor = getResources().getColor(R.color.viewfinder_frame);
         mLaserColor = getResources().getColor(R.color.viewfinder_laser);
+        mLaserDrawable = getResources().getDrawable(R.drawable.ic_scan_line);
 
         mFinderMaskPaint.setColor(mMaskColor);
         mBorderPaint.setColor(mFrameColor);
@@ -118,24 +117,12 @@ public final class ViewfinderView extends View {
     }
 
     private void drawLaser(Canvas canvas, Rect frame) {
-        if (mLaserOffset >= frame.height() - LASER_HEIGHT) {
+        if (mLaserOffset + LASER_HEIGHT >= frame.height()) {
             mLaserOffset = 0;
         }
-        if (mLaserLine == null) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_scan_line);
-            int width = frame.width() - LASER_PADDING * 2;
-            mLaserLine = drawable2Bitmap(drawable, width, LASER_HEIGHT);
-        }
-        canvas.drawBitmap(mLaserLine, frame.left + LASER_PADDING, frame.top + mLaserOffset, mLaserPaint);
+        mLaserDrawable.setBounds(frame.left + LASER_PADDING, frame.top + mLaserOffset, frame.right - LASER_PADDING, frame.top + mLaserOffset + LASER_HEIGHT);
+        mLaserDrawable.draw(canvas);
         mLaserOffset += LASER_BASE_OFFSET;
-    }
-
-    private Bitmap drawable2Bitmap(Drawable drawable, int width, int height) {
-        Bitmap bitmap = Bitmap.createBitmap(width, height, drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, width, height);
-        drawable.draw(canvas);
-        return bitmap;
     }
 
     private int dp2px(float dpValue) {
