@@ -40,7 +40,7 @@ public final class ViewfinderView extends View {
     private static int BORDER_HEIGHT;
     private static int LASER_HEIGHT;
     private static int LASER_PADDING;
-    private static int LASER_BASE_OFFSET;
+    private static int LASER_OFFSET_INCREASE;
     private Paint mFinderMaskPaint;
     private Paint mBorderPaint;
     private Paint mLaserPaint;
@@ -58,7 +58,7 @@ public final class ViewfinderView extends View {
         BORDER_HEIGHT = dp2px(2);
         LASER_HEIGHT = dp2px(2);
         LASER_PADDING = dp2px(16);
-        LASER_BASE_OFFSET = dp2px(1);
+        LASER_OFFSET_INCREASE = dp2px(1);
 
         mFinderMaskPaint = new Paint();
         mBorderPaint = new Paint();
@@ -122,7 +122,7 @@ public final class ViewfinderView extends View {
         }
         mLaserDrawable.setBounds(frame.left + LASER_PADDING, frame.top + mLaserOffset, frame.right - LASER_PADDING, frame.top + mLaserOffset + LASER_HEIGHT);
         mLaserDrawable.draw(canvas);
-        mLaserOffset += LASER_BASE_OFFSET;
+        mLaserOffset += LASER_OFFSET_INCREASE;
     }
 
     private int dp2px(float dpValue) {
