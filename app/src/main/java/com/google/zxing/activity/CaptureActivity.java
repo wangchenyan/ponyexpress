@@ -67,17 +67,17 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture);
 
-        CameraManager.init(getApplication());
+        CameraManager.init(getApplicationContext());
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
 
-        ImageView back = (ImageView) findViewById(R.id.iv_back);
-        ImageView flashlight = (ImageView) findViewById(R.id.iv_flashlight);
-        ImageView album = (ImageView) findViewById(R.id.iv_album);
-        back.setOnClickListener(this);
-        flashlight.setOnClickListener(this);
-        album.setOnClickListener(this);
+        ImageView ivBack = (ImageView) findViewById(R.id.iv_back);
+        ImageView ivFlashlight = (ImageView) findViewById(R.id.iv_flashlight);
+        ImageView ivAlbum = (ImageView) findViewById(R.id.iv_album);
+        ivBack.setOnClickListener(this);
+        ivFlashlight.setOnClickListener(this);
+        ivAlbum.setOnClickListener(this);
     }
 
     @Override
@@ -121,9 +121,6 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
 
     /**
      * Handler scan result
-     *
-     * @param result
-     * @param barcode
      */
     public void handleDecode(Result result, Bitmap barcode) {
         inactivityTimer.onActivity();
@@ -263,8 +260,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true; // 仅获取大小
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
-            //压缩尺寸,节约时间
-            int inSampleSize = options.outHeight / 200;
+            int inSampleSize = options.outHeight / 200;// 压缩尺寸,节约时间
             if (inSampleSize <= 0) {
                 inSampleSize = 1;
             }

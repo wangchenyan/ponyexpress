@@ -41,13 +41,14 @@ public final class ViewfinderView extends View {
     private static int LASER_HEIGHT;
     private static int LASER_PADDING;
     private static int LASER_OFFSET_INCREASE;
+
     private Paint mFinderMaskPaint;
     private Paint mBorderPaint;
     private Paint mLaserPaint;
+    private Drawable mLaserDrawable;
     private final int mMaskColor;
     private final int mFrameColor;
     private final int mLaserColor;
-    private Drawable mLaserDrawable;
     private int mLaserOffset = 0;
 
     // This constructor is used when the class is built from an XML resource.
@@ -63,10 +64,10 @@ public final class ViewfinderView extends View {
         mFinderMaskPaint = new Paint();
         mBorderPaint = new Paint();
         mLaserPaint = new Paint();
+        mLaserDrawable = getResources().getDrawable(R.drawable.ic_scan_line);
         mMaskColor = getResources().getColor(R.color.viewfinder_mask);
         mFrameColor = getResources().getColor(R.color.viewfinder_frame);
         mLaserColor = getResources().getColor(R.color.viewfinder_laser);
-        mLaserDrawable = getResources().getDrawable(R.drawable.ic_scan_line);
 
         mFinderMaskPaint.setColor(mMaskColor);
         mBorderPaint.setColor(mFrameColor);
