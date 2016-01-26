@@ -19,10 +19,10 @@ import me.wcy.express.model.ExpressInfo;
  */
 @SuppressWarnings("deprecation")
 public class Utils {
-    private static final String URL = "http://www.kuaidi100.com/query";
+    private static final String URL = "http://www.kuaidi100.com/query?type=%1$s&postid=%2$s";
 
     public static String getQueryUrl(ExpressInfo expressInfo) {
-        return URL + "?type=" + expressInfo.getCompany_param() + "&postid=" + expressInfo.getPost_id();
+        return String.format(URL, expressInfo.getCompany_param(), expressInfo.getPost_id());
     }
 
     public static String getVersion(Context context) {
