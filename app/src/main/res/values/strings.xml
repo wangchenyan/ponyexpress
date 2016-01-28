@@ -40,5 +40,5 @@
     <string name="no_express_info">快递可能刚刚寄出，还没有物流信息，过会儿再来看看吧~</string>
     <string name="remark">运单备注</string>
     <string name="remark_info">备注信息</string>
-    <string name="source_link">&lt;font color=blue&gt;&lt;a href=\'https://github.com/ChanWong21/PonyExpress\'&gt;源码下载&lt;/a&gt;&lt;/font&gt;</string>
+    <string name="source_link">&lt;font color="#2196F3"&gt;&lt;a href=\'https://github.com/ChanWong21/PonyExpress\'&gt;源码下载&lt;/a&gt;&lt;/font&gt;</string>
 </resources>
