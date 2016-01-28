@@ -17,9 +17,10 @@ import me.wcy.express.model.ExpressInfo;
 /**
  * @author wcy
  */
-@SuppressWarnings("deprecation")
 public class Utils {
     private static final String URL = "http://www.kuaidi100.com/query?type=%1$s&postid=%2$s";
+    public static final String HEADER_REFERER = "Referer";
+    public static final String REFERER = "http://www.kuaidi100.com/";
 
     public static String getQueryUrl(ExpressInfo expressInfo) {
         return String.format(URL, expressInfo.getCompany_param(), expressInfo.getPost_id());

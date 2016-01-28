@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -39,7 +40,9 @@ import com.android.volley.toolbox.Volley;
 import com.google.zxing.activity.CaptureActivity;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -139,7 +142,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         }
         mProgressDialog.show();
         mProgressDialog.setMessage(getResources().getString(R.string.querying));
-        JSONRequest<QueryResult> request = new JSONRequest<>(Utils.getQueryUrl(mExpressInfo),
+        JSONRequest<QueryResult> request = new JSONRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
                 QueryResult.class, new Listener<QueryResult>() {
             @Override
             public void onResponse(QueryResult queryResult) {
@@ -158,7 +161,14 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                 mProgressDialog.cancel();
                 Toast.makeText(QueryActivity.this, R.string.system_busy, Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put(Utils.HEADER_REFERER, Utils.REFERER);
+                return headers;
+            }
+        };
         request.setShouldCache(false);
         mRequestQueue.add(request);
     }
