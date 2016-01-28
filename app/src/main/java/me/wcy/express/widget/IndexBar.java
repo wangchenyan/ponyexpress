@@ -22,10 +22,10 @@ import me.wcy.express.utils.Utils;
  * Created by hzwangchenyan on 2015/12/31.
  */
 public class IndexBar extends LinearLayout implements View.OnTouchListener {
+    private static final String[] INDEXES = new String[]{"☆", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
     private ListView lvData;
     private TextView tvIndicator;
     private List<String> mTitles;
-    private String[] mIndexes;
     private int mHeight;
 
     public IndexBar(Context context) {
@@ -47,10 +47,9 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
         int indexTextColor = ta.getColor(R.styleable.IndexBar_indexTextColor, 0xFF616161);
         ta.recycle();
 
-        mIndexes = new String[]{"☆", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
         setOrientation(VERTICAL);
         setOnTouchListener(this);
-        for (String index : mIndexes) {
+        for (String index : INDEXES) {
             TextView text = new TextView(getContext());
             text.setText(index);
             text.setTextSize(TypedValue.COMPLEX_UNIT_PX, indexTextSize);
@@ -79,28 +78,28 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
                 tvIndicator.setVisibility(View.VISIBLE);
                 y = (int) event.getY();
                 mHeight = v.getHeight();
-                i = mIndexes.length * y / mHeight;
+                i = INDEXES.length * y / mHeight;
                 if (i < 0) {// 防止数组越界
                     i = 0;
-                } else if (i >= mIndexes.length) {
-                    i = mIndexes.length - 1;
+                } else if (i >= INDEXES.length) {
+                    i = INDEXES.length - 1;
                 }
-                position = mTitles.indexOf(mIndexes[i]);
-                tvIndicator.setText(mIndexes[i]);
+                position = mTitles.indexOf(INDEXES[i]);
+                tvIndicator.setText(INDEXES[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 y = (int) event.getY();
-                i = mIndexes.length * y / mHeight;
+                i = INDEXES.length * y / mHeight;
                 if (i < 0) {
                     i = 0;
-                } else if (i >= mIndexes.length) {
-                    i = mIndexes.length - 1;
+                } else if (i >= INDEXES.length) {
+                    i = INDEXES.length - 1;
                 }
-                position = mTitles.indexOf(mIndexes[i]);
-                tvIndicator.setText(mIndexes[i]);
+                position = mTitles.indexOf(INDEXES[i]);
+                tvIndicator.setText(INDEXES[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
                 }
@@ -109,14 +108,14 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
                 setBackgroundColor(0x00000000);
                 tvIndicator.setVisibility(View.GONE);
                 y = (int) event.getY();
-                i = mIndexes.length * y / mHeight;
+                i = INDEXES.length * y / mHeight;
                 if (i < 0) {
                     i = 0;
-                } else if (i >= mIndexes.length) {
-                    i = mIndexes.length - 1;
+                } else if (i >= INDEXES.length) {
+                    i = INDEXES.length - 1;
                 }
-                position = mTitles.indexOf(mIndexes[i]);
-                tvIndicator.setText(mIndexes[i]);
+                position = mTitles.indexOf(INDEXES[i]);
+                tvIndicator.setText(INDEXES[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
                 }
