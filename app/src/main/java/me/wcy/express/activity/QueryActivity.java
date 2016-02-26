@@ -54,8 +54,8 @@ import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JSONRequest;
 import me.wcy.express.utils.DataManager;
 import me.wcy.express.utils.Utils;
-import me.wcy.express.widget.MyAlertDialog;
-import me.wcy.express.widget.MyProgressDialog;
+import me.wcy.express.widget.CustomAlertDialog;
+import me.wcy.express.widget.CustomProgressDialog;
 
 @SuppressLint("InflateParams")
 public class QueryActivity extends AppCompatActivity implements OnClickListener, TextWatcher,
@@ -86,8 +86,8 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     @Bind(R.id.lv_un_check)
     ListView lvUnCheck;
 
-    private MyProgressDialog mProgressDialog;
-    private MyAlertDialog mAlertDialog;
+    private CustomProgressDialog mProgressDialog;
+    private CustomAlertDialog mAlertDialog;
     private ExpressInfo mExpressInfo;
     private RequestQueue mRequestQueue;
     private DataManager mDataManager;
@@ -114,7 +114,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         ivScan.setOnClickListener(this);
         ivClear.setOnClickListener(this);
 
-        mProgressDialog = new MyProgressDialog(this);
+        mProgressDialog = new CustomProgressDialog(this);
         mRequestQueue = Volley.newRequestQueue(this);
         mDataManager = DataManager.getInstance().setContext(this);
         mExpressInfo = new ExpressInfo();
@@ -191,7 +191,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     private void onQueryFailure(QueryResult queryResult) {
         if (mExpressInfo.getRequest_type() == ExpressInfo.RequestType.INPUT) {
             String msg = getString(R.string.query_failure, mExpressInfo.getCompany_name(), mExpressInfo.getPost_id());
-            mAlertDialog = new MyAlertDialog(this, false);
+            mAlertDialog = new CustomAlertDialog(this, false);
             mAlertDialog.show();
             mAlertDialog.setTitle(getString(R.string.app_name));
             mAlertDialog.setMessage(msg);

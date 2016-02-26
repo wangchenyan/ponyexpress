@@ -12,17 +12,17 @@ import android.widget.GridView;
  *
  * @author wcy
  */
-public class MyGridView extends GridView {
+public class ScrollGridView extends GridView {
 
-    public MyGridView(Context context) {
+    public ScrollGridView(Context context) {
         super(context);
     }
 
-    public MyGridView(Context context, AttributeSet attrs) {
+    public ScrollGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyGridView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ScrollGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

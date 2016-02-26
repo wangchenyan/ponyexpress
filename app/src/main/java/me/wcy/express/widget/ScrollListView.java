@@ -13,17 +13,17 @@ import android.widget.ListView;
  * @author wcy
  */
 
-public class MyListView extends ListView {
+public class ScrollListView extends ListView {
 
-    public MyListView(Context context) {
+    public ScrollListView(Context context) {
         super(context);
     }
 
-    public MyListView(Context context, AttributeSet attrs) {
+    public ScrollListView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyListView(Context context, AttributeSet attrs, int defStyle) {
+    public ScrollListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

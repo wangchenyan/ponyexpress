@@ -26,7 +26,7 @@ import java.util.Date;
 import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.utils.Utils;
-import me.wcy.express.widget.MyAlertDialog;
+import me.wcy.express.widget.CustomAlertDialog;
 
 @SuppressLint("SimpleDateFormat")
 public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
@@ -74,7 +74,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
     }
 
     private void saveDialog() {
-        final MyAlertDialog dialog = new MyAlertDialog(this);
+        final CustomAlertDialog dialog = new CustomAlertDialog(this);
         dialog.show();
         dialog.setTitle(R.string.tips);
         dialog.setMessage(R.string.qrcode_save_tips);

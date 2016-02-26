@@ -40,7 +40,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import me.wcy.express.R;
-import me.wcy.express.widget.MyAlertDialog;
+import me.wcy.express.widget.CustomAlertDialog;
 
 /**
  * Initial the camera
@@ -282,7 +282,7 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             e.printStackTrace();
         }
         if (result == null || TextUtils.isEmpty(result.getText())) {
-            final MyAlertDialog dialog = new MyAlertDialog(this, true);
+            final CustomAlertDialog dialog = new CustomAlertDialog(this, true);
             dialog.show();
             dialog.setTitle(R.string.tips);
             dialog.setMessage(R.string.analyze_fail);

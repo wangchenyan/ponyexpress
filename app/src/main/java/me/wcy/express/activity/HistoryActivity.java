@@ -33,8 +33,8 @@ import me.wcy.express.model.QueryResult;
 import me.wcy.express.request.JSONRequest;
 import me.wcy.express.utils.DataManager;
 import me.wcy.express.utils.Utils;
-import me.wcy.express.widget.MyAlertDialog;
-import me.wcy.express.widget.MyProgressDialog;
+import me.wcy.express.widget.CustomAlertDialog;
+import me.wcy.express.widget.CustomProgressDialog;
 
 public class HistoryActivity extends BaseActivity implements OnItemClickListener, OnItemLongClickListener {
     @Bind(R.id.lv_history_list)
@@ -42,8 +42,8 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
     @Bind(R.id.ll_empty)
     LinearLayout llEmpty;
 
-    private MyProgressDialog mProgressDialog;
-    private MyAlertDialog mAlertDialog;
+    private CustomProgressDialog mProgressDialog;
+    private CustomAlertDialog mAlertDialog;
     private ExpressInfo mExpressInfo;
     private RequestQueue mRequestQueue;
     private DataManager mDataManager;
@@ -54,7 +54,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        mProgressDialog = new MyProgressDialog(this);
+        mProgressDialog = new CustomProgressDialog(this);
         mRequestQueue = Volley.newRequestQueue(this);
         mDataManager = DataManager.getInstance().setContext(this);
         mExpressInfo = new ExpressInfo();
@@ -150,7 +150,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
     @Override
     public boolean onItemLongClick(AdapterView<?> view, View arg1, int position, long arg3) {
         final int which = position;
-        mAlertDialog = new MyAlertDialog(this);
+        mAlertDialog = new CustomAlertDialog(this);
         mAlertDialog.show();
         mAlertDialog.setTitle(getResources().getString(R.string.tips));
         mAlertDialog.setMessage(getResources().getString(

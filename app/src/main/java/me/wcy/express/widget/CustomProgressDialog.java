@@ -10,7 +10,7 @@ import me.wcy.express.R;
 /**
  * @author wcy
  */
-public class MyProgressDialog extends ProgressDialog {
+public class CustomProgressDialog extends ProgressDialog {
     private Context mContext;
     private TextView tvMessage;
 
@@ -19,7 +19,7 @@ public class MyProgressDialog extends ProgressDialog {
      *
      * @param context 上下文
      */
-    public MyProgressDialog(Context context) {
+    public CustomProgressDialog(Context context) {
         super(context, R.style.AppTheme_Dialog);
         this.mContext = context;
     }

@@ -12,7 +12,7 @@ import me.wcy.express.R;
 /**
  * @author wcy
  */
-public class MyAlertDialog extends AlertDialog {
+public class CustomAlertDialog extends AlertDialog {
     private Context mContext;
     private boolean mSingleButton;
     private TextView tvTitle;
@@ -25,7 +25,7 @@ public class MyAlertDialog extends AlertDialog {
      *
      * @param context 上下文
      */
-    public MyAlertDialog(Context context) {
+    public CustomAlertDialog(Context context) {
         this(context, false);
     }
 
@@ -35,7 +35,7 @@ public class MyAlertDialog extends AlertDialog {
      * @param context      上下文
      * @param singleButton 是否是单个按钮
      */
-    public MyAlertDialog(Context context, boolean singleButton) {
+    public CustomAlertDialog(Context context, boolean singleButton) {
         super(context, R.style.AppTheme_Dialog);
         this.mContext = context;
         this.mSingleButton = singleButton;
