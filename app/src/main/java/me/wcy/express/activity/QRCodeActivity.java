@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,12 +25,13 @@ import java.util.Date;
 import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.utils.Utils;
+import me.wcy.express.widget.ClearableEditText;
 import me.wcy.express.widget.CustomAlertDialog;
 
 @SuppressLint("SimpleDateFormat")
 public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
     @Bind(R.id.et_text)
-    EditText etText;
+    ClearableEditText etText;
     @Bind(R.id.btn_create)
     Button btnCreate;
     @Bind(R.id.iv_qr_code)
