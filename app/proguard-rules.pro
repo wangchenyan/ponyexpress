@@ -84,10 +84,6 @@
 -dontwarn com.android.volley.**
 -keep class com.android.volley.** {*;}
 
-# fastjson
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.** {*;}
-
 # ormlite
 -keep class com.j256.ormlite.** {*;}
 
