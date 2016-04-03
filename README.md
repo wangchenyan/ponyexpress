@@ -34,7 +34,7 @@
 * 数据存储：[ormlite](https://github.com/j256/ormlite-android)
 
 ### 关键代码
-网络请求`Volley+fastjson`
+网络请求`Volley+Gson`
 ```java
 private void query() {
     GsonRequest<QueryResult> request = new GsonRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
