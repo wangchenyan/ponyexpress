@@ -30,14 +30,14 @@
 ### 开源技术
 * 条码扫描：[ZXing](https://github.com/zxing/zxing)
 * 网络请求：[Volley](https://developer.android.com/training/volley/index.html)
-* Json解析：[fastjson](https://github.com/alibaba/fastjson)
+* Json解析：[Gson](https://github.com/google/gson)
 * 数据存储：[ormlite](https://github.com/j256/ormlite-android)
 
 ### 关键代码
 网络请求`Volley+fastjson`
 ```java
 private void query() {
-    JSONRequest<QueryResult> request = new JSONRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
+    GsonRequest<QueryResult> request = new GsonRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
             QueryResult.class, new Listener<QueryResult>() {
         @Override
         public void onResponse(QueryResult queryResult) {
@@ -65,19 +65,21 @@ private void query() {
     mRequestQueue.add(request);
 }
 ```
-封装JSONRequest
+封装GsonRequest
 ```java
-public class JSONRequest<T> extends Request<T> {
+public class GsonRequest<T> extends Request<T> {
     private Class<T> mClass;
     private Response.Listener<T> mListener;
+    private Gson mGson;
 
-    public JSONRequest(int method, String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public GsonRequest(int method, String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
-        this.mClass = clazz;
-        this.mListener = listener;
+        mClass = clazz;
+        mListener = listener;
+        mGson = new Gson();
     }
 
-    public JSONRequest(String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
+    public GsonRequest(String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         this(Method.GET, url, clazz, listener, errorListener);
     }
 
@@ -86,7 +88,7 @@ public class JSONRequest<T> extends Request<T> {
         String jsonString;
         try {
             jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(JSON.parseObject(jsonString, mClass), HttpHeaderParser.parseCacheHeaders(response));
+            return Response.success(mGson.fromJson(jsonString, mClass), HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return Response.error(new ParseError(e));

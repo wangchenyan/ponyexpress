@@ -19,8 +19,8 @@ public class GsonRequest<T> extends Request<T> {
 
     public GsonRequest(int method, String url, Class<T> clazz, Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
-        this.mClass = clazz;
-        this.mListener = listener;
+        mClass = clazz;
+        mListener = listener;
         mGson = new Gson();
     }
 
