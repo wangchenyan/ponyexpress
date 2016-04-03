@@ -1,21 +1,15 @@
 package me.wcy.express.activity;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -51,13 +44,14 @@ import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.JSONRequest;
+import me.wcy.express.request.GsonRequest;
 import me.wcy.express.utils.DataManager;
+import me.wcy.express.utils.SnackbarUtils;
+import me.wcy.express.utils.UpdateUtils;
 import me.wcy.express.utils.Utils;
 import me.wcy.express.widget.CustomAlertDialog;
 import me.wcy.express.widget.CustomProgressDialog;
 
-@SuppressLint("InflateParams")
 public class QueryActivity extends AppCompatActivity implements OnClickListener, TextWatcher,
         OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
     public static final String QUERY_RESULT = "query_result";
@@ -118,6 +112,14 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         mRequestQueue = Volley.newRequestQueue(this);
         mDataManager = DataManager.getInstance().setContext(this);
         mExpressInfo = new ExpressInfo();
+
+        UpdateUtils.checkUpdate(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initUnCheck();
     }
 
     private void initUnCheck() {
@@ -137,12 +139,12 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
 
     private void query() {
         if (!Utils.isNetworkAvailable(this)) {
-            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
+            SnackbarUtils.show(this, R.string.network_error);
             return;
         }
         mProgressDialog.show();
         mProgressDialog.setMessage(getResources().getString(R.string.querying));
-        JSONRequest<QueryResult> request = new JSONRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
+        GsonRequest<QueryResult> request = new GsonRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
                 QueryResult.class, new Listener<QueryResult>() {
             @Override
             public void onResponse(QueryResult queryResult) {
@@ -159,7 +161,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("Query", volleyError.getMessage(), volleyError);
                 mProgressDialog.cancel();
-                Toast.makeText(QueryActivity.this, R.string.system_busy, Toast.LENGTH_SHORT).show();
+                SnackbarUtils.show(QueryActivity.this, R.string.system_busy);
             }
         }) {
             @Override
@@ -237,34 +239,12 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         startActivity(Intent.createChooser(intent, getString(R.string.share)));
     }
 
-    private void about() {
-        View dialogView = getLayoutInflater().inflate(R.layout.about_dialog, null);
-        TextView tvVersion = (TextView) dialogView.findViewById(R.id.tv_version);
-        TextView tvSource = (TextView) dialogView.findViewById(R.id.tv_source);
-        tvVersion.setText(Utils.getVersion(this));
-        tvSource.setText(Html.fromHtml(getString(R.string.source_link)));
-        tvSource.setMovementMethod(LinkMovementMethod.getInstance());
-        Builder builder = new Builder(this);
-        builder.setTitle(R.string.about);
-        builder.setView(dialogView);
-        builder.setPositiveButton(R.string.sure, null);
-        Dialog dialog = builder.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-    }
-
     private void setBtnEnable() {
         if (etPostId.length() != 0 && tvComName.length() != 0) {
             btnQuery.setEnabled(true);
         } else {
             btnQuery.setEnabled(false);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initUnCheck();
     }
 
     @Override
@@ -388,7 +368,8 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                 share();
                 return true;
             case R.id.action_about:
-                about();
+                intent.setClass(this, AboutActivity.class);
+                startActivity(intent);
                 return true;
         }
         return false;
@@ -402,8 +383,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         }
         if (System.currentTimeMillis() - mExitTime > 2000) {
             mExitTime = System.currentTimeMillis();
-            Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content),
-                    R.string.click2exit, Snackbar.LENGTH_SHORT).show();
+            SnackbarUtils.show(this, R.string.click2exit);
         } else {
             finish();
         }

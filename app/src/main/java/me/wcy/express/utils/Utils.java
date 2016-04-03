@@ -4,7 +4,6 @@
 package me.wcy.express.utils;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,15 +25,24 @@ public class Utils {
         return String.format(URL, expressInfo.getCompany_param(), expressInfo.getPost_id());
     }
 
-    public static String getVersion(Context context) {
-        PackageManager manager = context.getPackageManager();
-        String versionName = "1.0.0";
+    public static String getVersionName(Context context) {
+        String versionName = "1.0";
         try {
-            versionName = manager.getPackageInfo(context.getPackageName(), 0).versionName;
+            versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
         }
-        return "V " + versionName;
+        return versionName;
+    }
+
+    public static int getVersionCode(Context context) {
+        int versionCode = 1;
+        try {
+            versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionCode;
     }
 
     /**

@@ -1,10 +1,9 @@
 package me.wcy.express.activity;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +23,6 @@ import me.wcy.express.database.DBHelper;
 import me.wcy.express.database.History;
 import me.wcy.express.model.QueryResult;
 
-@SuppressLint("InlinedApi")
 public class ResultActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.lv_result_list)
     ListView lvResultList;

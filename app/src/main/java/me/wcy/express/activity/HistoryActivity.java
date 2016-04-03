@@ -10,7 +10,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -30,8 +29,9 @@ import me.wcy.express.adapter.HistoryListAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.ExpressInfo;
 import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.JSONRequest;
+import me.wcy.express.request.GsonRequest;
 import me.wcy.express.utils.DataManager;
+import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.Utils;
 import me.wcy.express.widget.CustomAlertDialog;
 import me.wcy.express.widget.CustomProgressDialog;
@@ -84,12 +84,12 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
 
     private void query() {
         if (!Utils.isNetworkAvailable(this)) {
-            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
+            SnackbarUtils.show(this, R.string.network_error);
             return;
         }
         mProgressDialog.show();
         mProgressDialog.setMessage(getResources().getString(R.string.querying));
-        JSONRequest<QueryResult> request = new JSONRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
+        GsonRequest<QueryResult> request = new GsonRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
                 QueryResult.class, new Response.Listener<QueryResult>() {
 
             @Override
@@ -104,7 +104,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
             public void onErrorResponse(VolleyError error) {
                 Log.e("Query", error.getMessage(), error);
                 mProgressDialog.cancel();
-                Toast.makeText(HistoryActivity.this, R.string.system_busy, Toast.LENGTH_SHORT).show();
+                SnackbarUtils.show(HistoryActivity.this, R.string.system_busy);
             }
         }) {
             @Override

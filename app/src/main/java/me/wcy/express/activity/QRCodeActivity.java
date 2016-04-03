@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.zxing.WriterException;
 import com.google.zxing.encoding.EncodingHandler;
@@ -24,6 +23,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import me.wcy.express.R;
+import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.Utils;
 import me.wcy.express.widget.ClearableEditText;
 import me.wcy.express.widget.CustomAlertDialog;
@@ -97,7 +97,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
         String state = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(state)) {
             // SD卡不可用
-            Toast.makeText(this, R.string.qrcode_no_sdcard, Toast.LENGTH_SHORT).show();
+            SnackbarUtils.show(this, R.string.qrcode_no_sdcard);
             return;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -110,7 +110,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, R.string.qrcode_save_failure, Toast.LENGTH_SHORT).show();
+            SnackbarUtils.show(this, R.string.qrcode_save_failure);
             return;
         }
         // 刷新相册
@@ -119,7 +119,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
         intent.setData(uri);
         sendBroadcast(intent);
 
-        Toast.makeText(this, getString(R.string.qrcode_save_success, fileName), Toast.LENGTH_SHORT).show();
+        SnackbarUtils.show(this, getString(R.string.qrcode_save_success, fileName));
     }
 
     @Override
