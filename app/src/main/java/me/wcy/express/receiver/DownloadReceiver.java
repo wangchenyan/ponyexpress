@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.io.File;
+
 import me.wcy.express.utils.UpdateUtils;
 
 /**
@@ -19,10 +21,13 @@ public class DownloadReceiver extends BroadcastReceiver {
             return;
         }
         DownloadManager dManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        Intent install = new Intent(Intent.ACTION_VIEW);
         Uri uri = dManager.getUriForDownloadedFile(id);
-        install.setDataAndType(uri, "application/vnd.android.package-archive");
-        install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(install);
+        File file = new File(uri.getPath());
+        if (file.exists()) {
+            Intent install = new Intent(Intent.ACTION_VIEW);
+            install.setDataAndType(uri, "application/vnd.android.package-archive");
+            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(install);
+        }
     }
 }
