@@ -37,8 +37,6 @@ public class ClearableEditText extends AppCompatEditText {
 
     private void init() {
         mClearDrawable = getResources().getDrawable(R.drawable.ic_edit_text_clear);
-        assert mClearDrawable != null;
-        mClearDrawable.setBounds(0, 0, mClearDrawable.getIntrinsicWidth(), mClearDrawable.getIntrinsicHeight());
     }
 
     @Override
@@ -67,7 +65,7 @@ public class ClearableEditText extends AppCompatEditText {
     }
 
     private void setClearIconVisible(boolean visible) {
-        setCompoundDrawables(getCompoundDrawables()[DRAWABLE_LEFT], getCompoundDrawables()[DRAWABLE_TOP],
+        setCompoundDrawablesWithIntrinsicBounds(getCompoundDrawables()[DRAWABLE_LEFT], getCompoundDrawables()[DRAWABLE_TOP],
                 visible ? mClearDrawable : null, getCompoundDrawables()[DRAWABLE_BOTTOM]);
     }
 }
