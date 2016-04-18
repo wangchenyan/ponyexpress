@@ -1,8 +1,4 @@
 # 小马快递
-小马快递，您的好帮手。查询并跟踪快递，快递信息及时掌握。<br>
-支持全国100多家快递公司，支持扫码查询，查询记录自动保存。<br>
-附带生成二维码小工具，方便实用。体积小巧，无广告，无多余权限。<br>
-简约，而不简单。
 
 ## 前言
 这个项目是我第一个独立完成的项目，时隔多年又把它拿出来重构了一下代码。
@@ -13,10 +9,11 @@
 * 项目地址：https://github.com/ChanWong21/PonyExpress
 * 有问题请提Issues
 
-## 下载地址
-360手机助手：http://zhushou.360.cn/detail/index/soft_id/2876860<br>
-百度应用：http://shouji.baidu.com/soft/item?docid=9102402<br>
-应用宝：http://android.myapp.com/myapp/detail.htm?apkName=me.wcy.express
+## 简介
+小马快递，您的好帮手。查询并跟踪快递，快递信息及时掌握。<br>
+支持全国100多家快递公司，支持扫码查询，查询记录自动保存。<br>
+附带生成二维码小工具，方便实用。体积小巧，无广告，无多余权限。<br>
+简约，而不简单。
 
 ## 更新说明
 `v 1.4`
@@ -24,6 +21,12 @@
 * 支持Android 6.0
 * 支持运单备注
 * 优化单号扫描界面
+
+## 下载地址
+fir.im：http://fir.im/ponyexpress<br>
+360手机助手：http://zhushou.360.cn/detail/index/soft_id/2876860<br>
+百度应用：http://shouji.baidu.com/soft/item?docid=9102402<br>
+应用宝：http://android.myapp.com/myapp/detail.htm?apkName=me.wcy.express
 
 ## 项目
 ### 公开API
