@@ -18,7 +18,6 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,11 +66,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
     }
 
     private void init() {
-        try {
-            mHistoryList = mDataManager.getHistoryList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        mHistoryList = mDataManager.getHistoryList();
         lvHistoryList.setAdapter(new HistoryListAdapter(this, mHistoryList));
         lvHistoryList.setOnItemClickListener(this);
         lvHistoryList.setOnItemLongClickListener(this);
@@ -131,11 +126,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
         } else {
             mExpressInfo.setIs_check("0");
         }
-        try {
-            mDataManager.updateHistory(mExpressInfo);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        mDataManager.updateHistory(mExpressInfo);
     }
 
     @Override
@@ -161,11 +152,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
                     @Override
                     public void onClick(View v) {
                         mAlertDialog.cancel();
-                        try {
-                            mDataManager.deleteById(mHistoryList.get(which).getPost_id());
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        mDataManager.deleteById(mHistoryList.get(which).getPost_id());
                         init();
                     }
                 });

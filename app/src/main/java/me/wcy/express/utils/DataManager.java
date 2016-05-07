@@ -26,9 +26,9 @@ public class DataManager {
     }
 
     public DataManager setContext(Context context) {
-        DBHelper mDBHelper = new DBHelper(context);
+        DBHelper dbHelper = new DBHelper(context);
         try {
-            mHistoryDao = mDBHelper.getDao(History.class);
+            mHistoryDao = dbHelper.getDao(History.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -36,28 +36,32 @@ public class DataManager {
     }
 
     private static class SingletonHolder {
-        private static DataManager instance = new DataManager();
+        public static final DataManager instance = new DataManager();
     }
 
     private DataManager() {
     }
 
-    public void updateHistory(ExpressInfo expressInfo) throws SQLException {
-        History history;
-        if (mHistoryDao.idExists(expressInfo.getPost_id())) {
-            history = mHistoryDao.queryForId(expressInfo.getPost_id());
-        } else {
-            history = new History();
+    public void updateHistory(ExpressInfo expressInfo) {
+        try {
+            History history;
+            if (mHistoryDao.idExists(expressInfo.getPost_id())) {
+                history = mHistoryDao.queryForId(expressInfo.getPost_id());
+            } else {
+                history = new History();
+            }
+            history.setPost_id(expressInfo.getPost_id());
+            history.setCompany_param(expressInfo.getCompany_param());
+            history.setCompany_name(expressInfo.getCompany_name());
+            history.setCompany_icon(expressInfo.getCompany_icon());
+            history.setIs_check(expressInfo.getIs_check());
+            mHistoryDao.createOrUpdate(history);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        history.setPost_id(expressInfo.getPost_id());
-        history.setCompany_param(expressInfo.getCompany_param());
-        history.setCompany_name(expressInfo.getCompany_name());
-        history.setCompany_icon(expressInfo.getCompany_icon());
-        history.setIs_check(expressInfo.getIs_check());
-        mHistoryDao.createOrUpdate(history);
     }
 
-    public List<History> getHistoryList() throws SQLException {
+    public List<History> getHistoryList() {
         List<History> historyList = new ArrayList<>();
         for (History history : mHistoryDao) {
             historyList.add(0, history);
@@ -65,7 +69,7 @@ public class DataManager {
         return historyList;
     }
 
-    public List<History> getUnCheckList() throws SQLException {
+    public List<History> getUnCheckList() {
         List<History> unCheckList = new ArrayList<>();
         for (History history : mHistoryDao) {
             if (!history.getIs_check().equals("1")) {
@@ -75,7 +79,11 @@ public class DataManager {
         return unCheckList;
     }
 
-    public void deleteById(String id) throws SQLException {
-        mHistoryDao.deleteById(id);
+    public void deleteById(String id) {
+        try {
+            mHistoryDao.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

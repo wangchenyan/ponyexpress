@@ -32,7 +32,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.zxing.activity.CaptureActivity;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,11 +122,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
     }
 
     private void initUnCheck() {
-        try {
-            mUnCheckList = mDataManager.getUnCheckList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        mUnCheckList = mDataManager.getUnCheckList();
         lvUnCheck.setAdapter(new HistoryListAdapter(this, mUnCheckList));
         lvUnCheck.setOnItemClickListener(this);
         if (mUnCheckList.size() == 0) {
@@ -183,11 +178,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
         intent.putExtra(QUERY_RESULT, queryResult);
         startActivity(intent);
         mExpressInfo.setIs_check(queryResult.getIscheck());
-        try {
-            mDataManager.updateHistory(mExpressInfo);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        mDataManager.updateHistory(mExpressInfo);
     }
 
     private void onQueryFailure(QueryResult queryResult) {
@@ -204,11 +195,7 @@ public class QueryActivity extends AppCompatActivity implements OnClickListener,
                         public void onClick(View v) {
                             mAlertDialog.cancel();
                             mExpressInfo.setIs_check("0");
-                            try {
-                                mDataManager.updateHistory(mExpressInfo);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
+                            mDataManager.updateHistory(mExpressInfo);
                             initUnCheck();
                         }
                     });
