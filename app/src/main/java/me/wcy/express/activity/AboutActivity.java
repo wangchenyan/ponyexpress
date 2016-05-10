@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
+import me.wcy.express.BuildConfig;
 import me.wcy.express.R;
 import me.wcy.express.utils.UpdateUtils;
-import me.wcy.express.utils.Utils;
 
 public class AboutActivity extends BaseActivity {
 
@@ -40,7 +40,7 @@ public class AboutActivity extends BaseActivity {
             mJianshu = findPreference("jianshu");
             mGithub = findPreference("github");
 
-            mVersion.setSummary("v " + Utils.getVersionName(getActivity()));
+            mVersion.setSummary("v " + BuildConfig.VERSION_NAME);
             setListener();
         }
 

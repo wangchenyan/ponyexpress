@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
+import me.wcy.express.BuildConfig;
 import me.wcy.express.activity.AboutActivity;
 import me.wcy.express.api.ApiKey;
 import me.wcy.express.model.UpdateInfo;
@@ -41,7 +42,7 @@ public class UpdateUtils {
                 Gson gson = new Gson();
                 UpdateInfo updateInfo = gson.fromJson(versionJson, UpdateInfo.class);
                 int version = Integer.valueOf(updateInfo.version);
-                if (version > Utils.getVersionCode(activity)) {
+                if (version > BuildConfig.VERSION_CODE) {
                     updateDialog(activity, updateInfo);
                 } else {
                     if (activity instanceof AboutActivity) {

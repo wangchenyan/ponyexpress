@@ -4,7 +4,6 @@
 package me.wcy.express.utils;
 
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -17,32 +16,12 @@ import me.wcy.express.model.ExpressInfo;
  * @author wcy
  */
 public class Utils {
-    private static final String URL = "http://www.kuaidi100.com/query?type=%1$s&postid=%2$s";
     public static final String HEADER_REFERER = "Referer";
     public static final String REFERER = "http://www.kuaidi100.com/";
+    private static final String URL = "http://www.kuaidi100.com/query?type=%1$s&postid=%2$s";
 
     public static String getQueryUrl(ExpressInfo expressInfo) {
         return String.format(URL, expressInfo.getCompany_param(), expressInfo.getPost_id());
-    }
-
-    public static String getVersionName(Context context) {
-        String versionName = "1.0";
-        try {
-            versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionName;
-    }
-
-    public static int getVersionCode(Context context) {
-        int versionCode = 1;
-        try {
-            versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionCode;
     }
 
     /**
@@ -83,7 +62,7 @@ public class Utils {
      * /sdcard/Pictures/
      */
     public static String getPictureDir() {
-        String pictureDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/";
+        String pictureDir = Environment.getExternalStorageDirectory() + "/Pictures/";
         File file = new File(pictureDir);
         if (!file.exists()) {
             file.mkdirs();
