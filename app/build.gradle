@@ -29,7 +29,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //打包签名命令：gradle assembleRelease
             signingConfig signingConfigs.release
         }
         debug {

@@ -69,26 +69,29 @@
 
 # android-support
 -dontwarn android.support.**
--keep class android.support.** {*;}
+-keep class android.support.** { *; }
 
 # app
--keep class me.wcy.express.database.** {*;}
--keep class me.wcy.express.model.** {*;}
+-keep class me.wcy.express.database.** { *; }
+-keep class me.wcy.express.model.** { *; }
 
 # butterknife
 -dontwarn butterknife.internal.**
 -keep class **$$ViewInjector { *; }
--keepnames class * { @butterknife.InjectView *;}
+-keepnames class * { @butterknife.InjectView *; }
 
 # volley
 -dontwarn com.android.volley.**
--keep class com.android.volley.** {*;}
+-keep class com.android.volley.** { *; }
 
 # ormlite
--keep class com.j256.ormlite.** {*;}
+-dontwarn com.j256.ormlite.**
+-keep class com.j256.ormlite.** { *; }
 
 # zxing
--keep class com.google.zxing.** {*;}
+-dontwarn com.google.zxing.**
+-keep class com.google.zxing.** { *; }
 
 # roundedimageview
 -dontwarn com.makeramen.roundedimageview.**
+-dontwarn com.makeramen.roundedimageview.** { *; }
