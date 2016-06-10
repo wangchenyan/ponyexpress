@@ -94,4 +94,4 @@
 
 # roundedimageview
 -dontwarn com.makeramen.roundedimageview.**
--dontwarn com.makeramen.roundedimageview.** { *; }
+-keep class com.makeramen.roundedimageview.** { *; }
