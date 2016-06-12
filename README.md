@@ -13,10 +13,12 @@
 ## 简介
 小马快递，您的好帮手。查询并跟踪快递，快递信息及时掌握。<br>
 支持全国100多家快递公司，支持扫码查询，查询记录自动保存。<br>
-附带生成二维码小工具，方便实用。体积小巧，无广告，无多余权限。<br>
-简约，而不简单。
+附带生成二维码小工具，方便实用。体积小巧，无广告，无多余权限。
 
 ## 更新说明
+`v 1.5`
+* 新增自动更新
+
 `v 1.4`
 * 修复无法查询快递的问题
 * 支持Android 6.0
@@ -25,8 +27,6 @@
 
 ## 下载地址
 fir.im：http://fir.im/ponyexpress<br>
-360手机助手：http://zhushou.360.cn/detail/index/soft_id/2876860<br>
-百度应用：http://shouji.baidu.com/soft/item?docid=9102402<br>
 应用宝：http://android.myapp.com/myapp/detail.htm?apkName=me.wcy.express
 
 ## 项目
