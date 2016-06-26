@@ -1,9 +1,5 @@
 <resources>
 
-    <style name="AppTheme" parent="AppBaseTheme" />
-
-    <style name="AppTheme.NoActionBar" parent="AppBaseTheme.NoActionBar" />
-
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -18,7 +14,15 @@
         <item name="android:buttonStyle">@android:style/Widget.Holo.Button</item>
     </style>
 
+    <style name="AppTheme" parent="AppBaseTheme" />
+
+    <style name="AppTheme.NoActionBar" parent="AppBaseTheme.NoActionBar" />
+
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.Divider">
+        <item name="android:background">?android:attr/listDivider</item>
     </style>
 </resources>
