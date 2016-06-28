@@ -2,6 +2,7 @@ package me.wcy.express.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import me.wcy.express.R;
+import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.utils.Utils;
 
 /**
@@ -22,10 +24,11 @@ import me.wcy.express.utils.Utils;
  * Created by hzwangchenyan on 2015/12/31.
  */
 public class IndexBar extends LinearLayout implements View.OnTouchListener {
-    private static final String[] INDEXES = new String[]{"☆", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
+    private static final String[] INDEXES = new String[]{"#", "A", "B", "C", "D", "E", "F", "G",
+            "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
     private ListView lvData;
     private TextView tvIndicator;
-    private List<String> mTitles;
+    private List<CompanyEntity> mCompanyList;
     private int mHeight;
 
     public IndexBar(Context context) {
@@ -61,8 +64,8 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
         }
     }
 
-    public void setData(List<String> titles, ListView lvData, TextView tvIndicator) {
-        this.mTitles = titles;
+    public void setData(List<CompanyEntity> companyList, ListView lvData, TextView tvIndicator) {
+        this.mCompanyList = companyList;
         this.lvData = lvData;
         this.tvIndicator = tvIndicator;
     }
@@ -84,7 +87,7 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
                 } else if (i >= INDEXES.length) {
                     i = INDEXES.length - 1;
                 }
-                position = mTitles.indexOf(INDEXES[i]);
+                position = getIndex(INDEXES[i]);
                 tvIndicator.setText(INDEXES[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
@@ -98,7 +101,7 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
                 } else if (i >= INDEXES.length) {
                     i = INDEXES.length - 1;
                 }
-                position = mTitles.indexOf(INDEXES[i]);
+                position = getIndex(INDEXES[i]);
                 tvIndicator.setText(INDEXES[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
@@ -114,7 +117,7 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
                 } else if (i >= INDEXES.length) {
                     i = INDEXES.length - 1;
                 }
-                position = mTitles.indexOf(INDEXES[i]);
+                position = getIndex(INDEXES[i]);
                 tvIndicator.setText(INDEXES[i]);
                 if (position != -1) {
                     lvData.setSelection(position);
@@ -122,5 +125,14 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
                 break;
         }
         return true;
+    }
+
+    private int getIndex(String index) {
+        for (int i = 0; i < mCompanyList.size(); i++) {
+            if (TextUtils.equals(mCompanyList.get(i).getName(), index)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

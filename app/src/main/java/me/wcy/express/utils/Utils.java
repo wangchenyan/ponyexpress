@@ -10,18 +10,19 @@ import android.os.Environment;
 
 import java.io.File;
 
-import me.wcy.express.model.ExpressInfo;
+import me.wcy.express.model.SearchInfo;
 
 /**
  * @author wcy
  */
 public class Utils {
-    public static final String HEADER_REFERER = "Referer";
-    public static final String REFERER = "http://www.kuaidi100.com/";
-    private static final String URL = "http://www.kuaidi100.com/query?type=%1$s&postid=%2$s";
 
-    public static String getQueryUrl(ExpressInfo expressInfo) {
-        return String.format(URL, expressInfo.getCompany_param(), expressInfo.getPost_id());
+    public static String formatSearchUrl(SearchInfo searchInfo) {
+        return String.format(Constants.URL_SEARCH, searchInfo.getCode(), searchInfo.getPost_id());
+    }
+
+    public static String formatLogoUrl(String logo) {
+        return String.format(Constants.URL_LOGO, logo);
     }
 
     /**

@@ -7,8 +7,12 @@
         android:id="@+id/et_remark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="备注信息"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:hint="最多输入10个字符"
+        android:maxLength="10"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_common" />
 </LinearLayout>

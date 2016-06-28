@@ -6,31 +6,28 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "History")
 public class History {
     // 运单号
-    @DatabaseField(id = true)
-    String post_id;
+    @DatabaseField(id = true, canBeNull = false)
+    private String post_id;
 
     // 快递公司请求参数
-    @DatabaseField
-    String company_param;
+    @DatabaseField(canBeNull = false)
+    private String company_param;
 
     // 快递公司
-    @DatabaseField
-    String company_name;
+    @DatabaseField(canBeNull = false)
+    private String company_name;
 
     // 快递公司Logo
-    @DatabaseField
-    String company_icon;
+    @DatabaseField(canBeNull = false)
+    private String company_icon;
 
     // 签收状态
-    @DatabaseField
-    String is_check;
+    @DatabaseField(canBeNull = false)
+    private String is_check;
 
     // 运单备注
     @DatabaseField
-    String remark;
-
-    public History() {
-    }
+    private String remark;
 
     public String getPost_id() {
         return post_id;

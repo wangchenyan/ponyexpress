@@ -64,7 +64,7 @@ public final class ViewfinderView extends View {
         mFinderMaskPaint = new Paint();
         mBorderPaint = new Paint();
         mLaserPaint = new Paint();
-        mLaserDrawable = getResources().getDrawable(R.drawable.ic_scan_line);
+        mLaserDrawable = getResources().getDrawable(R.drawable.scan_line);
         mMaskColor = getResources().getColor(R.color.viewfinder_mask);
         mFrameColor = getResources().getColor(R.color.viewfinder_frame);
         mLaserColor = getResources().getColor(R.color.viewfinder_laser);

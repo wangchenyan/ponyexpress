@@ -1,6 +1,5 @@
 package com.google.zxing.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
@@ -12,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -40,7 +41,6 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import me.wcy.express.R;
-import me.wcy.express.widget.CustomAlertDialog;
 
 /**
  * Initial the camera
@@ -48,7 +48,7 @@ import me.wcy.express.widget.CustomAlertDialog;
  * @author Ryan.Tang
  */
 @SuppressWarnings("deprecation")
-public class CaptureActivity extends Activity implements Callback, OnClickListener {
+public class CaptureActivity extends AppCompatActivity implements Callback, OnClickListener {
     public static final String SCAN_RESULT = "scan_result";
     private static final int REQUEST_ALBUM = 0;
     private CaptureActivityHandler handler;
@@ -282,16 +282,11 @@ public class CaptureActivity extends Activity implements Callback, OnClickListen
             e.printStackTrace();
         }
         if (result == null || TextUtils.isEmpty(result.getText())) {
-            final CustomAlertDialog dialog = new CustomAlertDialog(this, true);
-            dialog.show();
-            dialog.setTitle(R.string.tips);
-            dialog.setMessage(R.string.analyze_fail);
-            dialog.setPositiveButton(R.string.sure, new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.cancel();
-                }
-            });
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.tips)
+                    .setMessage(R.string.analyze_fail)
+                    .setPositiveButton(R.string.sure, null)
+                    .show();
         } else {
             String resultString = result.getText();
             Intent resultIntent = new Intent();

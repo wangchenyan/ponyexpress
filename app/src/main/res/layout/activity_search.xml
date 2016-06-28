@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="me.wcy.express.activity.SearchActivity">
+
+    <View
+        style="@style/AppTheme.Divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="运单号"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_common" />
+
+        <EditText
+            android:id="@+id/et_post_id"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/input_post_id"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:padding="5dp"
+                android:src="@drawable/ic_scan" />
+
+            <ImageView
+                android:id="@+id/iv_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:contentDescription="@null"
+                android:padding="5dp"
+                android:src="@drawable/ic_edit_text_clear"
+                android:visibility="invisible" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/AppTheme.Divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height" />
+
+    <ListView
+        android:id="@+id/lv_suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="@dimen/divider_height"
+        android:footerDividersEnabled="true" />
+</LinearLayout>

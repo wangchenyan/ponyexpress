@@ -42,13 +42,13 @@
             android:id="@+id/iv_flashlight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_capture_flashlight_pressed_effect" />
+            android:src="@drawable/capture_flashlight_selector" />
 
         <ImageView
             android:id="@+id/iv_album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:src="@drawable/ic_capture_album_pressed_effect" />
+            android:src="@drawable/capture_album_selector" />
     </LinearLayout>
 </FrameLayout>

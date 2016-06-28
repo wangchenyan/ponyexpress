@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_suggestion"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@drawable/list_item_selector"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:singleLine="true"
+    android:textSize="@dimen/text_size_common" />

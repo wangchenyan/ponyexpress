@@ -12,58 +12,63 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import me.wcy.express.R;
-import me.wcy.express.model.QueryResult;
+import me.wcy.express.model.SearchResult;
 
 /**
  * @author wcy
  */
-@SuppressLint({"InflateParams", "ViewHolder"})
 public class ResultAdapter extends BaseAdapter {
-    private Context mContext;
-    private QueryResult mQueryResult;
+    private SearchResult mSearchResult;
 
-    public ResultAdapter(Context context, QueryResult queryResult) {
-        this.mContext = context;
-        this.mQueryResult = queryResult;
+    public ResultAdapter(SearchResult searchResult) {
+        this.mSearchResult = searchResult;
     }
 
     @Override
     public int getCount() {
-        return mQueryResult.getData().length;
+        return mSearchResult.getData().length;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mSearchResult.getData()[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(mContext).inflate(R.layout.activity_result_list_item, null);
-        ViewHolder holder = new ViewHolder();
-        holder.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
-        holder.tvDetail = (TextView) convertView.findViewById(R.id.tv_detail);
-        holder.ivLogistics = (ImageView) convertView.findViewById(R.id.iv_logistics);
+        Context context = parent.getContext();
+        convertView = LayoutInflater.from(context).inflate(R.layout.view_holder_search_result, parent, false);
+        ViewHolder holder = new ViewHolder(convertView);
 
-        holder.tvTime.setText(mQueryResult.getData()[position].getTime());
-        holder.tvDetail.setText(mQueryResult.getData()[position].getContext());
+        holder.tvTime.setText(mSearchResult.getData()[position].getTime());
+        holder.tvDetail.setText(mSearchResult.getData()[position].getContext());
         if (position == 0) {
-            holder.tvTime.setTextColor(mContext.getResources().getColor(R.color.black));
-            holder.tvDetail.setTextColor(mContext.getResources().getColor(R.color.black));
+            holder.tvTime.setTextColor(context.getResources().getColor(R.color.black));
+            holder.tvDetail.setTextColor(context.getResources().getColor(R.color.black));
             holder.ivLogistics.setImageResource(R.drawable.ic_logistics_blue);
         }
         return convertView;
     }
 
-    class ViewHolder {
+    public static class ViewHolder {
+        @Bind(R.id.tv_time)
         public TextView tvTime;
+        @Bind(R.id.tv_detail)
         public TextView tvDetail;
+        @Bind(R.id.iv_logistics)
         public ImageView ivLogistics;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

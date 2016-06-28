@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/ic_alert_dialog_btn_left_pressed_effect"
+            android:background="@drawable/alert_dialog_btn_left_selector"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/text_size_common" />
 
@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/ic_alert_dialog_btn_right_pressed_effect"
+            android:background="@drawable/alert_dialog_btn_right_selector"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/text_size_common" />
     </LinearLayout>

@@ -52,7 +52,7 @@ public class CustomAlertDialog extends AlertDialog {
         btnRight = (Button) findViewById(R.id.btn_alert_dialog_btn_right);
         tvTitle.getPaint().setFakeBoldText(true);
         if (mSingleButton) {
-            btnLeft.setBackgroundResource(R.drawable.ic_alert_dialog_btn_pressed_effect);
+            btnLeft.setBackgroundResource(R.drawable.alert_dialog_btn_selector);
             btnRight.setVisibility(View.GONE);
         }
     }

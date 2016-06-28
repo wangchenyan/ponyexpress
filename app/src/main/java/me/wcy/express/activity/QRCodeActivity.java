@@ -1,11 +1,13 @@
 package me.wcy.express.activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -26,7 +28,6 @@ import me.wcy.express.R;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.Utils;
 import me.wcy.express.widget.ClearableEditText;
-import me.wcy.express.widget.CustomAlertDialog;
 
 @SuppressLint("SimpleDateFormat")
 public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
@@ -36,7 +37,6 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
     Button btnCreate;
     @Bind(R.id.iv_qr_code)
     ImageView ivQRCode;
-
     private Bitmap mBitmap;
 
     @Override
@@ -44,10 +44,14 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code);
 
+        ivQRCode.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void setListener() {
         etText.addTextChangedListener(this);
         btnCreate.setOnClickListener(this);
         ivQRCode.setOnClickListener(this);
-        ivQRCode.setVisibility(View.GONE);
     }
 
     @Override
@@ -74,23 +78,18 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
     }
 
     private void saveDialog() {
-        final CustomAlertDialog dialog = new CustomAlertDialog(this);
-        dialog.show();
-        dialog.setTitle(R.string.tips);
-        dialog.setMessage(R.string.qrcode_save_tips);
-        dialog.setPositiveButton(R.string.save, new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-                saveQRCode();
-            }
-        });
-        dialog.setNegativeButton(R.string.cancel, new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.cancel();
-            }
-        });
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.tips)
+                .setMessage(R.string.qrcode_save_tips)
+                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                saveQRCode();
+                            }
+                        }
+                ).
+                setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private void saveQRCode() {
@@ -100,7 +99,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
             SnackbarUtils.show(this, R.string.qrcode_no_sdcard);
             return;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String fileName = getString(R.string.qrcode_file_name, sdf.format(new Date(System.currentTimeMillis())));
         File file = new File(Utils.getPictureDir() + fileName);
         try {

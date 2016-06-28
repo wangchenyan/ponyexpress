@@ -1,0 +1,19 @@
+﻿[
+  {"name":"S"},
+  {"name":"申通快递","code":"shentong","logo":"st_logo.gif"},
+  {"name":"盛辉物流","code":"shenghuiwuliu","logo":"st_logo.gif"},
+  {"name":"十方通物流","code":"sfift","logo":"st_logo.gif"},
+  {"name":"世运快递","code":"shiyunkuaidi","logo":"st_logo.gif"},
+  {"name":"顺丰速运","code":"shunfeng","logo":"st_logo.gif"},
+  {"name":"速尔快递","code":"suer","logo":"st_logo.gif"},
+  {"name":"Y"},
+  {"name":"亚风快递","code":"yafengsudi","logo":"st_logo.gif"},
+  {"name":"优速快递","code":"youshuwuliu","logo":"st_logo.gif"},
+  {"name":"邮政国际","code":"youzhengguoji","logo":"st_logo.gif"},
+  {"name":"邮政国内","code":"youzhengguonei","logo":"st_logo.gif"},
+  {"name":"宇鑫物流","code":"yuxinwuliu","logo":"st_logo.gif"},
+  {"name":"远成物流","code":"yuanchengwuliu","logo":"st_logo.gif"},
+  {"name":"圆通速递","code":"yuantong","logo":"st_logo.gif"},
+  {"name":"韵达快运","code":"yunda","logo":"st_logo.gif"},
+  {"name":"运通快递","code":"yuntongkuaidi","logo":"st_logo.gif"}
+]

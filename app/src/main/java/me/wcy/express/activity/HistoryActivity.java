@@ -1,169 +1,89 @@
 package me.wcy.express.activity;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import me.wcy.express.R;
-import me.wcy.express.adapter.HistoryListAdapter;
+import me.wcy.express.adapter.HistoryAdapter;
 import me.wcy.express.database.History;
-import me.wcy.express.model.ExpressInfo;
-import me.wcy.express.model.QueryResult;
-import me.wcy.express.request.GsonRequest;
+import me.wcy.express.model.SearchInfo;
 import me.wcy.express.utils.DataManager;
-import me.wcy.express.utils.SnackbarUtils;
-import me.wcy.express.utils.Utils;
-import me.wcy.express.widget.CustomAlertDialog;
-import me.wcy.express.widget.CustomProgressDialog;
 
 public class HistoryActivity extends BaseActivity implements OnItemClickListener, OnItemLongClickListener {
     @Bind(R.id.lv_history_list)
     ListView lvHistoryList;
-    @Bind(R.id.ll_empty)
-    LinearLayout llEmpty;
-
-    private CustomProgressDialog mProgressDialog;
-    private CustomAlertDialog mAlertDialog;
-    private ExpressInfo mExpressInfo;
-    private RequestQueue mRequestQueue;
+    @Bind(R.id.tv_empty)
+    TextView tvEmpty;
     private DataManager mDataManager;
-    private List<History> mHistoryList;
+    private HistoryAdapter mAdapter;
+    private List<History> mHistoryList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        mProgressDialog = new CustomProgressDialog(this);
-        mRequestQueue = Volley.newRequestQueue(this);
-        mDataManager = DataManager.getInstance().setContext(this);
-        mExpressInfo = new ExpressInfo();
+        mDataManager = DataManager.getInstance();
+        mAdapter = new HistoryAdapter(mHistoryList);
+        lvHistoryList.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void setListener() {
+        lvHistoryList.setOnItemClickListener(this);
+        lvHistoryList.setOnItemLongClickListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        init();
+        refreshList();
     }
 
-    private void init() {
-        mHistoryList = mDataManager.getHistoryList();
-        lvHistoryList.setAdapter(new HistoryListAdapter(this, mHistoryList));
-        lvHistoryList.setOnItemClickListener(this);
-        lvHistoryList.setOnItemLongClickListener(this);
-        if (mHistoryList.size() == 0) {
-            llEmpty.setVisibility(View.VISIBLE);
-        } else {
-            llEmpty.setVisibility(View.GONE);
-        }
-    }
-
-    private void query() {
-        if (!Utils.isNetworkAvailable(this)) {
-            SnackbarUtils.show(this, R.string.network_error);
-            return;
-        }
-        mProgressDialog.show();
-        mProgressDialog.setMessage(getResources().getString(R.string.querying));
-        GsonRequest<QueryResult> request = new GsonRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
-                QueryResult.class, new Response.Listener<QueryResult>() {
-
-            @Override
-            public void onResponse(QueryResult queryResult) {
-                Log.i("Query", queryResult.getMessage());
-                mProgressDialog.cancel();
-                onQuerySuccess(queryResult);
-            }
-        }, new ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Query", error.getMessage(), error);
-                mProgressDialog.cancel();
-                SnackbarUtils.show(HistoryActivity.this, R.string.system_busy);
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put(Utils.HEADER_REFERER, Utils.REFERER);
-                return headers;
-            }
-        };
-        request.setShouldCache(false);
-        mRequestQueue.add(request);
-    }
-
-    private void onQuerySuccess(QueryResult queryResult) {
-        Intent intent = new Intent();
-        intent.setClass(this, ResultActivity.class);
-        queryResult.setCompany_name(mExpressInfo.getCompany_name());
-        queryResult.setCompany_icon(mExpressInfo.getCompany_icon());
-        queryResult.setNu(mExpressInfo.getPost_id());
-        intent.putExtra(QueryActivity.QUERY_RESULT, queryResult);
-        startActivity(intent);
-        if (queryResult.getStatus().equals("200")) {
-            mExpressInfo.setIs_check(queryResult.getIscheck());
-        } else {
-            mExpressInfo.setIs_check("0");
-        }
-        mDataManager.updateHistory(mExpressInfo);
+    private void refreshList() {
+        List<History> historyList = mDataManager.getHistoryList();
+        mHistoryList.clear();
+        mHistoryList.addAll(historyList);
+        mAdapter.notifyDataSetChanged();
+        tvEmpty.setVisibility(mHistoryList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onItemClick(AdapterView<?> view, View arg1, int position, long arg3) {
-        mExpressInfo.setPost_id(mHistoryList.get(position).getPost_id());
-        mExpressInfo.setCompany_param(mHistoryList.get(position).getCompany_param());
-        mExpressInfo.setCompany_name(mHistoryList.get(position).getCompany_name());
-        mExpressInfo.setCompany_icon(mHistoryList.get(position).getCompany_icon());
-        query();
+        SearchInfo searchInfo = new SearchInfo();
+        searchInfo.setPost_id(mHistoryList.get(position).getPost_id());
+        searchInfo.setCode(mHistoryList.get(position).getCompany_param());
+        searchInfo.setName(mHistoryList.get(position).getCompany_name());
+        searchInfo.setLogo(mHistoryList.get(position).getCompany_icon());
+        ResultActivity.start(this, searchInfo);
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> view, View arg1, int position, long arg3) {
-        final int which = position;
-        mAlertDialog = new CustomAlertDialog(this);
-        mAlertDialog.show();
-        mAlertDialog.setTitle(getResources().getString(R.string.tips));
-        mAlertDialog.setMessage(getResources().getString(
-                R.string.sure_delete_history));
-        mAlertDialog.setPositiveButton(getResources().getString(R.string.sure),
-                new OnClickListener() {
-
+    public boolean onItemLongClick(AdapterView<?> view, View arg1, final int position, long arg3) {
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.tips))
+                .setMessage(getResources().getString(
+                        R.string.sure_delete_history))
+                .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        mAlertDialog.cancel();
-                        mDataManager.deleteById(mHistoryList.get(which).getPost_id());
-                        init();
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDataManager.deleteById(mHistoryList.get(position).getPost_id());
+                        refreshList();
                     }
-                });
-        mAlertDialog.setNegativeButton(getResources().getString(R.string.cancel),
-                new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        mAlertDialog.cancel();
-                    }
-                });
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
         return true;
     }
 }

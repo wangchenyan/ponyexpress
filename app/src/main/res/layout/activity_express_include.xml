@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/windowBackground"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:id="@+id/tv_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/search"
+                android:gravity="center"
+                android:text="查件"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_common" />
+
+            <TextView
+                android:id="@+id/tv_post"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/post"
+                android:gravity="center"
+                android:text="寄件"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_common" />
+
+            <TextView
+                android:id="@+id/tv_sweep"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/sweep"
+                android:gravity="center"
+                android:text="扫一扫"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_common" />
+        </LinearLayout>
+
+        <View
+            style="@style/AppTheme.Divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/lv_un_check"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="@dimen/divider_height"
+                android:footerDividersEnabled="true" />
+
+            <TextView
+                android:id="@+id/tv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/searching"
+                android:gravity="center"
+                android:text="暂无新的物流信息"
+                android:textColor="@color/grey"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

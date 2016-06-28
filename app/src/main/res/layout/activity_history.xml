@@ -1,33 +1,25 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <ListView
         android:id="@+id/lv_history_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:id="@+id/ll_empty"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:dividerHeight="@dimen/divider_height"
+        android:footerDividersEnabled="true" />
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:drawablePadding="10dp"
+        android:drawableTop="@drawable/searching"
         android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_no_info" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/no_info"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/text_size_common" />
-    </LinearLayout>
-</LinearLayout>
+        android:text="@string/no_history"
+        android:textColor="@color/grey"
+        android:visibility="gone" />
+</FrameLayout>

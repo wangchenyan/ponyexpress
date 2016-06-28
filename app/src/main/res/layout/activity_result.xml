@@ -7,34 +7,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="10dp">
 
         <ImageView
-            android:id="@+id/iv_com_icon"
+            android:id="@+id/iv_logo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
+            android:contentDescription="@null"
             android:scaleType="centerInside"
-            android:src="@drawable/icon_com_shentong" />
+            android:src="@drawable/default_logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_com_name"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="申通快递"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="@dimen/text_size_common" />
 
             <TextView
                 android:id="@+id/tv_post_id"
@@ -42,64 +43,129 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="12345678"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
+                android:textColor="@color/grey" />
         </LinearLayout>
     </LinearLayout>
 
     <View
         style="@style/AppTheme.Divider"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp" />
+        android:layout_height="@dimen/divider_height" />
 
-    <ListView
-        android:id="@+id/lv_result_list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:listSelector="@android:color/transparent" />
-
-    <LinearLayout
-        android:id="@+id/ll_empty"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ListView
+                android:id="@+id/lv_result_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:divider="@null"
+                android:listSelector="@android:color/transparent" />
+
+            <View
+                style="@style/AppTheme.Divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height" />
+
+            <Button
+                android:id="@+id/btn_remark"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_common_bg_selector"
+                android:text="@string/remark"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_common" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_no_exist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="50dp">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/face_sad"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/no_exist"
+                android:text="抱歉，没有查到物流信息"
                 android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:textSize="@dimen/text_size_common" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_common_bg_selector"
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:text="保存运单信息"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_common" />
+
+            <View
+                style="@style/AppTheme.Divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="20dp" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="@string/no_express_info"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="8dp"
+                android:text="可能原因:"
+                android:textColor="@color/deep_orange" />
 
-    <Button
-        android:id="@+id/btn_remark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/ic_btn_common_bg"
-        android:text="@string/remark"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_common" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="8dp"
+                android:text="1.你的快递刚刚寄出\n2.你输入的运单号或选择的快递公司有误"
+                android:textColor="@color/black" />
+
+            <View
+                style="@style/AppTheme.Divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_searching"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/searching"
+            android:gravity="center"
+            android:text="正在加载物流信息…"
+            android:textColor="@color/grey" />
+    </FrameLayout>
 </LinearLayout>

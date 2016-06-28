@@ -13,7 +13,7 @@ import java.util.List;
 
 import me.wcy.express.database.DBHelper;
 import me.wcy.express.database.History;
-import me.wcy.express.model.ExpressInfo;
+import me.wcy.express.model.SearchInfo;
 
 /**
  * @author wcy
@@ -42,19 +42,19 @@ public class DataManager {
     private DataManager() {
     }
 
-    public void updateHistory(ExpressInfo expressInfo) {
+    public void updateHistory(SearchInfo searchInfo) {
         try {
             History history;
-            if (mHistoryDao.idExists(expressInfo.getPost_id())) {
-                history = mHistoryDao.queryForId(expressInfo.getPost_id());
+            if (mHistoryDao.idExists(searchInfo.getPost_id())) {
+                history = mHistoryDao.queryForId(searchInfo.getPost_id());
             } else {
                 history = new History();
             }
-            history.setPost_id(expressInfo.getPost_id());
-            history.setCompany_param(expressInfo.getCompany_param());
-            history.setCompany_name(expressInfo.getCompany_name());
-            history.setCompany_icon(expressInfo.getCompany_icon());
-            history.setIs_check(expressInfo.getIs_check());
+            history.setPost_id(searchInfo.getPost_id());
+            history.setCompany_param(searchInfo.getCode());
+            history.setCompany_name(searchInfo.getName());
+            history.setCompany_icon(searchInfo.getLogo());
+            history.setIs_check(searchInfo.getIs_check());
             mHistoryDao.createOrUpdate(history);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,9 +79,40 @@ public class DataManager {
         return unCheckList;
     }
 
+    public boolean idExists(String id) {
+        try {
+            return mHistoryDao.idExists(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void deleteById(String id) {
         try {
             mHistoryDao.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getRemark(String id) {
+        try {
+            if (idExists(id)) {
+                History history = mHistoryDao.queryForId(id);
+                return history.getRemark();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateRemark(String id, String remark) {
+        try {
+            History history = mHistoryDao.queryForId(id);
+            history.setRemark(remark);
+            mHistoryDao.update(history);
         } catch (SQLException e) {
             e.printStackTrace();
         }
