@@ -156,6 +156,35 @@
                 android:paddingRight="@dimen/activity_horizontal_margin" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/error"
+                android:gravity="center"
+                android:text="没有查询到物流信息"
+                android:textColor="@color/grey" />
+
+            <Button
+                android:id="@+id/btn_retry"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/btn_common_bg_selector"
+                android:text="点击重试" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tv_searching"
             android:layout_width="wrap_content"

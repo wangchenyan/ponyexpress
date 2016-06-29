@@ -25,17 +25,14 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
     ListView lvHistoryList;
     @Bind(R.id.tv_empty)
     TextView tvEmpty;
-    private DataManager mDataManager;
-    private HistoryAdapter mAdapter;
     private List<History> mHistoryList = new ArrayList<>();
+    private HistoryAdapter mAdapter = new HistoryAdapter(mHistoryList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        mDataManager = DataManager.getInstance();
-        mAdapter = new HistoryAdapter(mHistoryList);
         lvHistoryList.setAdapter(mAdapter);
     }
 
@@ -52,7 +49,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
     }
 
     private void refreshList() {
-        List<History> historyList = mDataManager.getHistoryList();
+        List<History> historyList = DataManager.getInstance().getHistoryList();
         mHistoryList.clear();
         mHistoryList.addAll(historyList);
         mAdapter.notifyDataSetChanged();
@@ -78,7 +75,7 @@ public class HistoryActivity extends BaseActivity implements OnItemClickListener
                 .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mDataManager.deleteById(mHistoryList.get(position).getPost_id());
+                        DataManager.getInstance().deleteById(mHistoryList.get(position).getPost_id());
                         refreshList();
                     }
                 })

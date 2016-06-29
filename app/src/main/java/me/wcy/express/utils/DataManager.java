@@ -3,14 +3,13 @@
  */
 package me.wcy.express.utils;
 
-import android.content.Context;
-
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.wcy.express.application.ExpressApplication;
 import me.wcy.express.database.DBHelper;
 import me.wcy.express.database.History;
 import me.wcy.express.model.SearchInfo;
@@ -25,21 +24,17 @@ public class DataManager {
         return SingletonHolder.instance;
     }
 
-    public DataManager setContext(Context context) {
-        DBHelper dbHelper = new DBHelper(context);
-        try {
-            mHistoryDao = dbHelper.getDao(History.class);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return this;
-    }
-
     private static class SingletonHolder {
         public static final DataManager instance = new DataManager();
     }
 
     private DataManager() {
+        DBHelper dbHelper = new DBHelper(ExpressApplication.getInstance().getApplicationContext());
+        try {
+            mHistoryDao = dbHelper.getDao(History.class);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateHistory(SearchInfo searchInfo) {

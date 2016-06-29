@@ -17,10 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
@@ -29,6 +27,7 @@ import java.util.Map;
 import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.ResultAdapter;
+import me.wcy.express.application.ExpressApplication;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.model.SearchResult;
 import me.wcy.express.request.GsonRequest;
@@ -56,10 +55,12 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     LinearLayout llNoExist;
     @Bind(R.id.btn_save)
     Button btnSave;
+    @Bind(R.id.ll_error)
+    LinearLayout llError;
+    @Bind(R.id.btn_retry)
+    Button btnRetry;
     @Bind(R.id.tv_searching)
     TextView tvSearching;
-    private RequestQueue mRequestQueue;
-    private DataManager mDataManager;
     private SearchInfo mSearchInfo;
 
     public static void start(Context context, SearchInfo searchInfo) {
@@ -72,9 +73,6 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
-        mRequestQueue = Volley.newRequestQueue(this);
-        mDataManager = DataManager.getInstance();
 
         Intent intent = getIntent();
         mSearchInfo = (SearchInfo) intent.getSerializableExtra(Extras.SEARCH_INFO);
@@ -92,11 +90,12 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     protected void setListener() {
         btnRemark.setOnClickListener(this);
         btnSave.setOnClickListener(this);
+        btnRetry.setOnClickListener(this);
     }
 
     @SuppressLint("SetTextI18n")
     private void refreshSearchInfo() {
-        String remark = mDataManager.getRemark(mSearchInfo.getPost_id());
+        String remark = DataManager.getInstance().getRemark(mSearchInfo.getPost_id());
         if (TextUtils.isEmpty(remark)) {
             tvName.setText(mSearchInfo.getName());
             tvPostId.setText(mSearchInfo.getPost_id());
@@ -119,7 +118,8 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e(TAG, volleyError.getMessage(), volleyError);
                 llResult.setVisibility(View.GONE);
-                llNoExist.setVisibility(View.VISIBLE);
+                llNoExist.setVisibility(View.GONE);
+                llError.setVisibility(View.VISIBLE);
                 tvSearching.setVisibility(View.GONE);
             }
         }) {
@@ -131,22 +131,24 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
             }
         };
         request.setShouldCache(false);
-        mRequestQueue.add(request);
+        ExpressApplication.getInstance().getRequestQueue().add(request);
     }
 
     private void onSearch(SearchResult searchResult) {
         if (searchResult.getStatus().equals("200")) {
             llResult.setVisibility(View.VISIBLE);
             llNoExist.setVisibility(View.GONE);
+            llError.setVisibility(View.GONE);
             tvSearching.setVisibility(View.GONE);
             lvResultList.setAdapter(new ResultAdapter(searchResult));
             mSearchInfo.setIs_check(searchResult.getIscheck());
-            mDataManager.updateHistory(mSearchInfo);
+            DataManager.getInstance().updateHistory(mSearchInfo);
         } else {
             llResult.setVisibility(View.GONE);
             llNoExist.setVisibility(View.VISIBLE);
+            llError.setVisibility(View.GONE);
             tvSearching.setVisibility(View.GONE);
-            btnSave.setText(mDataManager.idExists(mSearchInfo.getPost_id()) ? "运单备注" : "保存运单信息");
+            btnSave.setText(DataManager.getInstance().idExists(mSearchInfo.getPost_id()) ? "运单备注" : "保存运单信息");
         }
     }
 
@@ -161,15 +163,24 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
                     remark();
                 } else {
                     mSearchInfo.setIs_check("0");
-                    mDataManager.updateHistory(mSearchInfo);
+                    DataManager.getInstance().updateHistory(mSearchInfo);
                     SnackbarUtils.show(this, "保存成功");
                     mHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            startActivity(new Intent(ResultActivity.this, ExpressActivity.class));
+                            if (!ResultActivity.this.isFinishing()) {
+                                startActivity(new Intent(ResultActivity.this, ExpressActivity.class));
+                            }
                         }
                     }, 1000);
                 }
+                break;
+            case R.id.btn_retry:
+                llResult.setVisibility(View.GONE);
+                llNoExist.setVisibility(View.GONE);
+                llError.setVisibility(View.GONE);
+                tvSearching.setVisibility(View.VISIBLE);
+                search();
                 break;
         }
     }
@@ -177,7 +188,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     private void remark() {
         View view = getLayoutInflater().inflate(R.layout.activity_result_dialog, null);
         final EditText etRemark = (EditText) view.findViewById(R.id.et_remark);
-        etRemark.setText(mDataManager.getRemark(mSearchInfo.getPost_id()));
+        etRemark.setText(DataManager.getInstance().getRemark(mSearchInfo.getPost_id()));
         etRemark.setSelection(etRemark.length());
         new AlertDialog.Builder(this)
                 .setTitle("备注名")
@@ -185,7 +196,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
                 .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mDataManager.updateRemark(mSearchInfo.getPost_id(), etRemark.getText().toString());
+                        DataManager.getInstance().updateRemark(mSearchInfo.getPost_id(), etRemark.getText().toString());
                         refreshSearchInfo();
                         SnackbarUtils.show(ResultActivity.this, "备注成功");
                     }

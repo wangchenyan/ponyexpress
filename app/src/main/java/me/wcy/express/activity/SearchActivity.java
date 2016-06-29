@@ -13,10 +13,8 @@ import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -33,6 +31,7 @@ import java.util.Map;
 import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.SuggestionAdapter;
+import me.wcy.express.application.ExpressApplication;
 import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.model.SuggestionResult;
@@ -51,19 +50,15 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
     ImageView ivClear;
     @Bind(R.id.lv_suggestion)
     ListView lvSuggestion;
-    private RequestQueue mRequestQueue;
-    private SuggestionAdapter mSuggestionAdapter;
     private Map<String, CompanyEntity> mCompanyMap = new HashMap<>();
     private List<CompanyEntity> mSuggestionList = new ArrayList<>();
+    private SuggestionAdapter mSuggestionAdapter = new SuggestionAdapter(mSuggestionList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         readCompany();
-
-        mRequestQueue = Volley.newRequestQueue(this);
-        mSuggestionAdapter = new SuggestionAdapter(mSuggestionList);
 
         lvSuggestion.setAdapter(mSuggestionAdapter);
     }
@@ -157,12 +152,12 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
             }
         };
         request.setShouldCache(false);
-        mRequestQueue.add(request);
+        ExpressApplication.getInstance().getRequestQueue().add(request);
     }
 
     private void onSuggestion(SuggestionResult response) {
         mSuggestionList.clear();
-        if (response != null && !response.getAuto().isEmpty()) {
+        if (response != null && response.getAuto() != null && !response.getAuto().isEmpty()) {
             for (SuggestionResult.AutoBean bean : response.getAuto()) {
                 if (mCompanyMap.containsKey(bean.getComCode())) {
                     mSuggestionList.add(mCompanyMap.get(bean.getComCode()));

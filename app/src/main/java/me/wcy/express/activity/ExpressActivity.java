@@ -45,9 +45,8 @@ public class ExpressActivity extends AppCompatActivity implements OnClickListene
     ListView lvUnCheck;
     @Bind(R.id.tv_empty)
     TextView tvEmpty;
-    private DataManager mDataManager;
-    private HistoryAdapter mAdapter;
     private List<History> mUnCheckList = new ArrayList<>();
+    private HistoryAdapter mAdapter = new HistoryAdapter(mUnCheckList);
     private long mExitTime = 0;
 
     @Override
@@ -63,8 +62,6 @@ public class ExpressActivity extends AppCompatActivity implements OnClickListene
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        mDataManager = DataManager.getInstance().setContext(this);
-        mAdapter = new HistoryAdapter(mUnCheckList);
         lvUnCheck.setAdapter(mAdapter);
 
         UpdateUtils.checkUpdate(this);
@@ -83,7 +80,7 @@ public class ExpressActivity extends AppCompatActivity implements OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        List<History> unCheckList = mDataManager.getUnCheckList();
+        List<History> unCheckList = DataManager.getInstance().getUnCheckList();
         mUnCheckList.clear();
         mUnCheckList.addAll(unCheckList);
         mAdapter.notifyDataSetChanged();
