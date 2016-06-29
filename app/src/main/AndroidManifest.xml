@@ -30,7 +30,7 @@
             android:name="com.google.zxing.activity.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.FullScreen"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activity.ExpressActivity"

@@ -18,11 +18,6 @@
 
     <style name="AppTheme.NoActionBar" parent="AppBaseTheme.NoActionBar" />
 
-    <style name="AppTheme.FullScreen" parent="AppBaseTheme.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
