@@ -31,27 +31,29 @@ import java.util.concurrent.CountDownLatch;
 /**
  * This thread does all the heavy lifting of decoding the images. 解码线程
  */
-final class DecodeThread extends Thread {
+public final class DecodeThread extends Thread {
     public static final String BARCODE_BITMAP = "barcode_bitmap";
     private final CaptureActivity activity;
     private final Hashtable<DecodeHintType, Object> hints;
     private Handler handler;
     private final CountDownLatch handlerInitLatch;
 
-    DecodeThread(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats, String characterSet, ResultPointCallback resultPointCallback) {
+    public DecodeThread(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats, String characterSet, ResultPointCallback resultPointCallback) {
         this.activity = activity;
         handlerInitLatch = new CountDownLatch(1);
 
         hints = new Hashtable<>(3);
 
         /**
-         * Set only scanning bar code, if you want to scan QR code, please cancel the following comments
+         * set decode type
          */
         if (decodeFormats == null || decodeFormats.isEmpty()) {
             decodeFormats = new Vector<>();
             decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
-            // decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
-            // decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
+            if (!CaptureActivity.onlyOneD) {
+                decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
+                decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
+            }
         }
 
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
@@ -63,7 +65,7 @@ final class DecodeThread extends Thread {
         hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
     }
 
-    Handler getHandler() {
+    public Handler getHandler() {
         try {
             handlerInitLatch.await();
         } catch (InterruptedException ie) {

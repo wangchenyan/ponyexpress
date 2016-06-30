@@ -22,13 +22,13 @@ import android.os.Message;
 import android.util.Log;
 
 @SuppressWarnings("deprecation")
-final class AutoFocusCallback implements Camera.AutoFocusCallback {
+public final class AutoFocusCallback implements Camera.AutoFocusCallback {
     private static final String TAG = AutoFocusCallback.class.getSimpleName();
     private static final long AUTOFOCUS_INTERVAL_MS = 1500L;
     private Handler autoFocusHandler;
     private int autoFocusMessage;
 
-    void setHandler(Handler autoFocusHandler, int autoFocusMessage) {
+    public void setHandler(Handler autoFocusHandler, int autoFocusMessage) {
         this.autoFocusHandler = autoFocusHandler;
         this.autoFocusMessage = autoFocusMessage;
     }

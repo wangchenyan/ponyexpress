@@ -27,7 +27,7 @@ import android.view.WindowManager;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-final class CameraConfigurationManager {
+public final class CameraConfigurationManager {
     private static final String TAG = CameraConfigurationManager.class.getSimpleName();
     private static final int TEN_DESIRED_ZOOM = 27;
     private static final int DESIRED_SHARPNESS = 30;
@@ -38,14 +38,14 @@ final class CameraConfigurationManager {
     private int previewFormat;
     private String previewFormatString;
 
-    CameraConfigurationManager(Context context) {
+    public CameraConfigurationManager(Context context) {
         this.context = context;
     }
 
     /**
      * Reads, one time, values from the camera that are needed by the app.
      */
-    void initFromCameraParameters(Camera camera) {
+    public void initFromCameraParameters(Camera camera) {
         Camera.Parameters parameters = camera.getParameters();
         previewFormat = parameters.getPreviewFormat();
         previewFormatString = parameters.get("preview-format");
@@ -74,7 +74,7 @@ final class CameraConfigurationManager {
      * In the future we may want to force YUV420SP as it's the smallest, and the
      * planar Y can be used for barcode scanning without a copy in some cases.
      */
-    void setDesiredCameraParameters(Camera camera) {
+    public void setDesiredCameraParameters(Camera camera) {
         Camera.Parameters parameters = camera.getParameters();
         Log.d(TAG, "Setting preview size: " + cameraResolution);
         parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
@@ -86,19 +86,19 @@ final class CameraConfigurationManager {
         camera.setParameters(parameters);
     }
 
-    Point getCameraResolution() {
+    public Point getCameraResolution() {
         return cameraResolution;
     }
 
-    Point getScreenResolution() {
+    public Point getScreenResolution() {
         return screenResolution;
     }
 
-    int getPreviewFormat() {
+    public int getPreviewFormat() {
         return previewFormat;
     }
 
-    String getPreviewFormatString() {
+    public String getPreviewFormatString() {
         return previewFormatString;
     }
 

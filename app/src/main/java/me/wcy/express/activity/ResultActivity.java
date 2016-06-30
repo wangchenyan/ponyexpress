@@ -186,7 +186,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void remark() {
-        View view = getLayoutInflater().inflate(R.layout.activity_result_dialog, null);
+        View view = getLayoutInflater().inflate(R.layout.dialog_result, null);
         final EditText etRemark = (EditText) view.findViewById(R.id.et_remark);
         etRemark.setText(DataManager.getInstance().getRemark(mSearchInfo.getPost_id()));
         etRemark.setSelection(etRemark.length());

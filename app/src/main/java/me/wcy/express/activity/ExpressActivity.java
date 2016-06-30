@@ -16,6 +16,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.zxing.activity.CaptureActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +99,7 @@ public class ExpressActivity extends AppCompatActivity implements OnClickListene
                 SnackbarUtils.show(this, "敬请期待");
                 break;
             case R.id.tv_sweep:
+                CaptureActivity.start(this, false, 0);
                 break;
             default:
                 break;

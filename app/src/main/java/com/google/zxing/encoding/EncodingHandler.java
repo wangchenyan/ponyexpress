@@ -27,7 +27,7 @@ public final class EncodingHandler {
      */
     public static Bitmap createQRCode(String str, int length) throws WriterException {
         Hashtable<EncodeHintType, String> hints = new Hashtable<>();
-        hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         BitMatrix matrix = new QRCodeWriter().encode(str, BarcodeFormat.QR_CODE, length, length, hints);
         int[] pixels = new int[length * length];
         for (int y = 0; y < length; y++) {

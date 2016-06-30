@@ -36,12 +36,12 @@ import java.util.Hashtable;
 
 import me.wcy.express.R;
 
-final class DecodeHandler extends Handler {
+public final class DecodeHandler extends Handler {
     private static final String TAG = DecodeHandler.class.getSimpleName();
     private final CaptureActivity activity;
     private final MultiFormatReader multiFormatReader;
 
-    DecodeHandler(CaptureActivity activity, Hashtable<DecodeHintType, Object> hints) {
+    public DecodeHandler(CaptureActivity activity, Hashtable<DecodeHintType, Object> hints) {
         multiFormatReader = new MultiFormatReader();
         multiFormatReader.setHints(hints);
         this.activity = activity;

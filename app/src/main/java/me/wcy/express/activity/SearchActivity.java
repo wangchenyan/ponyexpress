@@ -177,7 +177,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_scan:
-                startActivityForResult(new Intent(this, CaptureActivity.class), RequestCode.REQUEST_CAPTURE);
+                CaptureActivity.start(this, true, RequestCode.REQUEST_CAPTURE);
                 break;
             case R.id.iv_clear:
                 etPostId.setText("");
@@ -208,7 +208,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
         switch (requestCode) {
             case RequestCode.REQUEST_CAPTURE:
                 // 处理扫描结果（在界面上显示）
-                String resultStr = data.getStringExtra(CaptureActivity.SCAN_RESULT);
+                String resultStr = data.getStringExtra(Extras.SCAN_RESULT);
                 etPostId.setText(resultStr);
                 etPostId.setSelection(etPostId.length());
                 break;

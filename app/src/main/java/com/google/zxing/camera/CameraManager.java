@@ -26,6 +26,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.google.zxing.activity.CaptureActivity;
+
 import java.io.IOException;
 
 /**
@@ -228,7 +230,7 @@ public final class CameraManager {
                 return null;
             }
             int width = screenResolution.x * 3 / 4;
-            int height = screenResolution.y / 4;
+            int height = CaptureActivity.onlyOneD ? screenResolution.y / 4 : width;
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
@@ -322,17 +324,27 @@ public final class CameraManager {
 
     /**
      * open or close flashlight
+     *
+     * @return true if it is opened, false if it is closed
      */
-    public void flashlight() {
+    public boolean flashlight() {
         if (camera != null) {
             Camera.Parameters parameter = camera.getParameters();
             String flashMode = parameter.getFlashMode();
             if (Camera.Parameters.FLASH_MODE_OFF.equals(flashMode)) {
                 parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                camera.setParameters(parameter);
+                return true;
             } else {
                 parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                camera.setParameters(parameter);
+                return false;
             }
-            camera.setParameters(parameter);
         }
+        return false;
+    }
+
+    public void release() {
+        cameraManager = null;
     }
 }

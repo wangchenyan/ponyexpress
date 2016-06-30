@@ -37,7 +37,7 @@ import java.lang.reflect.Method;
  * /DroidLED.java</a>. Thanks to Ryan Alford for pointing out the availability
  * of this class.
  */
-final class FlashlightManager {
+public final class FlashlightManager {
     private static final String TAG = FlashlightManager.class.getSimpleName();
     private static final Object iHardwareService;
     private static final Method setFlashEnabledMethod;
@@ -59,11 +59,11 @@ final class FlashlightManager {
      * 控制相机闪光灯开关
      */
     // FIXME
-    static void enableFlashlight() {
+    public static void enableFlashlight() {
         setFlashlight(false);
     }
 
-    static void disableFlashlight() {
+    public static void disableFlashlight() {
         setFlashlight(false);
     }
 
