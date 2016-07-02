@@ -16,6 +16,11 @@
 附带生成二维码小工具，方便实用。体积小巧，无广告，无多余权限。
 
 ## 更新说明
+`v 2.0`
+* 全新UI，高仿“支付宝-我的快递”
+* 新增智能识别快递公司
+* 新增扫一扫
+
 `v 1.5`
 * 新增自动更新
 
@@ -34,41 +39,39 @@ fir.im：http://fir.im/ponyexpress<br>
 * 快递查询：[快递100](http://www.kuaidi100.com/)（自己抓包拿到的接口^_^）
 
 ### 开源技术
-* 条码扫描：[ZXing](https://github.com/zxing/zxing)
-* 网络请求：[Volley](https://developer.android.com/training/volley/index.html)
-* Json解析：[Gson](https://github.com/google/gson)
-* 数据存储：[ormlite](https://github.com/j256/ormlite-android)
+* [ZXing](https://github.com/zxing/zxing)
+* [Volley](https://developer.android.com/training/volley/index.html)
+* [Gson](https://github.com/google/gson)
+* [ormlite](https://github.com/j256/ormlite-android)
+* [Glide](https://github.com/bumptech/glide)
 
 ### 关键代码
 网络请求`Volley+Gson`
 ```java
-private void query() {
-    GsonRequest<QueryResult> request = new GsonRequest<QueryResult>(Utils.getQueryUrl(mExpressInfo),
-            QueryResult.class, new Listener<QueryResult>() {
+private void search() {
+    GsonRequest<SearchResult> request = new GsonRequest<SearchResult>(Utils.formatSearchUrl(mSearchInfo),
+            SearchResult.class, new Response.Listener<SearchResult>() {
         @Override
-        public void onResponse(QueryResult queryResult) {
-            Log.i("Query", queryResult.getMessage());
-            if (queryResult.getStatus().equals("200")) {
-                onQuerySuccess(queryResult);
-            } else {
-                onQueryFailure(queryResult);
-            }
+        public void onResponse(SearchResult searchResult) {
+            Log.i(TAG, searchResult.getMessage());
+            onSearch(searchResult);
         }
-    }, new ErrorListener() {
+    }, new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError volleyError) {
-            Log.e("Query", volleyError.getMessage(), volleyError);
+            Log.e(TAG, volleyError.getMessage(), volleyError);
+            onError();
         }
     }) {
         @Override
         public Map<String, String> getHeaders() throws AuthFailureError {
             Map<String, String> headers = new HashMap<>();
-            headers.put(Utils.HEADER_REFERER, Utils.REFERER);
+            headers.put(Constants.HEADER_REFERER, Constants.REFERER);
             return headers;
         }
     };
     request.setShouldCache(false);
-    mRequestQueue.add(request);
+    ExpressApplication.getInstance().getRequestQueue().add(request);
 }
 ```
 封装GsonRequest
@@ -113,6 +116,7 @@ public class GsonRequest<T> extends Request<T> {
 ![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_02.jpg)
 ![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_03.jpg)
 ![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_04.jpg)
+![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_05.jpg)
 
 ## 关于作者
 简书：http://www.jianshu.com/users/3231579893ac<br>
