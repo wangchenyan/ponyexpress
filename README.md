@@ -36,7 +36,7 @@ fir.im：http://fir.im/ponyexpress<br>
 
 ## 项目
 ### 公开API
-* 快递查询：[快递100](http://www.kuaidi100.com/)（自己抓包拿到的接口^_^）
+* 快递查询：[快递100](http://www.kuaidi100.com/)（非公开，侵权删）
 
 ### 开源技术
 * [ZXing](https://github.com/zxing/zxing)
