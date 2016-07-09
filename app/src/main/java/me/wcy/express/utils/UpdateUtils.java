@@ -27,6 +27,7 @@ public class UpdateUtils {
     public static long sDownloadId = 0;
 
     public static void checkUpdate(final Activity activity) {
+        // FIR_KEY是检查更新需要的key，可直接用""代替
         FIR.checkForUpdateInFIR(ApiKey.FIR_KEY, new VersionCheckCallback() {
             @Override
             public void onStart() {
@@ -69,8 +70,8 @@ public class UpdateUtils {
     }
 
     private static void updateDialog(final Activity activity, final UpdateInfo updateInfo) {
-        String fileSize = B2MB(updateInfo.binary.fsize) + "MB";
-        String message = "v " + updateInfo.versionShort + "(" + fileSize + ")" + "\n\n" + updateInfo.changelog;
+        String message = String.format("v %1$s(%2$sMB)\n\n%3$s", updateInfo.versionShort,
+                b2mb(updateInfo.binary.fsize), updateInfo.changelog);
         new AlertDialog.Builder(activity)
                 .setTitle("发现新版本")
                 .setMessage(message)
@@ -88,7 +89,7 @@ public class UpdateUtils {
         DownloadManager downloadManager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(updateInfo.installUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri);
-        String fileName = "PonyExpress_" + updateInfo.versionShort + ".apk";
+        String fileName = String.format("PonyExpress_%s.apk", updateInfo.versionShort);
         request.setDestinationInExternalPublicDir("Download", fileName);
         request.setMimeType(MimeTypeMap.getFileExtensionFromUrl(updateInfo.installUrl));
         request.allowScanningByMediaScanner();
@@ -98,9 +99,9 @@ public class UpdateUtils {
         SnackbarUtils.show(activity, "正在后台下载");
     }
 
-    private static float B2MB(int B) {
+    private static float b2mb(int b) {
         DecimalFormat decimalFormat = new DecimalFormat(".00");
-        String MB = decimalFormat.format((float) B / 1024 / 1024);
+        String MB = decimalFormat.format((float) b / 1024 / 1024);
         return Float.valueOf(MB);
     }
 }
