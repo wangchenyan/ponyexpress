@@ -2,7 +2,7 @@ package me.wcy.express.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.text.TextUtils;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -10,13 +10,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import me.wcy.express.R;
-import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.utils.Utils;
 
 /**
@@ -24,12 +20,14 @@ import me.wcy.express.utils.Utils;
  * Created by hzwangchenyan on 2015/12/31.
  */
 public class IndexBar extends LinearLayout implements View.OnTouchListener {
-    private static final String[] INDEXES = new String[]{"#", "A", "B", "C", "D", "E", "F", "G",
-            "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-    private ListView lvData;
-    private TextView tvIndicator;
-    private List<CompanyEntity> mCompanyList;
-    private int mHeight;
+    private static final String[] INDEXES = new String[]{"#", "A", "B", "C", "D", "E", "F", "G", "H",
+            "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    private static final int TOUCHED_BACKGROUND_COLOR = 0x40000000;
+    private OnIndexChangedListener mListener;
+
+    public void setOnIndexChangedListener(OnIndexChangedListener listener) {
+        mListener = listener;
+    }
 
     public IndexBar(Context context) {
         this(context, null);
@@ -64,75 +62,42 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
         }
     }
 
-    public void setData(List<CompanyEntity> companyList, ListView lvData, TextView tvIndicator) {
-        this.mCompanyList = companyList;
-        this.lvData = lvData;
-        this.tvIndicator = tvIndicator;
-    }
-
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int y;
-        int i;
-        int position;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                setBackgroundColor(0x40000000);
-                tvIndicator.setVisibility(View.VISIBLE);
-                y = (int) event.getY();
-                mHeight = v.getHeight();
-                i = INDEXES.length * y / mHeight;
-                if (i < 0) {// 防止数组越界
-                    i = 0;
-                } else if (i >= INDEXES.length) {
-                    i = INDEXES.length - 1;
-                }
-                position = getIndex(INDEXES[i]);
-                tvIndicator.setText(INDEXES[i]);
-                if (position != -1) {
-                    lvData.setSelection(position);
-                }
-                break;
+                setBackgroundColor(TOUCHED_BACKGROUND_COLOR);
+                handle(v, event);
+                return true;
             case MotionEvent.ACTION_MOVE:
-                y = (int) event.getY();
-                i = INDEXES.length * y / mHeight;
-                if (i < 0) {
-                    i = 0;
-                } else if (i >= INDEXES.length) {
-                    i = INDEXES.length - 1;
-                }
-                position = getIndex(INDEXES[i]);
-                tvIndicator.setText(INDEXES[i]);
-                if (position != -1) {
-                    lvData.setSelection(position);
-                }
-                break;
+                handle(v, event);
+                return true;
             case MotionEvent.ACTION_UP:
-                setBackgroundColor(0x00000000);
-                tvIndicator.setVisibility(View.GONE);
-                y = (int) event.getY();
-                i = INDEXES.length * y / mHeight;
-                if (i < 0) {
-                    i = 0;
-                } else if (i >= INDEXES.length) {
-                    i = INDEXES.length - 1;
-                }
-                position = getIndex(INDEXES[i]);
-                tvIndicator.setText(INDEXES[i]);
-                if (position != -1) {
-                    lvData.setSelection(position);
-                }
-                break;
+                setBackgroundColor(Color.TRANSPARENT);
+                handle(v, event);
+                return true;
         }
-        return true;
+        return super.onTouchEvent(event);
     }
 
-    private int getIndex(String index) {
-        for (int i = 0; i < mCompanyList.size(); i++) {
-            if (TextUtils.equals(mCompanyList.get(i).getName(), index)) {
-                return i;
-            }
+    private void handle(View v, MotionEvent event) {
+        int y = (int) event.getY();
+        int height = v.getHeight();
+        int position = INDEXES.length * y / height;
+        if (position < 0) {
+            position = 0;
+        } else if (position >= INDEXES.length) {
+            position = INDEXES.length - 1;
         }
-        return -1;
+
+        String index = INDEXES[position];
+        boolean show = event.getAction() != MotionEvent.ACTION_UP;
+        if (mListener != null) {
+            mListener.onIndexChanged(index, show);
+        }
+    }
+
+    public interface OnIndexChangedListener {
+        void onIndexChanged(String index, boolean showIndicator);
     }
 }

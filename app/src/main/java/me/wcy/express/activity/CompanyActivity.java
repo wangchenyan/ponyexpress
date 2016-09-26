@@ -2,6 +2,7 @@ package me.wcy.express.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,7 +27,7 @@ import me.wcy.express.model.SearchInfo;
 import me.wcy.express.utils.Extras;
 import me.wcy.express.widget.IndexBar;
 
-public class CompanyActivity extends BaseActivity implements OnItemClickListener {
+public class CompanyActivity extends BaseActivity implements OnItemClickListener, IndexBar.OnIndexChangedListener {
     @Bind(R.id.lv_company)
     ListView lvCompany;
     @Bind(R.id.ib_indicator)
@@ -42,12 +43,12 @@ public class CompanyActivity extends BaseActivity implements OnItemClickListener
 
         readCompany();
         lvCompany.setAdapter(new CompanyAdapter(mCompanyList));
-        ibIndicator.setData(mCompanyList, lvCompany, tvIndicator);
     }
 
     @Override
     protected void setListener() {
         lvCompany.setOnItemClickListener(this);
+        ibIndicator.setOnIndexChangedListener(this);
     }
 
     private void readCompany() {
@@ -81,5 +82,21 @@ public class CompanyActivity extends BaseActivity implements OnItemClickListener
         intent.putExtra(Extras.SEARCH_INFO, searchInfo);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void onIndexChanged(String index, boolean showIndicator) {
+        int position = -1;
+        for (CompanyEntity company : mCompanyList) {
+            if (TextUtils.equals(company.getName(), index)) {
+                position = mCompanyList.indexOf(company);
+                break;
+            }
+        }
+        if (position != -1) {
+            lvCompany.setSelection(position);
+        }
+        tvIndicator.setText(index);
+        tvIndicator.setVisibility(showIndicator ? View.VISIBLE : View.GONE);
     }
 }
