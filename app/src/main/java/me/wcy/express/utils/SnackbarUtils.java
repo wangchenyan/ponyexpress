@@ -10,11 +10,13 @@ import android.view.View;
 public class SnackbarUtils {
 
     public static void show(Activity activity, int resId) {
-        Snackbar.make(activity.getWindow().getDecorView().findViewById(android.R.id.content), resId, Snackbar.LENGTH_SHORT).show();
+        View view = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        Snackbar.make(view, resId, Snackbar.LENGTH_SHORT).show();
     }
 
     public static void show(Activity activity, CharSequence text) {
-        Snackbar.make(activity.getWindow().getDecorView().findViewById(android.R.id.content), text, Snackbar.LENGTH_SHORT).show();
+        View view = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+        Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show();
     }
 
     public static void show(View view, int resId) {
