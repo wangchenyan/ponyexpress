@@ -91,9 +91,9 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
         }
 
         String index = INDEXES[position];
-        boolean show = event.getAction() != MotionEvent.ACTION_UP;
+        boolean showIndicator = event.getAction() != MotionEvent.ACTION_UP;
         if (mListener != null) {
-            mListener.onIndexChanged(index, show);
+            mListener.onIndexChanged(index, showIndicator);
         }
     }
 
