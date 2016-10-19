@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.zxing.WriterException;
@@ -27,12 +28,10 @@ import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.Utils;
-import me.wcy.express.widget.ClearableEditText;
 
-@SuppressLint("SimpleDateFormat")
 public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
     @Bind(R.id.et_text)
-    ClearableEditText etText;
+    EditText etText;
     @Bind(R.id.btn_create)
     Button btnCreate;
     @Bind(R.id.iv_qr_code)
@@ -99,6 +98,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
             SnackbarUtils.show(this, R.string.qrcode_no_sdcard);
             return;
         }
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String fileName = getString(R.string.qrcode_file_name, sdf.format(new Date(System.currentTimeMillis())));
         File file = new File(Utils.getPictureDir() + fileName);
