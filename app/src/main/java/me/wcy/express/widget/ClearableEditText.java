@@ -56,7 +56,8 @@ public class ClearableEditText extends AppCompatEditText {
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
                 Drawable drawable = getCompoundDrawables()[DRAWABLE_RIGHT];
-                if (drawable != null && event.getRawX() >= (getRight() - getPaddingRight() - drawable.getBounds().width())) {
+                if (drawable != null && event.getRawX() <= (getRight() - getPaddingRight())
+                        && event.getRawX() >= (getRight() - getPaddingRight() - drawable.getBounds().width())) {
                     setText("");
                 }
                 break;
