@@ -4,4 +4,14 @@
         <attr name="indexTextSize" format="dimension" />
         <attr name="indexTextColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="riv_corner_radius" format="dimension" />
+        <attr name="riv_corner_radius_top_left" format="dimension" />
+        <attr name="riv_corner_radius_top_right" format="dimension" />
+        <attr name="riv_corner_radius_bottom_right" format="dimension" />
+        <attr name="riv_corner_radius_bottom_left" format="dimension" />
+        <attr name="riv_border_width" format="dimension" />
+        <attr name="riv_border_color" format="color" />
+    </declare-styleable>
 </resources>

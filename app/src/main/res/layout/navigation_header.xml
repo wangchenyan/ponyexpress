@@ -9,7 +9,7 @@
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <me.wcy.express.widget.RoundImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_144"

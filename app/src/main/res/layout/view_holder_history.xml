@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="5dp">
 
-    <com.makeramen.roundedimageview.RoundedImageView
+    <me.wcy.express.widget.RoundImageView
         android:id="@+id/iv_logo"
         android:layout_width="@dimen/company_logo_length"
         android:layout_height="@dimen/company_logo_length"
