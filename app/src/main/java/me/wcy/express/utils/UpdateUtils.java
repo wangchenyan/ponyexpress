@@ -17,7 +17,7 @@ import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
 import me.wcy.express.BuildConfig;
 import me.wcy.express.activity.AboutActivity;
-import me.wcy.express.api.ApiKey;
+import me.wcy.express.api.Key;
 import me.wcy.express.model.UpdateInfo;
 
 /**
@@ -27,8 +27,7 @@ public class UpdateUtils {
     public static long sDownloadId = 0;
 
     public static void checkUpdate(final Activity activity) {
-        // FIR_KEY是检查更新需要的key，可直接用""代替
-        FIR.checkForUpdateInFIR(ApiKey.FIR_KEY, new VersionCheckCallback() {
+        FIR.checkForUpdateInFIR(Key.get(activity, Key.FIR_KEY), new VersionCheckCallback() {
             @Override
             public void onStart() {
                 if (activity instanceof AboutActivity) {

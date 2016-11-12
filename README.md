@@ -4,8 +4,6 @@
 ## 前言
 这是我第一个独立完成的项目，时隔多年又把它拿出来重构了一下代码。
 
-**注意：fir的key我没有提交，可直接忽略。**
-
 * **开源不易，希望能给个Star鼓励**
 * 项目地址：https://github.com/ChanWong21/PonyExpress
 * 有问题请提Issues
