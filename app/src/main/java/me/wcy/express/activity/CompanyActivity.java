@@ -19,21 +19,21 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.CompanyAdapter;
+import me.wcy.express.constants.Extras;
 import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.model.SearchInfo;
-import me.wcy.express.utils.Extras;
+import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.widget.IndexBar;
 
 public class CompanyActivity extends BaseActivity implements OnItemClickListener, IndexBar.OnIndexChangedListener {
     @Bind(R.id.lv_company)
-    ListView lvCompany;
+    private ListView lvCompany;
     @Bind(R.id.ib_indicator)
-    IndexBar ibIndicator;
+    private IndexBar ibIndicator;
     @Bind(R.id.tv_indicator)
-    TextView tvIndicator;
+    private TextView tvIndicator;
     private List<CompanyEntity> mCompanyList = new ArrayList<>();
 
     @Override

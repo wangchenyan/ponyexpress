@@ -12,10 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import me.wcy.express.R;
 import me.wcy.express.model.SearchResult;
+import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.utils.binding.ViewBinder;
 
 /**
  * @author wcy
@@ -68,7 +68,7 @@ public class ResultAdapter extends BaseAdapter {
         public ImageView ivLogistics;
 
         public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            ViewBinder.bind(this, view);
         }
     }
 }

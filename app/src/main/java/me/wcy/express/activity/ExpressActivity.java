@@ -21,8 +21,6 @@ import com.google.zxing.activity.CaptureActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import me.wcy.express.R;
 import me.wcy.express.adapter.HistoryAdapter;
 import me.wcy.express.database.History;
@@ -30,23 +28,25 @@ import me.wcy.express.model.SearchInfo;
 import me.wcy.express.utils.DataManager;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.UpdateUtils;
+import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.utils.binding.ViewBinder;
 
 public class ExpressActivity extends AppCompatActivity implements OnClickListener, OnItemClickListener,
         NavigationView.OnNavigationItemSelectedListener {
     @Bind(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
+    private DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
-    NavigationView navigationView;
+    private NavigationView navigationView;
     @Bind(R.id.tv_search)
-    TextView tvSearch;
+    private TextView tvSearch;
     @Bind(R.id.tv_post)
-    TextView tvPost;
+    private TextView tvPost;
     @Bind(R.id.tv_sweep)
-    TextView tvSweep;
+    private TextView tvSweep;
     @Bind(R.id.lv_un_check)
-    ListView lvUnCheck;
+    private ListView lvUnCheck;
     @Bind(R.id.tv_empty)
-    TextView tvEmpty;
+    private TextView tvEmpty;
     private List<History> mUnCheckList = new ArrayList<>();
     private HistoryAdapter mAdapter = new HistoryAdapter(mUnCheckList);
     private long mExitTime = 0;
@@ -55,7 +55,7 @@ public class ExpressActivity extends AppCompatActivity implements OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_express);
-        ButterKnife.bind(this);
+        ViewBinder.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

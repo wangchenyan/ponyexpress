@@ -13,18 +13,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.HistoryAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.utils.DataManager;
+import me.wcy.express.utils.binding.Bind;
 
 public class HistoryActivity extends BaseActivity implements OnItemClickListener, OnItemLongClickListener {
     @Bind(R.id.lv_history_list)
-    ListView lvHistoryList;
+    private ListView lvHistoryList;
     @Bind(R.id.tv_empty)
-    TextView tvEmpty;
+    private TextView tvEmpty;
     private List<History> mHistoryList = new ArrayList<>();
     private HistoryAdapter mAdapter = new HistoryAdapter(mHistoryList);
 

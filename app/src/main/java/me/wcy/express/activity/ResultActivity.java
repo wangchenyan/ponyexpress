@@ -24,43 +24,43 @@ import com.bumptech.glide.Glide;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.ResultAdapter;
 import me.wcy.express.application.ExpressApplication;
+import me.wcy.express.constants.Constants;
+import me.wcy.express.constants.Extras;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.model.SearchResult;
 import me.wcy.express.request.GsonRequest;
-import me.wcy.express.utils.Constants;
 import me.wcy.express.utils.DataManager;
-import me.wcy.express.utils.Extras;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.Utils;
+import me.wcy.express.utils.binding.Bind;
 
 public class ResultActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "ResultActivity";
     @Bind(R.id.iv_logo)
-    ImageView ivLogo;
+    private ImageView ivLogo;
     @Bind(R.id.tv_post_id)
-    TextView tvPostId;
+    private TextView tvPostId;
     @Bind(R.id.tv_name)
-    TextView tvName;
+    private TextView tvName;
     @Bind(R.id.ll_result)
-    LinearLayout llResult;
+    private LinearLayout llResult;
     @Bind(R.id.lv_result_list)
-    ListView lvResultList;
+    private ListView lvResultList;
     @Bind(R.id.btn_remark)
-    Button btnRemark;
+    private Button btnRemark;
     @Bind(R.id.ll_no_exist)
-    LinearLayout llNoExist;
+    private LinearLayout llNoExist;
     @Bind(R.id.btn_save)
-    Button btnSave;
+    private Button btnSave;
     @Bind(R.id.ll_error)
-    LinearLayout llError;
+    private LinearLayout llError;
     @Bind(R.id.btn_retry)
-    Button btnRetry;
+    private Button btnRetry;
     @Bind(R.id.tv_searching)
-    TextView tvSearching;
+    private TextView tvSearching;
     private SearchInfo mSearchInfo;
 
     public static void start(Context context, SearchInfo searchInfo) {

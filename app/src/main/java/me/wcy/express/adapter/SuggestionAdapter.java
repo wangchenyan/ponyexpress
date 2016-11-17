@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import me.wcy.express.R;
 import me.wcy.express.model.CompanyEntity;
+import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.utils.binding.ViewBinder;
 
 /**
  * Created by wcy on 2016/6/28.
@@ -58,7 +58,7 @@ public class SuggestionAdapter extends BaseAdapter {
         public TextView tvSuggestion;
 
         public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            ViewBinder.bind(this, view);
         }
     }
 }

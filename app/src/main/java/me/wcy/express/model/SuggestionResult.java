@@ -1,13 +1,18 @@
 package me.wcy.express.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
  * Created by wcy on 2016/6/27.
  */
 public class SuggestionResult {
+    @SerializedName("comCode")
     private String comCode;
+    @SerializedName("num")
     private String num;
+    @SerializedName("auto")
     private List<AutoBean> auto;
 
     public String getComCode() {
@@ -35,10 +40,15 @@ public class SuggestionResult {
     }
 
     public static class AutoBean {
+        @SerializedName("comCode")
         private String comCode;
+        @SerializedName("id")
         private String id;
+        @SerializedName("noCount")
         private int noCount;
+        @SerializedName("noPre")
         private String noPre;
+        @SerializedName("startTime")
         private String startTime;
 
         public String getComCode() {

@@ -24,18 +24,18 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.Utils;
+import me.wcy.express.utils.binding.Bind;
 
 public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
     @Bind(R.id.et_text)
-    EditText etText;
+    private EditText etText;
     @Bind(R.id.btn_create)
-    Button btnCreate;
+    private Button btnCreate;
     @Bind(R.id.iv_qr_code)
-    ImageView ivQRCode;
+    private ImageView ivQRCode;
     private Bitmap mBitmap;
 
     @Override

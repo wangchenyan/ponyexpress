@@ -28,28 +28,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
 import me.wcy.express.R;
 import me.wcy.express.adapter.SuggestionAdapter;
 import me.wcy.express.application.ExpressApplication;
+import me.wcy.express.constants.Constants;
+import me.wcy.express.constants.Extras;
+import me.wcy.express.constants.RequestCode;
 import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.model.SuggestionResult;
 import me.wcy.express.request.GsonRequest;
-import me.wcy.express.utils.Constants;
-import me.wcy.express.utils.Extras;
-import me.wcy.express.utils.RequestCode;
+import me.wcy.express.utils.binding.Bind;
 
 public class SearchActivity extends BaseActivity implements TextWatcher, View.OnClickListener,
         AdapterView.OnItemClickListener {
     @Bind(R.id.et_post_id)
-    EditText etPostId;
+    private EditText etPostId;
     @Bind(R.id.iv_scan)
-    ImageView ivScan;
+    private ImageView ivScan;
     @Bind(R.id.iv_clear)
-    ImageView ivClear;
+    private ImageView ivClear;
     @Bind(R.id.lv_suggestion)
-    ListView lvSuggestion;
+    private ListView lvSuggestion;
     private Map<String, CompanyEntity> mCompanyMap = new HashMap<>();
     private List<CompanyEntity> mSuggestionList = new ArrayList<>();
     private SuggestionAdapter mSuggestionAdapter = new SuggestionAdapter(mSuggestionList);

@@ -1,4 +1,4 @@
-package me.wcy.express.utils;
+package me.wcy.express.constants;
 
 /**
  * Created by wcy on 2016/6/28.

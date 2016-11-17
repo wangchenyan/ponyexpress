@@ -3,19 +3,27 @@
  */
 package me.wcy.express.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
  * @author wcy
  */
 public class SearchResult implements Serializable {
+    @SerializedName("status")
     private String status;
+    @SerializedName("message")
     private String message;
     // 快递单号
+    @SerializedName("nu")
     private String nu;
     // 请求参数
+    @SerializedName("com")
     private String com;
+    @SerializedName("ischeck")
     private String ischeck;
+    @SerializedName("data")
     private ResultItem data[];
 
     public String getStatus() {
@@ -67,7 +75,9 @@ public class SearchResult implements Serializable {
     }
 
     public static class ResultItem implements Serializable {
+        @SerializedName("time")
         private String time;
+        @SerializedName("context")
         private String context;
 
         public String getTime() {

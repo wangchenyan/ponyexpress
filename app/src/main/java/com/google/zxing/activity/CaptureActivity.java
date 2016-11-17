@@ -47,11 +47,11 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import me.wcy.express.R;
-import me.wcy.express.utils.Extras;
+import me.wcy.express.constants.Extras;
 import me.wcy.express.utils.SnackbarUtils;
+import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.utils.binding.ViewBinder;
 
 /**
  * Initial the camera
@@ -72,11 +72,11 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     @Bind(R.id.iv_back)
-    ImageView ivBack;
+    private ImageView ivBack;
     @Bind(R.id.iv_flashlight)
-    ImageView ivFlashlight;
+    private ImageView ivFlashlight;
     @Bind(R.id.iv_album)
-    ImageView ivAlbum;
+    private ImageView ivAlbum;
     public static boolean onlyOneD;
 
     public static void start(Activity activity, boolean onlyOneD, int requestCode) {
@@ -97,7 +97,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
 
-        ButterKnife.bind(this);
+        ViewBinder.bind(this);
         ivBack.setOnClickListener(this);
         ivFlashlight.setOnClickListener(this);
         ivAlbum.setOnClickListener(this);

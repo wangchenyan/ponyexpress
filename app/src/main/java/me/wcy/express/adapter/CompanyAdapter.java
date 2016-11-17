@@ -16,11 +16,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import me.wcy.express.R;
 import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.utils.Utils;
+import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.utils.binding.ViewBinder;
 
 /**
  * @author wcy
@@ -108,7 +108,7 @@ public class CompanyAdapter extends BaseAdapter {
         public TextView tvIndex;
 
         public IndexViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            ViewBinder.bind(this, view);
         }
     }
 
@@ -119,7 +119,7 @@ public class CompanyAdapter extends BaseAdapter {
         public TextView tvName;
 
         public CompanyViewHolder(View view) {
-            ButterKnife.bind(this, view);
+            ViewBinder.bind(this, view);
         }
     }
 }

@@ -1,11 +1,16 @@
 package me.wcy.express.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by wcy on 2016/6/27.
  */
 public class CompanyEntity {
+    @SerializedName("name")
     private String name;
+    @SerializedName("code")
     private String code;
+    @SerializedName("logo")
     private String logo;
 
     public String getName() {

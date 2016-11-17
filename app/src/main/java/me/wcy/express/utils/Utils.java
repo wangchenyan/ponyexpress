@@ -10,6 +10,7 @@ import android.os.Environment;
 
 import java.io.File;
 
+import me.wcy.express.constants.Constants;
 import me.wcy.express.model.SearchInfo;
 
 /**

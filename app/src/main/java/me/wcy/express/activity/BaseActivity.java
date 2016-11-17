@@ -10,8 +10,8 @@ import android.view.View;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-import butterknife.ButterKnife;
 import me.wcy.express.R;
+import me.wcy.express.utils.binding.ViewBinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected Handler mHandler;
@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(View view) {
         super.setContentView(view);
-        ButterKnife.bind(this);
+        ViewBinder.bind(this);
     }
 
     @Override
