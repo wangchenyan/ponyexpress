@@ -1,12 +1,12 @@
 package me.wcy.express.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +30,10 @@ import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.UpdateUtils;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.binding.ViewBinder;
+import me.wcy.express.utils.permission.PermissionReq;
+import me.wcy.express.utils.permission.PermissionResult;
 
-public class ExpressActivity extends AppCompatActivity implements OnClickListener, OnItemClickListener,
+public class ExpressActivity extends PermissionActivity implements OnClickListener, OnItemClickListener,
         NavigationView.OnNavigationItemSelectedListener {
     @Bind(R.id.drawer_layout)
     private DrawerLayout drawerLayout;
@@ -99,11 +101,28 @@ public class ExpressActivity extends AppCompatActivity implements OnClickListene
                 SnackbarUtils.show(this, "敬请期待");
                 break;
             case R.id.tv_sweep:
-                CaptureActivity.start(this, false, 0);
+                startSweepActivity();
                 break;
             default:
                 break;
         }
+    }
+
+    private void startSweepActivity() {
+        PermissionReq.with(this)
+                .permissions(Manifest.permission.CAMERA)
+                .result(new PermissionResult() {
+                    @Override
+                    public void onGranted() {
+                        CaptureActivity.start(ExpressActivity.this, false, 0);
+                    }
+
+                    @Override
+                    public void onDenied() {
+
+                    }
+                })
+                .request();
     }
 
     @Override
