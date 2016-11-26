@@ -1,6 +1,5 @@
 package me.wcy.express.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +31,7 @@ import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.binding.ViewBinder;
 import me.wcy.express.utils.permission.PermissionReq;
 import me.wcy.express.utils.permission.PermissionResult;
+import me.wcy.express.utils.permission.Permissions;
 
 public class ExpressActivity extends PermissionActivity implements OnClickListener, OnItemClickListener,
         NavigationView.OnNavigationItemSelectedListener {
@@ -110,7 +110,7 @@ public class ExpressActivity extends PermissionActivity implements OnClickListen
 
     private void startCaptureActivity() {
         PermissionReq.with(this)
-                .permissions(Manifest.permission.CAMERA)
+                .permissions(Permissions.CAMERA)
                 .result(new PermissionResult() {
                     @Override
                     public void onGranted() {
@@ -119,7 +119,7 @@ public class ExpressActivity extends PermissionActivity implements OnClickListen
 
                     @Override
                     public void onDenied() {
-                        SnackbarUtils.show(ExpressActivity.this, getString(R.string.no_permission, "相机", "打开扫一扫"));
+                        SnackbarUtils.show(ExpressActivity.this, getString(R.string.no_permission, Permissions.CAMERA_DESC, "打开扫一扫"));
                     }
                 })
                 .request();

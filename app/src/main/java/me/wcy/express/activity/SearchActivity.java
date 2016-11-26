@@ -1,6 +1,5 @@
 package me.wcy.express.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -43,6 +42,7 @@ import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.permission.PermissionReq;
 import me.wcy.express.utils.permission.PermissionResult;
+import me.wcy.express.utils.permission.Permissions;
 
 public class SearchActivity extends BaseActivity implements TextWatcher, View.OnClickListener,
         AdapterView.OnItemClickListener {
@@ -191,7 +191,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
 
     private void startCaptureActivity() {
         PermissionReq.with(this)
-                .permissions(Manifest.permission.CAMERA)
+                .permissions(Permissions.CAMERA)
                 .result(new PermissionResult() {
                     @Override
                     public void onGranted() {
@@ -200,7 +200,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
 
                     @Override
                     public void onDenied() {
-                        SnackbarUtils.show(SearchActivity.this, getString(R.string.no_permission, "相机", "扫描单号"));
+                        SnackbarUtils.show(SearchActivity.this, getString(R.string.no_permission, Permissions.CAMERA_DESC, "扫描单号"));
                     }
                 })
                 .request();
