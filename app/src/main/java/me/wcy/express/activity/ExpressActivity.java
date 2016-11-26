@@ -101,14 +101,14 @@ public class ExpressActivity extends PermissionActivity implements OnClickListen
                 SnackbarUtils.show(this, "敬请期待");
                 break;
             case R.id.tv_sweep:
-                startSweepActivity();
+                startCaptureActivity();
                 break;
             default:
                 break;
         }
     }
 
-    private void startSweepActivity() {
+    private void startCaptureActivity() {
         PermissionReq.with(this)
                 .permissions(Manifest.permission.CAMERA)
                 .result(new PermissionResult() {
@@ -119,7 +119,7 @@ public class ExpressActivity extends PermissionActivity implements OnClickListen
 
                     @Override
                     public void onDenied() {
-
+                        SnackbarUtils.show(ExpressActivity.this, getString(R.string.no_permission, "相机", "打开扫一扫"));
                     }
                 })
                 .request();

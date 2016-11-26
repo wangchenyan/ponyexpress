@@ -1,5 +1,6 @@
 package me.wcy.express.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -38,7 +39,10 @@ import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.model.SuggestionResult;
 import me.wcy.express.request.GsonRequest;
+import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.utils.permission.PermissionReq;
+import me.wcy.express.utils.permission.PermissionResult;
 
 public class SearchActivity extends BaseActivity implements TextWatcher, View.OnClickListener,
         AdapterView.OnItemClickListener {
@@ -177,12 +181,29 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_scan:
-                CaptureActivity.start(this, true, RequestCode.REQUEST_CAPTURE);
+                startCaptureActivity();
                 break;
             case R.id.iv_clear:
                 etPostId.setText("");
                 break;
         }
+    }
+
+    private void startCaptureActivity() {
+        PermissionReq.with(this)
+                .permissions(Manifest.permission.CAMERA)
+                .result(new PermissionResult() {
+                    @Override
+                    public void onGranted() {
+                        CaptureActivity.start(SearchActivity.this, true, RequestCode.REQUEST_CAPTURE);
+                    }
+
+                    @Override
+                    public void onDenied() {
+                        SnackbarUtils.show(SearchActivity.this, getString(R.string.no_permission, "相机", "扫描单号"));
+                    }
+                })
+                .request();
     }
 
     @Override

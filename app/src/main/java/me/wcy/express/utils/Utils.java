@@ -71,4 +71,8 @@ public class Utils {
         }
         return pictureDir;
     }
+
+    public static boolean hasSDCard() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
 }

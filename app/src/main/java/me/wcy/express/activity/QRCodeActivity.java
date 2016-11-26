@@ -1,12 +1,11 @@
 package me.wcy.express.activity;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,11 +22,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import me.wcy.express.R;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.Utils;
 import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.utils.permission.PermissionReq;
+import me.wcy.express.utils.permission.PermissionResult;
 
 public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
     @Bind(R.id.et_text)
@@ -83,7 +85,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                saveQRCode();
+                                check();
                             }
                         }
                 ).
@@ -91,15 +93,31 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
                 .show();
     }
 
-    private void saveQRCode() {
-        String state = Environment.getExternalStorageState();
-        if (!Environment.MEDIA_MOUNTED.equals(state)) {
-            // SD卡不可用
+    private void check() {
+        if (!Utils.hasSDCard()) {
             SnackbarUtils.show(this, R.string.qrcode_no_sdcard);
             return;
         }
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+
+        PermissionReq.with(this)
+                .permissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .result(new PermissionResult() {
+                    @Override
+                    public void onGranted() {
+                        save();
+                    }
+
+                    @Override
+                    public void onDenied() {
+                        SnackbarUtils.show(QRCodeActivity.this, getString(R.string.no_permission, "读写手机存储", "保存二维码图片"));
+                    }
+                })
+                .request();
+    }
+
+    private void save() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
         String fileName = getString(R.string.qrcode_file_name, sdf.format(new Date(System.currentTimeMillis())));
         File file = new File(Utils.getPictureDir() + fileName);
         try {
