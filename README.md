@@ -1,11 +1,11 @@
 # 小马快递
-![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/app/src/main/res/drawable-xxhdpi/ic_launcher.png)
+![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/app/src/main/res/drawable-xxhdpi/ic_launcher.png)
 
 ## 前言
 这是我第一个独立完成的项目，时隔多年又把它拿出来重构了一下代码。
 
 * **开源不易，希望能给个Star鼓励**
-* 项目地址：https://github.com/ChanWong21/PonyExpress
+* 项目地址：https://github.com/wangchenyan/PonyExpress
 * 有问题请提Issues
 
 ## 简介
@@ -110,11 +110,11 @@ public class GsonRequest<T> extends Request<T> {
 ```
 
 ## 截图
-![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_01.jpg)
-![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_02.jpg)
-![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_03.jpg)
-![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_04.jpg)
-![](https://raw.githubusercontent.com/ChanWong21/PonyExpress/master/art/screenshot_05.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_01.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_02.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_03.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_04.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_05.jpg)
 
 ## 关于作者
 简书：http://www.jianshu.com/users/3231579893ac<br>
