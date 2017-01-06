@@ -1,6 +1,7 @@
 package com.google.zxing.encoding;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -14,8 +15,6 @@ import java.util.Hashtable;
  * @author Ryan Tang
  */
 public final class EncodingHandler {
-    private static final int BLACK = 0xff000000;
-    private static final int WHITE = 0xffffffff;
 
     /**
      * 根据字符串生成二维码图片
@@ -33,9 +32,9 @@ public final class EncodingHandler {
         for (int y = 0; y < length; y++) {
             for (int x = 0; x < length; x++) {
                 if (matrix.get(x, y)) {
-                    pixels[y * length + x] = BLACK;
+                    pixels[y * length + x] = Color.BLACK;
                 } else {
-                    pixels[y * length + x] = WHITE;
+                    pixels[y * length + x] = Color.WHITE;
                 }
             }
         }

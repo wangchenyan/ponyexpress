@@ -52,7 +52,7 @@ public final class CameraManager {
         SDK_INT = sdkInt;
     }
 
-    private final Context context;
+    private final CaptureActivity activity;
     private final CameraConfigurationManager configManager;
     private Camera camera;
     private Rect framingRect;
@@ -75,11 +75,11 @@ public final class CameraManager {
     /**
      * Initializes this static object with the Context of the calling Activity.
      *
-     * @param context The Activity which wants to use the camera.
+     * @param activity The Activity which wants to use the camera.
      */
-    public static void init(Context context) {
+    public static void init(CaptureActivity activity) {
         if (cameraManager == null) {
-            cameraManager = new CameraManager(context);
+            cameraManager = new CameraManager(activity);
         }
     }
 
@@ -92,9 +92,9 @@ public final class CameraManager {
         return cameraManager;
     }
 
-    private CameraManager(Context context) {
-        this.context = context;
-        this.configManager = new CameraConfigurationManager(context);
+    private CameraManager(CaptureActivity activity) {
+        this.activity = activity;
+        this.configManager = new CameraConfigurationManager(activity);
 
         // Camera.setOneShotPreviewCallback() has a race condition in Cupcake,
         // so we use the older
@@ -230,7 +230,7 @@ public final class CameraManager {
                 return null;
             }
             int width = screenResolution.x * 3 / 4;
-            int height = CaptureActivity.onlyOneD ? screenResolution.y / 4 : width;
+            int height = activity.isOnlyOneD() ? screenResolution.y / 4 : width;
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
@@ -243,7 +243,7 @@ public final class CameraManager {
      * Like {@link #getFramingRect} but coordinates are in terms of the preview
      * frame, not UI / screen.
      */
-    public Rect getFramingRectInPreview() {
+    private Rect getFramingRectInPreview() {
         if (framingRectInPreview == null) {
             Rect rect = new Rect(getFramingRect());
             Point cameraResolution = configManager.getCameraResolution();
@@ -319,7 +319,7 @@ public final class CameraManager {
     }
 
     public Context getContext() {
-        return context;
+        return activity;
     }
 
     /**
@@ -344,7 +344,7 @@ public final class CameraManager {
         return false;
     }
 
-    public void release() {
+    public static void release() {
         cameraManager = null;
     }
 }

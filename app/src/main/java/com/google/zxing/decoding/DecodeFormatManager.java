@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
-public final class DecodeFormatManager {
+final class DecodeFormatManager {
     private static final Pattern COMMA_PATTERN = Pattern.compile(",");
     static final Vector<BarcodeFormat> PRODUCT_FORMATS;
     static final Vector<BarcodeFormat> ONE_D_FORMATS;
@@ -55,7 +55,7 @@ public final class DecodeFormatManager {
     private DecodeFormatManager() {
     }
 
-    public static Vector<BarcodeFormat> parseDecodeFormats(Intent intent) {
+    static Vector<BarcodeFormat> parseDecodeFormats(Intent intent) {
         List<String> scanFormats = null;
         String scanFormatsString = intent.getStringExtra(Intents.Scan.SCAN_FORMATS);
         if (scanFormatsString != null) {
@@ -64,7 +64,7 @@ public final class DecodeFormatManager {
         return parseDecodeFormats(scanFormats, intent.getStringExtra(Intents.Scan.MODE));
     }
 
-    public static Vector<BarcodeFormat> parseDecodeFormats(Uri inputUri) {
+    static Vector<BarcodeFormat> parseDecodeFormats(Uri inputUri) {
         List<String> formats = inputUri.getQueryParameters(Intents.Scan.SCAN_FORMATS);
         if (formats != null && formats.size() == 1 && formats.get(0) != null) {
             formats = Arrays.asList(COMMA_PATTERN.split(formats.get(0)));

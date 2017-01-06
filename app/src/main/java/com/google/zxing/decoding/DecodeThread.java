@@ -31,14 +31,14 @@ import java.util.concurrent.CountDownLatch;
 /**
  * This thread does all the heavy lifting of decoding the images. 解码线程
  */
-public final class DecodeThread extends Thread {
+final class DecodeThread extends Thread {
     public static final String BARCODE_BITMAP = "barcode_bitmap";
     private final CaptureActivity activity;
     private final Hashtable<DecodeHintType, Object> hints;
     private Handler handler;
     private final CountDownLatch handlerInitLatch;
 
-    public DecodeThread(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats, String characterSet, ResultPointCallback resultPointCallback) {
+    DecodeThread(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats, String characterSet, ResultPointCallback resultPointCallback) {
         this.activity = activity;
         handlerInitLatch = new CountDownLatch(1);
 
@@ -50,7 +50,7 @@ public final class DecodeThread extends Thread {
         if (decodeFormats == null || decodeFormats.isEmpty()) {
             decodeFormats = new Vector<>();
             decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
-            if (!CaptureActivity.onlyOneD) {
+            if (!activity.isOnlyOneD()) {
                 decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
                 decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
             }
@@ -65,7 +65,7 @@ public final class DecodeThread extends Thread {
         hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
     }
 
-    public Handler getHandler() {
+    Handler getHandler() {
         try {
             handlerInitLatch.await();
         } catch (InterruptedException ie) {

@@ -16,48 +16,48 @@
 
 package com.google.zxing.camera;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 import android.view.Display;
+import android.view.Surface;
 import android.view.WindowManager;
 
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-public final class CameraConfigurationManager {
+final class CameraConfigurationManager {
     private static final String TAG = CameraConfigurationManager.class.getSimpleName();
     private static final int TEN_DESIRED_ZOOM = 27;
     private static final int DESIRED_SHARPNESS = 30;
     private static final Pattern COMMA_PATTERN = Pattern.compile(",");
-    private final Context context;
+    private final Activity activity;
     private Point screenResolution;
     private Point cameraResolution;
     private int previewFormat;
     private String previewFormatString;
 
-    public CameraConfigurationManager(Context context) {
-        this.context = context;
+    CameraConfigurationManager(Activity activity) {
+        this.activity = activity;
     }
 
     /**
      * Reads, one time, values from the camera that are needed by the app.
      */
-    public void initFromCameraParameters(Camera camera) {
+    void initFromCameraParameters(Camera camera) {
         Camera.Parameters parameters = camera.getParameters();
         previewFormat = parameters.getPreviewFormat();
         previewFormatString = parameters.get("preview-format");
         Log.d(TAG, "Default preview format: " + previewFormat + '/' + previewFormatString);
-        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager manager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         Display display = manager.getDefaultDisplay();
         screenResolution = new Point(display.getWidth(), display.getHeight());
         Log.d(TAG, "Screen resolution: " + screenResolution);
-        // 解决图片拉伸问题
-        Point screenResolutionForCamera = new Point();
-        screenResolutionForCamera.x = screenResolution.x;
-        screenResolutionForCamera.y = screenResolution.y;
+        // fix image stretch
+        Point screenResolutionForCamera = new Point(screenResolution);
         // preview size is always something like 480*320, other 320*480
         if (screenResolution.x < screenResolution.y) {
             screenResolutionForCamera.x = screenResolution.y;
@@ -74,7 +74,7 @@ public final class CameraConfigurationManager {
      * In the future we may want to force YUV420SP as it's the smallest, and the
      * planar Y can be used for barcode scanning without a copy in some cases.
      */
-    public void setDesiredCameraParameters(Camera camera) {
+    void setDesiredCameraParameters(Camera camera) {
         Camera.Parameters parameters = camera.getParameters();
         Log.d(TAG, "Setting preview size: " + cameraResolution);
         parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
@@ -82,23 +82,25 @@ public final class CameraConfigurationManager {
         setZoom(parameters);
         // setSharpness(parameters);
         // modify here
-        camera.setDisplayOrientation(90);
+        // camera.setDisplayOrientation(90);
+        // fix Nexus 5X camera reverse
+        setCameraDisplayOrientation(activity, getBackCameraId(), camera);
         camera.setParameters(parameters);
     }
 
-    public Point getCameraResolution() {
+    Point getCameraResolution() {
         return cameraResolution;
     }
 
-    public Point getScreenResolution() {
+    Point getScreenResolution() {
         return screenResolution;
     }
 
-    public int getPreviewFormat() {
+    int getPreviewFormat() {
         return previewFormat;
     }
 
-    public String getPreviewFormatString() {
+    String getPreviewFormatString() {
         return previewFormatString;
     }
 
@@ -265,5 +267,51 @@ public final class CameraConfigurationManager {
 
     public static int getDesiredSharpness() {
         return DESIRED_SHARPNESS;
+    }
+
+    /**
+     * fix Nexus 5X camera reverse<br>
+     * see <a href="https://developer.android.com/reference/android/hardware/Camera.html#setDisplayOrientation(int)">Google Document</a>
+     */
+    private static void setCameraDisplayOrientation(Activity activity, int cameraId, Camera camera) {
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        camera.setDisplayOrientation(result);
+    }
+
+    private static int getBackCameraId() {
+        int numberOfCameras = Camera.getNumberOfCameras();
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        for (int i = 0; i < numberOfCameras; i++) {
+            Camera.getCameraInfo(i, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

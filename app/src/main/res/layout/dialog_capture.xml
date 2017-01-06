@@ -3,7 +3,6 @@
     android:id="@+id/tv_result"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:padding="@dimen/activity_horizontal_margin"
     android:textColor="@color/black"
     android:textSize="@dimen/text_size_common" />

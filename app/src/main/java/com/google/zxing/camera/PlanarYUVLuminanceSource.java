@@ -38,7 +38,7 @@ public final class PlanarYUVLuminanceSource extends LuminanceSource {
     private final int left;
     private final int top;
 
-    public PlanarYUVLuminanceSource(byte[] yuvData, int dataWidth, int dataHeight, int left, int top, int width, int height) {
+    PlanarYUVLuminanceSource(byte[] yuvData, int dataWidth, int dataHeight, int left, int top, int width, int height) {
         super(width, height);
         if (left + width > dataWidth || top + height > dataHeight) {
             throw new IllegalArgumentException("Crop rectangle does not fit within image data.");

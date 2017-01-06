@@ -23,23 +23,24 @@ import android.os.Message;
 import android.util.Log;
 
 @SuppressWarnings("deprecation")
-public final class PreviewCallback implements Camera.PreviewCallback {
+final class PreviewCallback implements Camera.PreviewCallback {
     private static final String TAG = PreviewCallback.class.getSimpleName();
     private final CameraConfigurationManager configManager;
     private final boolean useOneShotPreviewCallback;
     private Handler previewHandler;
     private int previewMessage;
 
-    public PreviewCallback(CameraConfigurationManager configManager, boolean useOneShotPreviewCallback) {
+    PreviewCallback(CameraConfigurationManager configManager, boolean useOneShotPreviewCallback) {
         this.configManager = configManager;
         this.useOneShotPreviewCallback = useOneShotPreviewCallback;
     }
 
-    public void setHandler(Handler previewHandler, int previewMessage) {
+    void setHandler(Handler previewHandler, int previewMessage) {
         this.previewHandler = previewHandler;
         this.previewMessage = previewMessage;
     }
 
+    @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
         Point cameraResolution = configManager.getCameraResolution();
         if (!useOneShotPreviewCallback) {

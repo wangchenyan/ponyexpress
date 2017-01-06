@@ -60,6 +60,7 @@ import me.wcy.express.utils.binding.ViewBinder;
  */
 @SuppressWarnings("deprecation")
 public class CaptureActivity extends AppCompatActivity implements Callback, OnClickListener {
+    private static final long VIBRATE_DURATION = 200L;
     private static final int REQUEST_ALBUM = 0;
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
@@ -77,7 +78,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     private ImageView ivFlashlight;
     @Bind(R.id.iv_album)
     private ImageView ivAlbum;
-    public static boolean onlyOneD;
+    private boolean isOnlyOneD;
 
     public static void start(Activity activity, boolean onlyOneD, int requestCode) {
         Intent intent = new Intent(activity, CaptureActivity.class);
@@ -90,9 +91,9 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture);
 
-        onlyOneD = getIntent().getBooleanExtra(Extras.ONLY_ONE_D, false);
+        isOnlyOneD = getIntent().getBooleanExtra(Extras.ONLY_ONE_D, false);
 
-        CameraManager.init(getApplicationContext());
+        CameraManager.init(this);
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
@@ -139,7 +140,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     @Override
     protected void onDestroy() {
         inactivityTimer.shutdown();
-        CameraManager.get().release();
+        CameraManager.release();
         super.onDestroy();
     }
 
@@ -219,8 +220,6 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         }
     }
 
-    private static final long VIBRATE_DURATION = 200L;
-
     private void playBeepSoundAndVibrate() {
         if (playBeep && mediaPlayer != null) {
             mediaPlayer.start();
@@ -240,6 +239,10 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
             mediaPlayer.seekTo(0);
         }
     };
+
+    public boolean isOnlyOneD() {
+        return isOnlyOneD;
+    }
 
     @Override
     public void onClick(View v) {
@@ -314,7 +317,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     }
 
     private void handleScanResult(final String result) {
-        if (onlyOneD) {
+        if (isOnlyOneD) {
             Intent intent = new Intent();
             intent.putExtra(Extras.SCAN_RESULT, result);
             setResult(RESULT_OK, intent);
