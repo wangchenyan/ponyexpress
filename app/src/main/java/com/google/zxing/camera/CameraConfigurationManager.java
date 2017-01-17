@@ -29,7 +29,7 @@ import android.view.WindowManager;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-final class CameraConfigurationManager {
+public final class CameraConfigurationManager {
     private static final String TAG = CameraConfigurationManager.class.getSimpleName();
     private static final int TEN_DESIRED_ZOOM = 27;
     private static final int DESIRED_SHARPNESS = 30;
@@ -57,12 +57,7 @@ final class CameraConfigurationManager {
         screenResolution = new Point(display.getWidth(), display.getHeight());
         Log.d(TAG, "Screen resolution: " + screenResolution);
         // fix image stretch
-        Point screenResolutionForCamera = new Point(screenResolution);
-        // preview size is always something like 480*320, other 320*480
-        if (screenResolution.x < screenResolution.y) {
-            screenResolutionForCamera.x = screenResolution.y;
-            screenResolutionForCamera.y = screenResolution.x;
-        }
+        Point screenResolutionForCamera = getScreenResolutionForCamera(screenResolution);
         cameraResolution = getCameraResolution(parameters, screenResolutionForCamera);
         Log.d(TAG, "Camera resolution: " + cameraResolution);
     }
@@ -84,7 +79,7 @@ final class CameraConfigurationManager {
         // modify here
         // camera.setDisplayOrientation(90);
         // fix Nexus 5X camera reverse
-        setCameraDisplayOrientation(activity, getBackCameraId(), camera);
+        camera.setDisplayOrientation(getDisplayOrientation(activity));
         camera.setParameters(parameters);
     }
 
@@ -269,49 +264,61 @@ final class CameraConfigurationManager {
         return DESIRED_SHARPNESS;
     }
 
+    static Point getScreenResolutionForCamera(Point screenResolution) {
+        Point point = new Point(screenResolution);
+        if (screenResolution.x < screenResolution.y) {
+            point.x = screenResolution.y;
+            point.y = screenResolution.x;
+        }
+        return point;
+    }
+
     /**
      * fix Nexus 5X camera reverse<br>
      * see <a href="https://developer.android.com/reference/android/hardware/Camera.html#setDisplayOrientation(int)">Google Document</a>
      */
-    private static void setCameraDisplayOrientation(Activity activity, int cameraId, Camera camera) {
-        Camera.CameraInfo info = new Camera.CameraInfo();
-        Camera.getCameraInfo(cameraId, info);
-        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-        int degrees = 0;
-        switch (rotation) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
-            case Surface.ROTATION_90:
-                degrees = 90;
-                break;
-            case Surface.ROTATION_180:
-                degrees = 180;
-                break;
-            case Surface.ROTATION_270:
-                degrees = 270;
-                break;
+    public static int getDisplayOrientation(Activity activity) {
+        Camera.CameraInfo info = getBackCameraInfo();
+        if (info != null) {
+            int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+            int degrees = 0;
+            switch (rotation) {
+                case Surface.ROTATION_0:
+                    degrees = 0;
+                    break;
+                case Surface.ROTATION_90:
+                    degrees = 90;
+                    break;
+                case Surface.ROTATION_180:
+                    degrees = 180;
+                    break;
+                case Surface.ROTATION_270:
+                    degrees = 270;
+                    break;
+            }
+
+            int result;
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                result = (info.orientation + degrees) % 360;
+                result = (360 - result) % 360;  // compensate the mirror
+            } else {  // back-facing
+                result = (info.orientation - degrees + 360) % 360;
+            }
+            return result;
         }
 
-        int result;
-        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            result = (info.orientation + degrees) % 360;
-            result = (360 - result) % 360;  // compensate the mirror
-        } else {  // back-facing
-            result = (info.orientation - degrees + 360) % 360;
-        }
-        camera.setDisplayOrientation(result);
+        return 90;
     }
 
-    private static int getBackCameraId() {
+    private static Camera.CameraInfo getBackCameraInfo() {
         int numberOfCameras = Camera.getNumberOfCameras();
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         for (int i = 0; i < numberOfCameras; i++) {
             Camera.getCameraInfo(i, cameraInfo);
             if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                return i;
+                return cameraInfo;
             }
         }
-        return -1;
+        return null;
     }
 }

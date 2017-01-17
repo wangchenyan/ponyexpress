@@ -28,6 +28,7 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.activity.CaptureActivity;
+import com.google.zxing.camera.CameraConfigurationManager;
 import com.google.zxing.camera.CameraManager;
 import com.google.zxing.camera.PlanarYUVLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
@@ -75,13 +76,22 @@ final class DecodeHandler extends Handler {
 
         // modify here
         byte[] rotatedData = new byte[data.length];
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++)
-                rotatedData[x * height + height - y - 1] = data[x + y * width];
+        int degree = CameraConfigurationManager.getDisplayOrientation(activity);
+        if (degree == 90 || degree == 270) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (degree == 90) {
+                        rotatedData[x * height + (height - y - 1)] = data[x + y * width];
+                    } else {
+                        rotatedData[(width - x - 1) * height + y] = data[x + y * width];
+                    }
+                }
+            }
+
+            int tmp = width; // Here we are swapping, that's the difference to #11
+            width = height;
+            height = tmp;
         }
-        int tmp = width; // Here we are swapping, that's the difference to #11
-        width = height;
-        height = tmp;
 
         PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
