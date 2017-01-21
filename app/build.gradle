@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "me.wcy.express"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        minSdkVersion 11
+        targetSdkVersion 23
+        versionCode 200
+        versionName "2.0.0"
     }
 
     signingConfigs {
@@ -39,10 +39,14 @@ android {
     }
 }
 
+ext {
+    supportVersion = "24.2.1"
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
-    compile "com.android.support:design:${rootProject.ext.supportVersion}"
+    compile "com.android.support:appcompat-v7:${supportVersion}"
+    compile "com.android.support:design:${supportVersion}"
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.google.code.gson:gson:2.6.2'

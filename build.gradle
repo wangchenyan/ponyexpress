@@ -2,9 +2,6 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'http://maven.oschina.net/content/groups/public/'
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
@@ -18,14 +15,4 @@ allprojects {
             url "http://maven.bughd.com/public"
         }
     }
-}
-
-ext {
-    compileSdkVersion = 23
-    buildToolsVersion = "23.0.3"
-    minSdkVersion = 11
-    targetSdkVersion = 23
-    versionCode = 200
-    versionName = "2.0.0"
-    supportVersion = "23.3.0"
 }
