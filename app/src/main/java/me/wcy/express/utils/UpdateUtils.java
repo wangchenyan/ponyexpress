@@ -5,26 +5,24 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.webkit.MimeTypeMap;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import java.text.DecimalFormat;
+import java.util.Locale;
 
 import im.fir.sdk.FIR;
 import im.fir.sdk.VersionCheckCallback;
 import me.wcy.express.BuildConfig;
+import me.wcy.express.R;
 import me.wcy.express.activity.AboutActivity;
 import me.wcy.express.api.Key;
 import me.wcy.express.model.UpdateInfo;
 
-/**
- * Created by wcy on 2016/4/3.
- */
 public class UpdateUtils {
-    public static long sDownloadId = 0;
 
     public static void checkUpdate(final Activity activity) {
         FIR.checkForUpdateInFIR(Key.get(activity, Key.FIR_KEY), new VersionCheckCallback() {
@@ -69,7 +67,7 @@ public class UpdateUtils {
     }
 
     private static void updateDialog(final Activity activity, final UpdateInfo updateInfo) {
-        String fileSize = B2MB(updateInfo.binary.fsize) + "MB";
+        String fileSize = b2mb(updateInfo.binary.fsize) + "MB";
         String message = "v " + updateInfo.versionShort + "(" + fileSize + ")" + "\n\n" + updateInfo.changelog;
         new AlertDialog.Builder(activity)
                 .setTitle("发现新版本")
@@ -85,22 +83,23 @@ public class UpdateUtils {
     }
 
     private static void download(Activity activity, UpdateInfo updateInfo) {
+        String fileName = String.format("PonyExpress_%s.apk", updateInfo.versionShort);
         DownloadManager downloadManager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(updateInfo.installUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri);
-        String fileName = "PonyExpress_" + updateInfo.versionShort + ".apk";
-        request.setDestinationInExternalPublicDir("Download", fileName);
+        request.setTitle(activity.getString(R.string.app_name));
+        request.setDescription("正在更新…");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
         request.setMimeType(MimeTypeMap.getFileExtensionFromUrl(updateInfo.installUrl));
         request.allowScanningByMediaScanner();
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
         request.setAllowedOverRoaming(false);// 不允许漫游
-        sDownloadId = downloadManager.enqueue(request);
+        downloadManager.enqueue(request);
         SnackbarUtils.show(activity, "正在后台下载");
     }
 
-    private static float B2MB(int B) {
-        DecimalFormat decimalFormat = new DecimalFormat(".00");
-        String MB = decimalFormat.format((float) B / 1024 / 1024);
-        return Float.valueOf(MB);
+    private static float b2mb(int b) {
+        String mb = String.format(Locale.getDefault(), "%.2f", (float) b / 1024 / 1024);
+        return Float.valueOf(mb);
     }
 }
