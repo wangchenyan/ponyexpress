@@ -19,13 +19,13 @@ import im.fir.sdk.VersionCheckCallback;
 import me.wcy.express.BuildConfig;
 import me.wcy.express.R;
 import me.wcy.express.activity.AboutActivity;
-import me.wcy.express.api.Key;
+import me.wcy.express.api.KeyStore;
 import me.wcy.express.model.UpdateInfo;
 
 public class UpdateUtils {
 
     public static void checkUpdate(final Activity activity) {
-        FIR.checkForUpdateInFIR(Key.get(activity, Key.FIR_KEY), new VersionCheckCallback() {
+        FIR.checkForUpdateInFIR(KeyStore.getKey(KeyStore.FIR_KEY), new VersionCheckCallback() {
             @Override
             public void onStart() {
                 if (activity instanceof AboutActivity) {
