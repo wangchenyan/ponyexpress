@@ -11,9 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -30,14 +27,13 @@ import java.util.Map;
 
 import me.wcy.express.R;
 import me.wcy.express.adapter.SuggestionAdapter;
-import me.wcy.express.application.ExpressApplication;
-import me.wcy.express.constants.Constants;
 import me.wcy.express.constants.Extras;
 import me.wcy.express.constants.RequestCode;
+import me.wcy.express.http.HttpCallback;
+import me.wcy.express.http.HttpClient;
 import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.model.SuggestionResult;
-import me.wcy.express.request.GsonRequest;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.permission.PermissionReq;
@@ -118,45 +114,28 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
         mSuggestionList.clear();
         mSuggestionAdapter.notifyDataSetChanged();
         if (s.length() >= 8) {
-            fetchSuggestion(s.toString());
+            getSuggestion(s.toString());
         }
     }
 
-    private void fetchSuggestion(final String postId) {
-        GsonRequest<SuggestionResult> request = new GsonRequest<SuggestionResult>(Request.Method.POST,
-                Constants.URL_COMPANY, SuggestionResult.class, new Response.Listener<SuggestionResult>() {
+    private void getSuggestion(final String postId) {
+        HttpClient.getSuggestion(postId, new HttpCallback<SuggestionResult>() {
             @Override
-            public void onResponse(SuggestionResult response) {
+            public void onResponse(SuggestionResult suggestionResult) {
                 if (!TextUtils.equals(etPostId.getText().toString(), postId)) {
                     return;
                 }
-                onSuggestion(response);
+                onSuggestion(suggestionResult);
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onError(VolleyError volleyError) {
                 if (!TextUtils.equals(etPostId.getText().toString(), postId)) {
                     return;
                 }
                 onSuggestion(null);
             }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put(Constants.PARAM_POST_ID, postId);
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put(Constants.HEADER_REFERER, Constants.REFERER);
-                return headers;
-            }
-        };
-        request.setShouldCache(false);
-        ExpressApplication.getInstance().getRequestQueue().add(request);
+        });
     }
 
     private void onSuggestion(SuggestionResult response) {
@@ -226,6 +205,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
         if (resultCode != RESULT_OK || data == null) {
             return;
         }
+
         switch (requestCode) {
             case RequestCode.REQUEST_CAPTURE:
                 // 处理扫描结果（在界面上显示）

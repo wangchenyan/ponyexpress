@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +18,7 @@ import me.wcy.express.utils.Utils;
  * 快速定位侧边栏
  * Created by hzwangchenyan on 2015/12/31.
  */
-public class IndexBar extends LinearLayout implements View.OnTouchListener {
+public class IndexBar extends LinearLayout {
     private static final String[] INDEXES = new String[]{"#", "A", "B", "C", "D", "E", "F", "G", "H",
             "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
     private static final int TOUCHED_BACKGROUND_COLOR = 0x40000000;
@@ -49,7 +48,6 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
         ta.recycle();
 
         setOrientation(VERTICAL);
-        setOnTouchListener(this);
         for (String index : INDEXES) {
             TextView text = new TextView(getContext());
             text.setText(index);
@@ -63,26 +61,27 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setBackgroundColor(TOUCHED_BACKGROUND_COLOR);
-                handle(v, event);
+                handle(event);
                 return true;
             case MotionEvent.ACTION_MOVE:
-                handle(v, event);
+                handle(event);
                 return true;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 setBackgroundColor(Color.TRANSPARENT);
-                handle(v, event);
+                handle(event);
                 return true;
         }
         return super.onTouchEvent(event);
     }
 
-    private void handle(View v, MotionEvent event) {
+    private void handle(MotionEvent event) {
         int y = (int) event.getY();
-        int height = v.getHeight();
+        int height = getHeight();
         int position = INDEXES.length * y / height;
         if (position < 0) {
             position = 0;
@@ -98,6 +97,6 @@ public class IndexBar extends LinearLayout implements View.OnTouchListener {
     }
 
     public interface OnIndexChangedListener {
-        void onIndexChanged(String index, boolean showIndicator);
+        void onIndexChanged(String index, boolean isDown);
     }
 }

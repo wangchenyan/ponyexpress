@@ -10,21 +10,10 @@ import android.os.Environment;
 
 import java.io.File;
 
-import me.wcy.express.constants.Constants;
-import me.wcy.express.model.SearchInfo;
-
 /**
  * @author wcy
  */
 public class Utils {
-
-    public static String formatSearchUrl(SearchInfo searchInfo) {
-        return String.format(Constants.URL_SEARCH, searchInfo.getCode(), searchInfo.getPost_id());
-    }
-
-    public static String formatLogoUrl(String logo) {
-        return String.format(Constants.URL_LOGO, logo);
-    }
 
     /**
      * 检查网络连接

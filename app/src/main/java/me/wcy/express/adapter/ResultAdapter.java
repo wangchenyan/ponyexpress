@@ -3,7 +3,6 @@
  */
 package me.wcy.express.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import me.wcy.express.R;
 import me.wcy.express.model.SearchResult;
+import me.wcy.express.utils.Utils;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.binding.ViewBinder;
 
@@ -42,30 +42,37 @@ public class ResultAdapter extends BaseAdapter {
         return position;
     }
 
-    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Context context = parent.getContext();
-        convertView = LayoutInflater.from(context).inflate(R.layout.view_holder_search_result, parent, false);
-        ViewHolder holder = new ViewHolder(convertView);
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.view_holder_search_result, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
         holder.tvTime.setText(mSearchResult.getData()[position].getTime());
         holder.tvDetail.setText(mSearchResult.getData()[position].getContext());
-        if (position == 0) {
-            holder.tvTime.setTextColor(context.getResources().getColor(R.color.black));
-            holder.tvDetail.setTextColor(context.getResources().getColor(R.color.black));
-            holder.ivLogistics.setImageResource(R.drawable.ic_logistics_blue);
-        }
+        boolean first = (position == 0);
+        holder.line.setPadding(0, Utils.dp2px(context, first ? 12 : 0), 0, 0);
+        holder.ivLogistics.setSelected(first);
+        holder.tvTime.setSelected(first);
+        holder.tvDetail.setSelected(first);
         return convertView;
     }
 
-    public static class ViewHolder {
-        @Bind(R.id.tv_time)
-        public TextView tvTime;
-        @Bind(R.id.tv_detail)
-        public TextView tvDetail;
+    private static class ViewHolder {
+        @Bind(R.id.line)
+        private View line;
         @Bind(R.id.iv_logistics)
-        public ImageView ivLogistics;
+        private ImageView ivLogistics;
+        @Bind(R.id.tv_time)
+        private TextView tvTime;
+        @Bind(R.id.tv_detail)
+        private TextView tvDetail;
 
         public ViewHolder(View view) {
             ViewBinder.bind(this, view);

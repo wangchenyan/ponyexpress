@@ -1,4 +1,4 @@
-package me.wcy.express.request;
+package me.wcy.express.http;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -14,7 +14,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * 信任所有Https证书，使Volley支持所有Https请求
+ * 信任所有Https证书，使Volley支持所有Https请求。
  * Created by wcy on 2016/6/29.
  */
 public class FakeX509TrustManager implements X509TrustManager {

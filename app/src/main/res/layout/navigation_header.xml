@@ -12,7 +12,7 @@
     <me.wcy.express.widget.RoundImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_144"
+        android:src="@drawable/ic_launcher_144"
         app:riv_border_color="@color/white"
         app:riv_border_width="2dp"
         app:riv_corner_radius="100dp" />

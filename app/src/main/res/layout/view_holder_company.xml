@@ -17,7 +17,7 @@
         android:layout_gravity="center_vertical"
         android:contentDescription="@null"
         android:scaleType="fitCenter"
-        android:src="@drawable/default_logo"
+        android:src="@drawable/ic_default_logo"
         app:riv_corner_radius="100dp" />
 
     <TextView

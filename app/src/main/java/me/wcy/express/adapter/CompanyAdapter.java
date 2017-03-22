@@ -17,8 +17,8 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import me.wcy.express.R;
+import me.wcy.express.http.HttpClient;
 import me.wcy.express.model.CompanyEntity;
-import me.wcy.express.utils.Utils;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.binding.ViewBinder;
 
@@ -93,9 +93,9 @@ public class CompanyAdapter extends BaseAdapter {
                     companyHolder = (CompanyViewHolder) convertView.getTag();
                 }
                 Glide.with(context)
-                        .load(Utils.formatLogoUrl(mCompanyList.get(position).getLogo()))
+                        .load(HttpClient.urlForLogo(mCompanyList.get(position).getLogo()))
                         .dontAnimate()
-                        .placeholder(R.drawable.default_logo)
+                        .placeholder(R.drawable.ic_default_logo)
                         .into(companyHolder.ivLogo);
                 companyHolder.tvName.setText(mCompanyList.get(position).getName());
                 break;

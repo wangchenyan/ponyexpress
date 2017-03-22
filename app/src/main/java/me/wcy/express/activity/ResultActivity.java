@@ -1,6 +1,5 @@
 package me.wcy.express.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,25 +15,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import me.wcy.express.R;
 import me.wcy.express.adapter.ResultAdapter;
-import me.wcy.express.application.ExpressApplication;
-import me.wcy.express.constants.Constants;
 import me.wcy.express.constants.Extras;
+import me.wcy.express.http.HttpCallback;
+import me.wcy.express.http.HttpClient;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.model.SearchResult;
-import me.wcy.express.request.GsonRequest;
 import me.wcy.express.utils.DataManager;
 import me.wcy.express.utils.SnackbarUtils;
-import me.wcy.express.utils.Utils;
 import me.wcy.express.utils.binding.Bind;
 
 public class ResultActivity extends BaseActivity implements View.OnClickListener {
@@ -77,13 +69,13 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         Intent intent = getIntent();
         mSearchInfo = (SearchInfo) intent.getSerializableExtra(Extras.SEARCH_INFO);
         Glide.with(this)
-                .load(Utils.formatLogoUrl(mSearchInfo.getLogo()))
+                .load(HttpClient.urlForLogo(mSearchInfo.getLogo()))
                 .dontAnimate()
-                .placeholder(R.drawable.default_logo)
+                .placeholder(R.drawable.ic_default_logo)
                 .into(ivLogo);
         refreshSearchInfo();
 
-        search();
+        query();
     }
 
     @Override
@@ -93,7 +85,6 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         btnRetry.setOnClickListener(this);
     }
 
-    @SuppressLint("SetTextI18n")
     private void refreshSearchInfo() {
         String remark = DataManager.getInstance().getRemark(mSearchInfo.getPost_id());
         if (TextUtils.isEmpty(remark)) {
@@ -105,33 +96,23 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void search() {
-        GsonRequest<SearchResult> request = new GsonRequest<SearchResult>(Utils.formatSearchUrl(mSearchInfo),
-                SearchResult.class, new Response.Listener<SearchResult>() {
+    private void query() {
+        HttpClient.query(mSearchInfo.getCode(), mSearchInfo.getPost_id(), new HttpCallback<SearchResult>() {
             @Override
             public void onResponse(SearchResult searchResult) {
                 Log.i(TAG, searchResult.getMessage());
                 onSearch(searchResult);
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            public void onError(VolleyError volleyError) {
                 Log.e(TAG, volleyError.getMessage(), volleyError);
                 llResult.setVisibility(View.GONE);
                 llNoExist.setVisibility(View.GONE);
                 llError.setVisibility(View.VISIBLE);
                 tvSearching.setVisibility(View.GONE);
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put(Constants.HEADER_REFERER, Constants.REFERER);
-                return headers;
-            }
-        };
-        request.setShouldCache(false);
-        ExpressApplication.getInstance().getRequestQueue().add(request);
+        });
     }
 
     private void onSearch(SearchResult searchResult) {
@@ -180,7 +161,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
                 llNoExist.setVisibility(View.GONE);
                 llError.setVisibility(View.GONE);
                 tvSearching.setVisibility(View.VISIBLE);
-                search();
+                query();
                 break;
         }
     }

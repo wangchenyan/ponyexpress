@@ -6,10 +6,10 @@
     android:background="@drawable/list_item_selector"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingBottom="5dp"
+    android:paddingBottom="10dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="5dp">
+    android:paddingTop="10dp">
 
     <me.wcy.express.widget.RoundImageView
         android:id="@+id/iv_logo"
@@ -17,7 +17,7 @@
         android:layout_height="@dimen/company_logo_length"
         android:contentDescription="@null"
         android:scaleType="fitCenter"
-        android:src="@drawable/default_logo"
+        android:src="@drawable/ic_default_logo"
         app:riv_corner_radius="100dp" />
 
     <LinearLayout

@@ -22,7 +22,7 @@
             android:layout_height="@dimen/company_logo_length"
             android:contentDescription="@null"
             android:scaleType="fitCenter"
-            android:src="@drawable/default_logo"
+            android:src="@drawable/ic_default_logo"
             app:riv_corner_radius="100dp" />
 
         <LinearLayout
@@ -103,7 +103,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:drawablePadding="10dp"
-                android:drawableTop="@drawable/no_exist"
+                android:drawableTop="@drawable/ic_no_exist"
                 android:text="抱歉，没有查到物流信息"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_common" />
@@ -171,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:drawablePadding="10dp"
-                android:drawableTop="@drawable/error"
+                android:drawableTop="@drawable/ic_error"
                 android:gravity="center"
                 android:text="没有查询到物流信息"
                 android:textColor="@color/grey" />
@@ -184,7 +184,9 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/btn_common_bg_selector"
-                android:text="点击重试" />
+                android:text="点击重试"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_common" />
         </LinearLayout>
 
         <TextView
@@ -194,7 +196,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:drawablePadding="10dp"
-            android:drawableTop="@drawable/searching"
+            android:drawableTop="@drawable/ic_searching"
             android:gravity="center"
             android:text="正在加载物流信息…"
             android:textColor="@color/grey" />

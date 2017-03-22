@@ -3,7 +3,6 @@
  */
 package me.wcy.express.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,7 +18,7 @@ import java.util.List;
 
 import me.wcy.express.R;
 import me.wcy.express.database.History;
-import me.wcy.express.utils.Utils;
+import me.wcy.express.http.HttpClient;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.binding.ViewBinder;
 
@@ -48,7 +47,6 @@ public class HistoryAdapter extends BaseAdapter {
         return position;
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Context context = parent.getContext();
@@ -61,9 +59,9 @@ public class HistoryAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Glide.with(context)
-                .load(Utils.formatLogoUrl(mHistoryList.get(position).getCompany_icon()))
+                .load(HttpClient.urlForLogo(mHistoryList.get(position).getCompany_icon()))
                 .dontAnimate()
-                .placeholder(R.drawable.default_logo)
+                .placeholder(R.drawable.ic_default_logo)
                 .into(holder.ivLogo);
         String isCheck = mHistoryList.get(position).getIs_check();
         int checkTextColor;

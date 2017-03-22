@@ -85,7 +85,7 @@ public class CompanyActivity extends BaseActivity implements OnItemClickListener
     }
 
     @Override
-    public void onIndexChanged(String index, boolean showIndicator) {
+    public void onIndexChanged(String index, boolean isDown) {
         int position = -1;
         for (CompanyEntity company : mCompanyList) {
             if (TextUtils.equals(company.getName(), index)) {
@@ -97,6 +97,6 @@ public class CompanyActivity extends BaseActivity implements OnItemClickListener
             lvCompany.setSelection(position);
         }
         tvIndicator.setText(index);
-        tvIndicator.setVisibility(showIndicator ? View.VISIBLE : View.GONE);
+        tvIndicator.setVisibility(isDown ? View.VISIBLE : View.GONE);
     }
 }
