@@ -4,9 +4,9 @@
 ## 前言
 这是我第一个独立完成的项目，时隔多年又把它拿出来重构了一下代码。
 
-* **开源不易，希望能给个Star鼓励**
-* 项目地址：https://github.com/wangchenyan/PonyExpress
-* 有问题请提Issues
+- **开源不易，希望能给个Star鼓励**
+- 项目地址：https://github.com/wangchenyan/PonyExpress
+- 有问题请提Issues
 
 ## 简介
 小马快递，您的好帮手。查询并跟踪快递，快递信息及时掌握。<br>
@@ -15,33 +15,32 @@
 
 ## 更新说明
 `v 2.0`
-* 全新UI，高仿“支付宝-我的快递”
-* 新增智能识别快递公司
-* 新增扫一扫
+- 全新UI，高仿“支付宝-我的快递”
+- 新增智能识别快递公司
+- 新增扫一扫
 
 `v 1.5`
-* 新增自动更新
+- 新增自动更新
 
 `v 1.4`
-* 修复无法查询快递的问题
-* 支持Android 6.0
-* 支持运单备注
-* 优化单号扫描界面
+- 修复无法查询快递的问题
+- 支持Android 6.0
+- 支持运单备注
+- 优化单号扫描界面
 
 ## 下载地址
 fir.im：http://fir.im/ponyexpress<br>
-应用宝：http://android.myapp.com/myapp/detail.htm?apkName=me.wcy.express
 
 ## 项目
 ### 公开API
-* 快递查询：[快递100](http://www.kuaidi100.com/)（非公开，侵权删）
+- 快递查询：[快递100](http://www.kuaidi100.com/)（非公开，侵权删）
 
 ### 开源技术
-* [ZXing](https://github.com/zxing/zxing)
-* [Volley](https://developer.android.com/training/volley/index.html)
-* [Gson](https://github.com/google/gson)
-* [ormlite](https://github.com/j256/ormlite-android)
-* [Glide](https://github.com/bumptech/glide)
+- [ZXing](https://github.com/zxing/zxing)
+- [Volley](https://developer.android.com/training/volley/index.html)
+- [Gson](https://github.com/google/gson)
+- [ormlite](https://github.com/j256/ormlite-android)
+- [Glide](https://github.com/bumptech/glide)
 
 ### 关键代码
 网络请求`Volley+Gson`
