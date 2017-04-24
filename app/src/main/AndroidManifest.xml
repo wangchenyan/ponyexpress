@@ -16,16 +16,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="BUG_HD_SDK_GENERAL_KEY"
-            android:value="6b298b0ce2581fed375577336b9dab48" />
-
-        <receiver android:name=".receiver.DownloadReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
-                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name="com.google.zxing.activity.CaptureActivity"
@@ -36,7 +26,6 @@
         <activity
             android:name=".activity.ExpressActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
