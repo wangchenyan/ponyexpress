@@ -8,7 +8,6 @@ import android.preference.PreferenceFragment;
 
 import me.wcy.express.BuildConfig;
 import me.wcy.express.R;
-import me.wcy.express.utils.UpdateUtils;
 
 public class AboutActivity extends BaseActivity {
 
@@ -22,7 +21,6 @@ public class AboutActivity extends BaseActivity {
 
     public static class AboutFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
         private Preference mVersion;
-        private Preference mUpdate;
         private Preference mStar;
         private Preference mWeibo;
         private Preference mJianshu;
@@ -34,7 +32,6 @@ public class AboutActivity extends BaseActivity {
             addPreferencesFromResource(R.xml.preference_about);
 
             mVersion = findPreference("version");
-            mUpdate = findPreference("update");
             mStar = findPreference("star");
             mWeibo = findPreference("weibo");
             mJianshu = findPreference("jianshu");
@@ -45,7 +42,6 @@ public class AboutActivity extends BaseActivity {
         }
 
         private void setListener() {
-            mUpdate.setOnPreferenceClickListener(this);
             mStar.setOnPreferenceClickListener(this);
             mWeibo.setOnPreferenceClickListener(this);
             mJianshu.setOnPreferenceClickListener(this);
@@ -54,10 +50,7 @@ public class AboutActivity extends BaseActivity {
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            if (preference == mUpdate) {
-                UpdateUtils.checkUpdate(getActivity());
-                return true;
-            } else if (preference == mStar) {
+           if (preference == mStar) {
                 openUrl(getString(R.string.about_project_url));
                 return true;
             } else if (preference == mWeibo || preference == mJianshu || preference == mGithub) {

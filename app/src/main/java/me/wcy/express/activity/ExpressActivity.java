@@ -26,7 +26,6 @@ import me.wcy.express.database.History;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.utils.DataManager;
 import me.wcy.express.utils.SnackbarUtils;
-import me.wcy.express.utils.UpdateUtils;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.binding.ViewBinder;
 import me.wcy.express.utils.permission.PermissionReq;
@@ -67,8 +66,6 @@ public class ExpressActivity extends PermissionActivity implements OnClickListen
         }
 
         lvUnCheck.setAdapter(mAdapter);
-
-        UpdateUtils.checkUpdate(this);
     }
 
     @Override

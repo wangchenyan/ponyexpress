@@ -17,9 +17,9 @@ android {
             Properties properties = new Properties()
             properties.load(project.rootProject.file('local.properties').newDataInputStream())
             storeFile file("wangchenyan.keystore")
-            storePassword properties.get("storePassword")
-            keyAlias properties.get("keyAlias")
-            keyPassword properties.get("keyPassword")
+            storePassword properties.get("STORE_PASSWORD")
+            keyAlias properties.get("KEY_ALIAS")
+            keyPassword properties.get("KEY_PASSWORD")
         }
         debug {
             storeFile file("debug.keystore")
@@ -40,7 +40,7 @@ android {
 }
 
 ext {
-    supportVersion = "25.3.0"
+    supportVersion = "25.3.1"
 }
 
 dependencies {
@@ -53,6 +53,5 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.google.zxing:core:3.2.0'
-    compile 'im.fir:fir-sdk:latest.integration@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 }
