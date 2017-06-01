@@ -1,5 +1,6 @@
 package me.wcy.express.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,7 +30,6 @@ import me.wcy.express.utils.Utils;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.permission.PermissionReq;
 import me.wcy.express.utils.permission.PermissionResult;
-import me.wcy.express.utils.permission.Permissions;
 
 public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
     @Bind(R.id.et_text)
@@ -100,7 +100,8 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
         }
 
         PermissionReq.with(this)
-                .permissions(Permissions.STORAGE)
+                .permissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .result(new PermissionResult() {
                     @Override
                     public void onGranted() {
@@ -109,7 +110,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
 
                     @Override
                     public void onDenied() {
-                        SnackbarUtils.show(QRCodeActivity.this, getString(R.string.no_permission, Permissions.STORAGE_DESC, "保存二维码图片"));
+                        SnackbarUtils.show(QRCodeActivity.this, getString(R.string.no_permission, "存储空间", "保存二维码图片"));
                     }
                 })
                 .request();
