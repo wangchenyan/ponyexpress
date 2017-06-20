@@ -4,9 +4,9 @@
 ## 前言
 这是我第一个独立完成的项目，时隔多年又把它拿出来重构了一下代码。
 
-- **开源不易，希望能给个Star鼓励**
 - 项目地址：https://github.com/wangchenyan/PonyExpress
 - 有问题请提Issues
+- 如果喜欢，欢迎Star！
 
 ## 简介
 小马快递，您的好帮手。查询并跟踪快递，快递信息及时掌握。<br>
@@ -29,7 +29,7 @@
 - 优化单号扫描界面
 
 ## 下载地址
-fir.im：http://fir.im/ponyexpress<br>
+fir.im：http://fir.im/ponyexpress
 
 ## 项目
 ### 公开API
@@ -43,32 +43,36 @@ fir.im：http://fir.im/ponyexpress<br>
 - [Glide](https://github.com/bumptech/glide)
 
 ### 关键代码
-网络请求`Volley+Gson`
+网络请求`Volley + Gson`
 ```java
-private void search() {
-    GsonRequest<SearchResult> request = new GsonRequest<SearchResult>(Utils.formatSearchUrl(mSearchInfo),
-            SearchResult.class, new Response.Listener<SearchResult>() {
-        @Override
-        public void onResponse(SearchResult searchResult) {
-            Log.i(TAG, searchResult.getMessage());
-            onSearch(searchResult);
-        }
-    }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError volleyError) {
-            Log.e(TAG, volleyError.getMessage(), volleyError);
-            onError();
-        }
-    }) {
+public static void query(String type, String postId, final HttpCallback<SearchResult> callback) {
+    String action = "/query";
+    Map<String, String> params = new HashMap<>(2);
+    params.put("type", type);
+    params.put("postid", postId);
+    String url = makeUrl(action, params);
+    GsonRequest<SearchResult> request = new GsonRequest<SearchResult>(url, SearchResult.class,
+            new Response.Listener<SearchResult>() {
+                @Override
+                public void onResponse(SearchResult searchResult) {
+                    callback.onResponse(searchResult);
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    callback.onError(volleyError);
+                }
+            }) {
         @Override
         public Map<String, String> getHeaders() throws AuthFailureError {
             Map<String, String> headers = new HashMap<>();
-            headers.put(Constants.HEADER_REFERER, Constants.REFERER);
+            headers.put(HEADER_REFERER, BASE_URL);
             return headers;
         }
     };
     request.setShouldCache(false);
-    ExpressApplication.getInstance().getRequestQueue().add(request);
+    getRequestQueue().add(request);
 }
 ```
 封装GsonRequest
