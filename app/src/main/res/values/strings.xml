@@ -23,7 +23,7 @@
     <string name="sure_delete_history">您要删除该条记录吗？</string>
     <string name="qrcode_input">请输入文本</string>
     <string name="qrcode_save_tips">是否保存二维码？</string>
-    <string name="qrcode_file_name">QRCode_%s.png</string>
+    <string name="qrcode_file_name">QRCode_%s.jpg</string>
     <string name="qrcode_save_success">二维码已保存至/SDCard/Pictures/%s</string>
     <string name="qrcode_no_sdcard">保存失败，SD卡不可用</string>
     <string name="qrcode_save_failure">保存失败</string>

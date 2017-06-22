@@ -1,6 +1,7 @@
 package me.wcy.express.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,8 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.zxing.WriterException;
-import com.google.zxing.encoding.EncodingHandler;
+import com.google.zxing.activity.Callback;
+import com.google.zxing.encoding.EncodeHandler;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,13 +40,12 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
     @Bind(R.id.iv_qr_code)
     private ImageView ivQRCode;
     private Bitmap mBitmap;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code);
-
-        ivQRCode.setVisibility(View.GONE);
     }
 
     @Override
@@ -68,14 +68,18 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
     }
 
     private void createQRCode() {
-        try {
-            String contentString = etText.getText().toString();
-            mBitmap = EncodingHandler.createQRCode(contentString, 500);
-            ivQRCode.setImageBitmap(mBitmap);
-            ivQRCode.setVisibility(View.VISIBLE);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
+        showProgress();
+        mBitmap = null;
+        String text = etText.getText().toString();
+        EncodeHandler.createQRCode(text, 500, new Callback<Bitmap>() {
+            @Override
+            public void onEvent(Bitmap bitmap) {
+                cancelProgress();
+                mBitmap = bitmap;
+                ivQRCode.setImageBitmap(mBitmap);
+                ivQRCode.setVisibility((mBitmap == null) ? View.GONE : View.VISIBLE);
+            }
+        });
     }
 
     private void saveDialog() {
@@ -100,8 +104,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
         }
 
         PermissionReq.with(this)
-                .permissions(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .result(new PermissionResult() {
                     @Override
                     public void onGranted() {
@@ -110,7 +113,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
 
                     @Override
                     public void onDenied() {
-                        SnackbarUtils.show(QRCodeActivity.this, getString(R.string.no_permission, "存储空间", "保存二维码图片"));
+                        SnackbarUtils.show(QRCodeActivity.this, getString(R.string.no_permission, "读写存储", "保存二维码图片"));
                     }
                 })
                 .request();
@@ -118,11 +121,11 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
 
     private void save() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-        String fileName = getString(R.string.qrcode_file_name, sdf.format(new Date(System.currentTimeMillis())));
+        String fileName = getString(R.string.qrcode_file_name, sdf.format(new Date()));
         File file = new File(Utils.getPictureDir() + fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
         } catch (Exception e) {
@@ -130,6 +133,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
             SnackbarUtils.show(this, R.string.qrcode_save_failure);
             return;
         }
+
         // 刷新相册
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri uri = Uri.fromFile(file);
@@ -154,5 +158,22 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    private void showProgress() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setCancelable(false);
+        }
+
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.show();
+        }
+    }
+
+    private void cancelProgress() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.cancel();
+        }
     }
 }

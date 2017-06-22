@@ -1,11 +1,10 @@
 package com.google.zxing.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -29,18 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.camera.CameraManager;
-import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.decoding.CaptureActivityHandler;
+import com.google.zxing.decoding.DecodeFile;
 import com.google.zxing.decoding.DecodeFormatManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -65,6 +59,8 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     private boolean vibrate = false;
     private boolean isBarcode;
 
+    private ProgressDialog progressDialog;
+
     @Bind(R.id.iv_back)
     private ImageView ivBack;
     @Bind(R.id.iv_flashlight)
@@ -88,6 +84,8 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         initDecodeFormats();
         CameraManager.init(getApplicationContext());
         CameraManager.get().setBarcode(isBarcode);
+
+        progressDialog = new ProgressDialog(this);
 
         ViewBinder.bind(this);
         ivBack.setOnClickListener(this);
@@ -120,6 +118,12 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
             handler = null;
         }
         CameraManager.get().closeDriver();
+    }
+
+    @Override
+    protected void onDestroy() {
+        cancelProgress();
+        super.onDestroy();
     }
 
     /**
@@ -237,7 +241,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
 
         if (requestCode == REQUEST_ALBUM) {
             Uri uri = data.getData();
-            parseBitmap(uri);
+            decodeFile(uri);
         }
     }
 
@@ -248,52 +252,27 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         startActivityForResult(innerIntent, REQUEST_ALBUM);
     }
 
-    private void parseBitmap(Uri uri) {
-        Bitmap bitmap = null;
-        try {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
-            int inSampleSize = options.outHeight / 500;
-            inSampleSize = Math.max(inSampleSize, 1);
-            options.inSampleSize = inSampleSize;
-            options.inJustDecodeBounds = false;
-            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    private void decodeFile(Uri uri) {
+        showProgress();
+        Hashtable<DecodeHintType, Object> hints = new Hashtable<>();
+        hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
+        hints.put(DecodeHintType.CHARACTER_SET, characterSet);
 
-        Result result = null;
-
-        if (bitmap != null) {
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
-            int[] pixels = new int[width * height];
-            bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-            RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
-            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
-            MultiFormatReader reader = new MultiFormatReader();
-
-            Hashtable<DecodeHintType, Object> hints = new Hashtable<>();
-            hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
-            hints.put(DecodeHintType.CHARACTER_SET, characterSet);
-
-            try {
-                result = reader.decode(binaryBitmap, hints);
-            } catch (NotFoundException e) {
-                e.printStackTrace();
+        DecodeFile.decodeFile(getContentResolver(), uri, hints, new com.google.zxing.activity.Callback<Result>() {
+            @Override
+            public void onEvent(Result result) {
+                cancelProgress();
+                if (result != null && !TextUtils.isEmpty(result.getText())) {
+                    handleScanResult(result.getText());
+                } else {
+                    new AlertDialog.Builder(CaptureActivity.this)
+                            .setTitle(R.string.tips)
+                            .setMessage(R.string.analyze_fail)
+                            .setPositiveButton(R.string.sure, null)
+                            .show();
+                }
             }
-        }
-
-        if (result == null || TextUtils.isEmpty(result.getText())) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.tips)
-                    .setMessage(R.string.analyze_fail)
-                    .setPositiveButton(R.string.sure, null)
-                    .show();
-        } else {
-            handleScanResult(result.getText());
-        }
+        });
     }
 
     private void handleScanResult(final String result) {
@@ -336,6 +315,23 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
                         }
                     })
                     .show();
+        }
+    }
+
+    private void showProgress() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCancelable(false);
+        }
+
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    private void cancelProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.cancel();
         }
     }
 }

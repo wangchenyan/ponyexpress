@@ -78,7 +78,7 @@ final class CameraConfigurationManager {
 
         List<Camera.Size> cameraSizeList = parameters.getSupportedPreviewSizes();
         if (cameraSizeList != null) {
-            Camera.Size bestSize = findBestPreviewSizeValue(cameraSizeList, screenResolution);
+            Camera.Size bestSize = findBestPreviewSize(cameraSizeList, screenResolution);
             if (bestSize != null) {
                 cameraResolution = new Point(bestSize.width, bestSize.height);
             }
@@ -92,7 +92,7 @@ final class CameraConfigurationManager {
         return cameraResolution;
     }
 
-    private static Camera.Size findBestPreviewSizeValue(List<Camera.Size> cameraSizeList, Point screenResolution) {
+    private static Camera.Size findBestPreviewSize(List<Camera.Size> cameraSizeList, Point screenResolution) {
         int diff = Integer.MAX_VALUE;
         Camera.Size bestSize = null;
         for (Camera.Size size : cameraSizeList) {

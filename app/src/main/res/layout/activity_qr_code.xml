@@ -34,19 +34,16 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_common" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/iv_qr_code"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/iv_qr_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:minHeight="300dp"
-                android:minWidth="300dp"
-                android:scaleType="fitXY" />
-        </LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:contentDescription="@null"
+            android:minHeight="300dp"
+            android:minWidth="300dp"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>
