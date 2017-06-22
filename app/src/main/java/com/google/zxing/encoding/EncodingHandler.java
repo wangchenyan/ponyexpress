@@ -22,7 +22,6 @@ public final class EncodingHandler {
      * @param str    要生成的字符串
      * @param length 生成的图片边长
      * @return 生成的图片
-     * @throws WriterException
      */
     public static Bitmap createQRCode(String str, int length) throws WriterException {
         Hashtable<EncodeHintType, String> hints = new Hashtable<>();
@@ -38,7 +37,7 @@ public final class EncodingHandler {
                 }
             }
         }
-        Bitmap bitmap = Bitmap.createBitmap(length, length, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(length, length, Bitmap.Config.RGB_565);
         bitmap.setPixels(pixels, 0, length, 0, 0, length, length);
         return bitmap;
     }

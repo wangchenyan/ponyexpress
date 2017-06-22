@@ -21,8 +21,6 @@ import android.os.Looper;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
-import com.google.zxing.ResultPointCallback;
-import com.google.zxing.activity.CaptureActivity;
 
 import java.util.Hashtable;
 import java.util.Vector;
@@ -32,28 +30,22 @@ import java.util.concurrent.CountDownLatch;
  * This thread does all the heavy lifting of decoding the images. 解码线程
  */
 final class DecodeThread extends Thread {
-    public static final String BARCODE_BITMAP = "barcode_bitmap";
-    private final CaptureActivity activity;
+    private final CaptureActivityHandler captureHandler;
     private final Hashtable<DecodeHintType, Object> hints;
     private Handler handler;
     private final CountDownLatch handlerInitLatch;
 
-    DecodeThread(CaptureActivity activity, Vector<BarcodeFormat> decodeFormats, String characterSet, ResultPointCallback resultPointCallback) {
-        this.activity = activity;
+    DecodeThread(CaptureActivityHandler captureHandler, Vector<BarcodeFormat> decodeFormats, String characterSet) {
+        this.captureHandler = captureHandler;
         handlerInitLatch = new CountDownLatch(1);
 
         hints = new Hashtable<>(3);
 
-        /**
-         * set decode type
-         */
         if (decodeFormats == null || decodeFormats.isEmpty()) {
             decodeFormats = new Vector<>();
             decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
-            if (!activity.isOnlyOneD()) {
-                decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
-                decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
-            }
+            decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
+            decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
         }
 
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
@@ -61,8 +53,6 @@ final class DecodeThread extends Thread {
         if (characterSet != null) {
             hints.put(DecodeHintType.CHARACTER_SET, characterSet);
         }
-
-        hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
     }
 
     Handler getHandler() {
@@ -77,7 +67,7 @@ final class DecodeThread extends Thread {
     @Override
     public void run() {
         Looper.prepare();
-        handler = new DecodeHandler(activity, hints);
+        handler = new DecodeHandler(captureHandler, hints);
         handlerInitLatch.countDown();
         Looper.loop();
     }

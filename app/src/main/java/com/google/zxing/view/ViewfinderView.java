@@ -24,7 +24,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.google.zxing.ResultPoint;
 import com.google.zxing.camera.CameraManager;
 
 import me.wcy.express.R;
@@ -35,44 +34,34 @@ import me.wcy.express.R;
  * animation and result points.
  */
 public final class ViewfinderView extends View {
-    private static final long ANIMATION_DELAY = 25L;
-    private static int BORDER_WIDTH;
-    private static int BORDER_HEIGHT;
-    private static int LASER_HEIGHT;
-    private static int LASER_PADDING;
-    private static int LASER_OFFSET_INCREASE;
+    private static final long ANIMATION_DELAY = 8L;
+    private int BORDER_WIDTH = 16;
+    private int BORDER_HEIGHT = 2;
+    private int LASER_HEIGHT = 2;
+    private int LASER_PADDING = 16;
+    private int LASER_OFFSET_INCREASE = 2;
 
-    private Paint mFinderMaskPaint;
-    private Paint mBorderPaint;
-    private Paint mLaserPaint;
+    private Paint mFinderMaskPaint = new Paint();
+    private Paint mBorderPaint = new Paint();
     private Drawable mLaserDrawable;
-    private final int mMaskColor;
-    private final int mFrameColor;
-    private final int mLaserColor;
     private int mLaserOffset = 0;
 
     // This constructor is used when the class is built from an XML resource.
     public ViewfinderView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // Initialize these once for performance rather than calling them every time in onDraw().
-        BORDER_WIDTH = dp2px(16);
-        BORDER_HEIGHT = dp2px(2);
-        LASER_HEIGHT = dp2px(2);
-        LASER_PADDING = dp2px(16);
-        LASER_OFFSET_INCREASE = dp2px(1);
+        BORDER_WIDTH = dp2px(BORDER_WIDTH);
+        BORDER_HEIGHT = dp2px(BORDER_HEIGHT);
+        LASER_HEIGHT = dp2px(LASER_HEIGHT);
+        LASER_PADDING = dp2px(LASER_PADDING);
+        LASER_OFFSET_INCREASE = dp2px(LASER_OFFSET_INCREASE);
 
-        mFinderMaskPaint = new Paint();
-        mBorderPaint = new Paint();
-        mLaserPaint = new Paint();
         mLaserDrawable = getResources().getDrawable(R.drawable.scan_line);
-        mMaskColor = getResources().getColor(R.color.viewfinder_mask);
-        mFrameColor = getResources().getColor(R.color.viewfinder_frame);
-        mLaserColor = getResources().getColor(R.color.viewfinder_laser);
+        int maskColor = getResources().getColor(R.color.viewfinder_mask);
+        int frameColor = getResources().getColor(R.color.viewfinder_frame);
 
-        mFinderMaskPaint.setColor(mMaskColor);
-        mBorderPaint.setColor(mFrameColor);
+        mFinderMaskPaint.setColor(maskColor);
+        mBorderPaint.setColor(frameColor);
         mBorderPaint.setStrokeWidth(BORDER_HEIGHT);
-        mLaserPaint.setColor(mLaserColor);
     }
 
     @Override
@@ -86,16 +75,8 @@ public final class ViewfinderView extends View {
         drawViewFinderBorder(canvas, frame);
         drawLaser(canvas, frame);
 
-        // Request another update at the animation interval, but only repaint the laser line,not the entire viewfinder mask.
+        // Request another update at the animation interval, but only repaint the laser line, not the entire viewfinder mask.
         postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top, frame.right, frame.bottom);
-    }
-
-    public void drawViewfinder() {
-        invalidate();
-    }
-
-    public void addPossibleResultPoint(ResultPoint point) {
-        // do nothing
     }
 
     private void drawViewFinderMask(Canvas canvas, Rect frame) {

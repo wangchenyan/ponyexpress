@@ -11,7 +11,6 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,13 +33,12 @@ import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
+import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.camera.CameraManager;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.decoding.CaptureActivityHandler;
-import com.google.zxing.decoding.InactivityTimer;
-import com.google.zxing.decoding.RGBLuminanceSource;
-import com.google.zxing.view.ViewfinderView;
+import com.google.zxing.decoding.DecodeFormatManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -53,36 +51,30 @@ import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.binding.ViewBinder;
 
-/**
- * Initial the camera
- *
- * @author Ryan.Tang
- */
-@SuppressWarnings("deprecation")
 public class CaptureActivity extends AppCompatActivity implements Callback, OnClickListener {
     private static final long VIBRATE_DURATION = 200L;
     private static final int REQUEST_ALBUM = 0;
+    private static final float BEEP_VOLUME = 0.10f;
+
     private CaptureActivityHandler handler;
-    private ViewfinderView viewfinderView;
-    private boolean hasSurface;
-    private Vector<BarcodeFormat> decodeFormats;
-    private String characterSet;
-    private InactivityTimer inactivityTimer;
+    private boolean hasSurface = false;
+    private final Vector<BarcodeFormat> decodeFormats = new Vector<>();
+    private final String characterSet = "UTF-8";
     private MediaPlayer mediaPlayer;
     private boolean playBeep;
-    private static final float BEEP_VOLUME = 0.10f;
-    private boolean vibrate;
+    private boolean vibrate = false;
+    private boolean isBarcode;
+
     @Bind(R.id.iv_back)
     private ImageView ivBack;
     @Bind(R.id.iv_flashlight)
     private ImageView ivFlashlight;
     @Bind(R.id.iv_album)
     private ImageView ivAlbum;
-    private boolean isOnlyOneD;
 
     public static void start(Activity activity, boolean onlyOneD, int requestCode) {
         Intent intent = new Intent(activity, CaptureActivity.class);
-        intent.putExtra(Extras.ONLY_ONE_D, onlyOneD);
+        intent.putExtra(Extras.BARCODE, onlyOneD);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -91,12 +83,11 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture);
 
-        isOnlyOneD = getIntent().getBooleanExtra(Extras.ONLY_ONE_D, false);
+        isBarcode = getIntent().getBooleanExtra(Extras.BARCODE, false);
 
-        CameraManager.init(this);
-        viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-        hasSurface = false;
-        inactivityTimer = new InactivityTimer(this);
+        initDecodeFormats();
+        CameraManager.init(getApplicationContext());
+        CameraManager.get().setBarcode(isBarcode);
 
         ViewBinder.bind(this);
         ivBack.setOnClickListener(this);
@@ -115,16 +106,10 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
             surfaceHolder.addCallback(this);
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
-        decodeFormats = null;
-        characterSet = "UTF-8";
 
-        playBeep = true;
-        AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
-        if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-            playBeep = false;
-        }
+        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        playBeep = (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL);
         initBeepSound();
-        vibrate = false;
     }
 
     @Override
@@ -137,20 +122,12 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         CameraManager.get().closeDriver();
     }
 
-    @Override
-    protected void onDestroy() {
-        inactivityTimer.shutdown();
-        CameraManager.release();
-        super.onDestroy();
-    }
-
     /**
      * Handler scan result
      */
-    public void handleDecode(Result result, Bitmap barcode) {
-        inactivityTimer.onActivity();
+    public void handleDecode(Result result) {
         playBeepSoundAndVibrate();
-        // FIXME
+
         if (TextUtils.isEmpty(result.getText())) {
             Toast.makeText(this, "扫描失败", Toast.LENGTH_SHORT).show();
             finish();
@@ -162,7 +139,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {
             CameraManager.get().openDriver(surfaceHolder);
-        } catch (IOException | RuntimeException ioe) {
+        } catch (Exception e) {
             return;
         }
         if (handler == null) {
@@ -170,8 +147,12 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         }
     }
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    private void initDecodeFormats() {
+        decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
+        if (!isBarcode) {
+            decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
+            decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
+        }
     }
 
     @Override
@@ -183,20 +164,12 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     }
 
     @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    }
+
+    @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         hasSurface = false;
-    }
-
-    public ViewfinderView getViewfinderView() {
-        return viewfinderView;
-    }
-
-    public Handler getHandler() {
-        return handler;
-    }
-
-    public void drawViewfinder() {
-        viewfinderView.drawViewfinder();
     }
 
     private void initBeepSound() {
@@ -240,10 +213,6 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         }
     };
 
-    public boolean isOnlyOneD() {
-        return isOnlyOneD;
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -251,7 +220,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
                 finish();
                 break;
             case R.id.iv_flashlight:
-                ivFlashlight.setSelected(CameraManager.get().flashlight());
+                ivFlashlight.setSelected(CameraManager.get().setFlashlight());
                 break;
             case R.id.iv_album:
                 openAlbum();
@@ -262,9 +231,10 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
+        if (resultCode != RESULT_OK || data == null) {
             return;
         }
+
         if (requestCode == REQUEST_ALBUM) {
             Uri uri = data.getData();
             parseBitmap(uri);
@@ -282,29 +252,39 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         Bitmap bitmap = null;
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true; // 仅获取大小
+            options.inJustDecodeBounds = true;
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
-            int inSampleSize = options.outHeight / 200;// 压缩尺寸,节约时间
-            if (inSampleSize <= 0) {
-                inSampleSize = 1;
-            }
+            int inSampleSize = options.outHeight / 500;
+            inSampleSize = Math.max(inSampleSize, 1);
             options.inSampleSize = inSampleSize;
-            options.inJustDecodeBounds = false; // 获取bitmap
+            options.inJustDecodeBounds = false;
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, options);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Hashtable<DecodeHintType, String> hints = new Hashtable<>();
-        hints.put(DecodeHintType.CHARACTER_SET, characterSet);
-        RGBLuminanceSource source = new RGBLuminanceSource(bitmap);
-        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
-        MultiFormatReader reader = new MultiFormatReader();
+
         Result result = null;
-        try {
-            result = reader.decode(binaryBitmap, hints);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
+
+        if (bitmap != null) {
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            int[] pixels = new int[width * height];
+            bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+            RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
+            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
+            MultiFormatReader reader = new MultiFormatReader();
+
+            Hashtable<DecodeHintType, Object> hints = new Hashtable<>();
+            hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
+            hints.put(DecodeHintType.CHARACTER_SET, characterSet);
+
+            try {
+                result = reader.decode(binaryBitmap, hints);
+            } catch (NotFoundException e) {
+                e.printStackTrace();
+            }
         }
+
         if (result == null || TextUtils.isEmpty(result.getText())) {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.tips)
@@ -317,10 +297,10 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     }
 
     private void handleScanResult(final String result) {
-        if (isOnlyOneD) {
-            Intent intent = new Intent();
-            intent.putExtra(Extras.SCAN_RESULT, result);
-            setResult(RESULT_OK, intent);
+        if (isBarcode) {
+            Intent data = new Intent();
+            data.putExtra(Extras.SCAN_RESULT, result);
+            setResult(RESULT_OK, data);
             finish();
         } else {
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_capture, null);
@@ -350,8 +330,8 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
                         @Override
                         public void onCancel(DialogInterface dialog) {
                             if (handler != null) {
-                                // 连续扫描
-                                handler.sendEmptyMessage(R.id.restart_preview);
+                                // 继续扫描
+                                handler.restartPreviewAndDecode();
                             }
                         }
                     })
