@@ -85,8 +85,7 @@ public final class CameraManager {
     /**
      * Opens the camera driver and initializes the hardware parameters.
      *
-     * @param holder The surface object which the camera will draw preview frames
-     *               into.
+     * @param holder The surface object which the camera will draw preview frames into.
      * @throws Exception Indicates the camera driver failed to open.
      */
     public void openDriver(SurfaceHolder holder) throws Exception {

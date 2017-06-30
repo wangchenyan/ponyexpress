@@ -46,9 +46,11 @@ import me.wcy.express.utils.binding.Bind;
 import me.wcy.express.utils.binding.ViewBinder;
 
 public class CaptureActivity extends AppCompatActivity implements Callback, OnClickListener {
+    private static final boolean PLAY_BEEP = true;
+    private static final boolean VIBRATE = false;
     private static final long VIBRATE_DURATION = 200L;
+    private static final float BEEP_VOLUME = 0.1f;
     private static final int REQUEST_ALBUM = 0;
-    private static final float BEEP_VOLUME = 0.10f;
 
     private CaptureActivityHandler handler;
     private boolean hasSurface = false;
@@ -56,7 +58,6 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     private final String characterSet = "UTF-8";
     private MediaPlayer mediaPlayer;
     private boolean playBeep;
-    private boolean vibrate = false;
     private boolean isBarcode;
 
     private ProgressDialog progressDialog;
@@ -106,7 +107,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         }
 
         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        playBeep = (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL);
+        playBeep = PLAY_BEEP && (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL);
         initBeepSound();
     }
 
@@ -118,12 +119,6 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
             handler = null;
         }
         CameraManager.get().closeDriver();
-    }
-
-    @Override
-    protected void onDestroy() {
-        cancelProgress();
-        super.onDestroy();
     }
 
     /**
@@ -201,7 +196,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         if (playBeep && mediaPlayer != null) {
             mediaPlayer.start();
         }
-        if (vibrate) {
+        if (VIBRATE) {
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
