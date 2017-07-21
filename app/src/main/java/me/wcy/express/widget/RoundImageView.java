@@ -1,7 +1,5 @@
 package me.wcy.express.widget;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -13,23 +11,25 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Xfermode;
-import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import me.wcy.express.R;
 
 /**
- * 支持圆角和边框的ImageView<br>
- * 仅支持完全填充的ImageView，即没有透明边框
+ * 支持圆角和边框的ImageView
  * Created by hzwangchenyan on 2016/10/19.
  */
-public class RoundImageView extends ImageView {
+public class RoundImageView extends AppCompatImageView {
     private Paint mPaint = new Paint();
     private Path mPath = new Path();
     private Xfermode mXfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
     private RectF mRectF = new RectF();
     private float[] mRadii = new float[8];
+
+    // 存储原始图像
+    private Bitmap mOriginalBitmap;
+    private Canvas mOriginalCanvas;
 
     private float mRadiusTopLeft;
     private float mRadiusTopRight;
@@ -51,12 +51,6 @@ public class RoundImageView extends ImageView {
 
     public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }
 
@@ -129,18 +123,25 @@ public class RoundImageView extends ImageView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        @SuppressLint("DrawAllocation")
-        Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-        @SuppressLint("DrawAllocation")
-        Canvas bitmapCanvas = new Canvas(bitmap);
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
 
-        super.onDraw(bitmapCanvas);
+        mOriginalBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        mOriginalCanvas = new Canvas(mOriginalBitmap);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        // 先清理画布
+        mOriginalCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+
+        // 绘制原始图像
+        super.onDraw(mOriginalCanvas);
 
         // 画原始图形
         mPaint.reset();
         mPaint.setAntiAlias(true);
-        canvas.drawBitmap(bitmap, 0, 0, mPaint);
+        canvas.drawBitmap(mOriginalBitmap, 0, 0, mPaint);
 
         // 剪裁圆角
         mPath.reset();
