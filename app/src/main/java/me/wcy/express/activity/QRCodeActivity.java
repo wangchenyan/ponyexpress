@@ -26,11 +26,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import me.wcy.express.R;
+import me.wcy.express.utils.PermissionReq;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.Utils;
 import me.wcy.express.utils.binding.Bind;
-import me.wcy.express.utils.permission.PermissionReq;
-import me.wcy.express.utils.permission.PermissionResult;
 
 public class QRCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
     @Bind(R.id.et_text)
@@ -105,7 +104,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
 
         PermissionReq.with(this)
                 .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .result(new PermissionResult() {
+                .result(new PermissionReq.Result() {
                     @Override
                     public void onGranted() {
                         save();

@@ -26,13 +26,11 @@ import me.wcy.express.adapter.HistoryAdapter;
 import me.wcy.express.database.History;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.utils.DataManager;
+import me.wcy.express.utils.PermissionReq;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
-import me.wcy.express.utils.binding.ViewBinder;
-import me.wcy.express.utils.permission.PermissionReq;
-import me.wcy.express.utils.permission.PermissionResult;
 
-public class ExpressActivity extends PermissionActivity implements OnClickListener, OnItemClickListener,
+public class ExpressActivity extends BaseActivity implements OnClickListener, OnItemClickListener,
         NavigationView.OnNavigationItemSelectedListener {
     @Bind(R.id.drawer_layout)
     private DrawerLayout drawerLayout;
@@ -56,7 +54,6 @@ public class ExpressActivity extends PermissionActivity implements OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_express);
-        ViewBinder.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,8 +66,12 @@ public class ExpressActivity extends PermissionActivity implements OnClickListen
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected boolean shouldSetStatusBarColor() {
+        return false;
+    }
+
+    @Override
+    protected void setListener() {
         navigationView.setNavigationItemSelectedListener(this);
         tvSearch.setOnClickListener(this);
         tvPost.setOnClickListener(this);
@@ -108,7 +109,7 @@ public class ExpressActivity extends PermissionActivity implements OnClickListen
     private void startCaptureActivity() {
         PermissionReq.with(this)
                 .permissions(Manifest.permission.CAMERA)
-                .result(new PermissionResult() {
+                .result(new PermissionReq.Result() {
                     @Override
                     public void onGranted() {
                         CaptureActivity.start(ExpressActivity.this, false, 0);

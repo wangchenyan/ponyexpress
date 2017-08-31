@@ -4,6 +4,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,24 +13,31 @@ import android.view.View;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import me.wcy.express.R;
+import me.wcy.express.utils.PermissionReq;
 import me.wcy.express.utils.binding.ViewBinder;
 
-public abstract class BaseActivity extends PermissionActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     protected Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+        if (shouldSetStatusBarColor() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
             tintManager.setStatusBarTintEnabled(true);
             TypedValue typedValue = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
             tintManager.setStatusBarTintResource(typedValue.resourceId);
         }
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    protected boolean shouldSetStatusBarColor() {
+        return true;
     }
 
     @Override
@@ -59,5 +68,11 @@ public abstract class BaseActivity extends PermissionActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionReq.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

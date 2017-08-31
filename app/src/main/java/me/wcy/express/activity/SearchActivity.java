@@ -35,10 +35,9 @@ import me.wcy.express.http.HttpClient;
 import me.wcy.express.model.CompanyEntity;
 import me.wcy.express.model.SearchInfo;
 import me.wcy.express.model.SuggestionResult;
+import me.wcy.express.utils.PermissionReq;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
-import me.wcy.express.utils.permission.PermissionReq;
-import me.wcy.express.utils.permission.PermissionResult;
 
 public class SearchActivity extends BaseActivity implements TextWatcher, View.OnClickListener,
         AdapterView.OnItemClickListener {
@@ -171,7 +170,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
     private void startCaptureActivity() {
         PermissionReq.with(this)
                 .permissions(Manifest.permission.CAMERA)
-                .result(new PermissionResult() {
+                .result(new PermissionReq.Result() {
                     @Override
                     public void onGranted() {
                         CaptureActivity.start(SearchActivity.this, true, RequestCode.REQUEST_CAPTURE);
