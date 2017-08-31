@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "me.wcy.express"
         minSdkVersion 11
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 210
         versionName "2.1.0"
     }
