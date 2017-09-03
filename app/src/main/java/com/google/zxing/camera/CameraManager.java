@@ -80,6 +80,8 @@ public final class CameraManager {
 
     public void setBarcode(boolean barcode) {
         isBarcode = barcode;
+        // reset framing rect
+        framingRect = null;
     }
 
     /**
@@ -134,7 +136,6 @@ public final class CameraManager {
             autoFocusCallback.setHandler(null, 0);
             previewing = false;
         }
-        framingRect = null;
     }
 
     /**

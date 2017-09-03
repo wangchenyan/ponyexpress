@@ -34,7 +34,6 @@ import com.google.zxing.camera.CameraManager;
 import com.google.zxing.decoding.CaptureActivityHandler;
 import com.google.zxing.decoding.DecodeFile;
 import com.google.zxing.decoding.DecodeFormatManager;
-import com.google.zxing.view.ViewfinderView;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -69,9 +68,6 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
     private ImageView ivFlashlight;
     @Bind(R.id.iv_album)
     private ImageView ivAlbum;
-    @Bind(R.id.viewfinder_view)
-    ViewfinderView find_view;
-
 
     public static void start(Activity activity, boolean onlyOneD, int requestCode) {
         Intent intent = new Intent(activity, CaptureActivity.class);
@@ -113,8 +109,6 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         playBeep = PLAY_BEEP && (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL);
         initBeepSound();
-        if(find_view!=null)
-            find_view.setPauseStatu(false);
     }
 
     @Override
@@ -125,7 +119,6 @@ public class CaptureActivity extends AppCompatActivity implements Callback, OnCl
             handler = null;
         }
         CameraManager.get().closeDriver();
-        find_view.setPauseStatu(true);
     }
 
     /**
