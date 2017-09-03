@@ -45,6 +45,7 @@ public final class ViewfinderView extends View {
     private Paint mBorderPaint = new Paint();
     private Drawable mLaserDrawable;
     private int mLaserOffset = 0;
+    private boolean ispause=true;
 
     // This constructor is used when the class is built from an XML resource.
     public ViewfinderView(Context context, AttributeSet attrs) {
@@ -76,8 +77,14 @@ public final class ViewfinderView extends View {
         drawLaser(canvas, frame);
 
         // Request another update at the animation interval, but only repaint the laser line, not the entire viewfinder mask.
-        postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top, frame.right, frame.bottom);
+        if(!ispause)
+            postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top, frame.right, frame.bottom);
     }
+    public  void setPauseStatu(boolean flag){
+        this.ispause=flag;
+        postInvalidate();
+    }
+
 
     private void drawViewFinderMask(Canvas canvas, Rect frame) {
         canvas.drawRect(0, 0, canvas.getWidth(), frame.top, mFinderMaskPaint);
