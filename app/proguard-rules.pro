@@ -44,3 +44,7 @@
   **[] $VALUES;
   public *;
 }
+
+# AgentWeb
+-dontwarn com.just.library.**
+-keep class com.just.library.** { *; }

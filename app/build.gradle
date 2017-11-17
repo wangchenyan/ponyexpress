@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.3"
 
     defaultConfig {
         applicationId "me.wcy.express"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 25
         versionCode 210
         versionName "2.1.0"
@@ -46,13 +46,13 @@ def getLocalValue(String key, boolean quot) {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     def value = properties.containsKey(key) ? properties.get(key) : ""
     if (quot) {
-        value = "\"" + value + "\"";
+        value = "\"" + value + "\""
     }
     return value
 }
 
 ext {
-    supportVersion = "25.3.1"
+    supportVersion = "26.1.0"
 }
 
 dependencies {
@@ -61,9 +61,10 @@ dependencies {
     compile "com.android.support:design:${supportVersion}"
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
     compile 'com.mcxiaoke.volley:library:1.0.19'
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.j256.ormlite:ormlite-core:4.48'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.google.zxing:core:3.3.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+    compile 'com.just.agentweb:agentweb:2.0.1'
 }

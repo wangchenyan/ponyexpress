@@ -96,7 +96,7 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, On
                 startActivity(new Intent(this, SearchActivity.class));
                 break;
             case R.id.tv_post:
-                SnackbarUtils.show(this, "敬请期待");
+                startActivity(new Intent(this, DeliverActivity.class));
                 break;
             case R.id.tv_sweep:
                 startCaptureActivity();

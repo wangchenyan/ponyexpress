@@ -3,6 +3,7 @@
     <string name="app_name">小马快递</string>
     <string name="title_activity_choose_com">选择快递公司</string>
     <string name="title_activity_search">查件</string>
+    <string name="title_activity_deliver">寄件</string>
     <string name="title_activity_result">物流详情</string>
     <string name="title_activity_history">历史记录</string>
     <string name="title_activity_qrcode">生成二维码</string>
