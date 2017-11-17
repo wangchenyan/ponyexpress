@@ -78,6 +78,10 @@ public final class CameraManager {
         autoFocusCallback = new AutoFocusCallback();
     }
 
+    public CameraConfigurationManager getConfigManager() {
+        return configManager;
+    }
+
     public void setBarcode(boolean barcode) {
         isBarcode = barcode;
         // reset framing rect

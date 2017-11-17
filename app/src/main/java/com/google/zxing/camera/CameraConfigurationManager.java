@@ -26,7 +26,7 @@ import android.view.WindowManager;
 
 import java.util.List;
 
-final class CameraConfigurationManager {
+public final class CameraConfigurationManager {
     private static final String TAG = "CameraConfigurationMana";
     private final Context context;
     private Point screenResolution;
@@ -123,7 +123,7 @@ final class CameraConfigurationManager {
     /**
      * https://developer.android.com/reference/android/hardware/Camera.html#setDisplayOrientation(int)
      */
-    private int getDisplayOrientation() {
+    public int getDisplayOrientation() {
         Camera.CameraInfo info = getBackCameraInfo();
         if (info != null) {
             WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

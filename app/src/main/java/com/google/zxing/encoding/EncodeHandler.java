@@ -1,5 +1,6 @@
 package com.google.zxing.encoding;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ public final class EncodeHandler {
      * @param text   要生成的字符串
      * @param length 生成的图片边长
      */
+    @SuppressLint("StaticFieldLeak")
     public static void createQRCode(String text, int length, final Callback<Bitmap> callback) {
         new AsyncTask<Object, Void, Bitmap>() {
             @Override
@@ -53,7 +55,9 @@ public final class EncodeHandler {
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
-                callback.onEvent(bitmap);
+                if (callback != null) {
+                    callback.onEvent(bitmap);
+                }
             }
         }.execute(text, length);
     }

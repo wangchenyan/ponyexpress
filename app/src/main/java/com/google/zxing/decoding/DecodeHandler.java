@@ -26,6 +26,7 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.Result;
+import com.google.zxing.camera.CameraManager;
 import com.google.zxing.common.HybridBinarizer;
 
 import java.util.Hashtable;
@@ -68,8 +69,28 @@ final class DecodeHandler extends Handler {
         long start = System.currentTimeMillis();
         Result rawResult = null;
 
+        byte[] rotatedData = new byte[data.length];
+        int degree = CameraManager.get().getConfigManager().getDisplayOrientation();
+        if (degree == 90 || degree == 270) {
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if (degree == 90) {
+                        rotatedData[x * height + (height - y - 1)] = data[x + y * width];
+                    } else {
+                        rotatedData[(width - x - 1) * height + y] = data[x + y * width];
+                    }
+                }
+            }
+
+            int tmp = width;
+            width = height;
+            height = tmp;
+        } else {
+            rotatedData = data;
+        }
+
         try {
-            PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
+            PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(rotatedData, width, height, 0, 0, width, height, false);
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             rawResult = multiFormatReader.decodeWithState(bitmap);
         } catch (Exception e) {

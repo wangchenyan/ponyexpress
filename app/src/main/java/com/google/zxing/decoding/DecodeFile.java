@@ -1,5 +1,6 @@
 package com.google.zxing.decoding;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,7 @@ import java.util.Hashtable;
 
 public class DecodeFile {
 
+    @SuppressLint("StaticFieldLeak")
     public static void decodeFile(ContentResolver resolver, Uri uri, Hashtable<DecodeHintType, Object> hints, final Callback<Result> callback) {
         new AsyncTask<Object, Void, Result>() {
             @Override
