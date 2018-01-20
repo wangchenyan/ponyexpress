@@ -75,10 +75,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height" />
 
-    <ListView
-        android:id="@+id/lv_suggestion"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_suggestion"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="@dimen/divider_height"
-        android:footerDividersEnabled="true" />
+        android:layout_height="match_parent" />
 </LinearLayout>

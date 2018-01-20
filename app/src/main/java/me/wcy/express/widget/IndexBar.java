@@ -90,7 +90,7 @@ public class IndexBar extends LinearLayout {
         }
 
         String index = INDEXES[position];
-        boolean showIndicator = event.getAction() != MotionEvent.ACTION_UP;
+        boolean showIndicator = event.getAction() != MotionEvent.ACTION_UP && event.getAction() != MotionEvent.ACTION_CANCEL;
         if (mListener != null) {
             mListener.onIndexChanged(index, showIndicator);
         }

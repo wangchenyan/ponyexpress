@@ -3,12 +3,10 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <ListView
-        android:id="@+id/lv_history_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_history_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="@dimen/divider_height"
-        android:footerDividersEnabled="true" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/tv_empty"

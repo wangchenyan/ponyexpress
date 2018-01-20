@@ -3,14 +3,15 @@ package me.wcy.express.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
@@ -27,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 import me.wcy.express.R;
-import me.wcy.express.adapter.SuggestionAdapter;
 import me.wcy.express.constants.Extras;
 import me.wcy.express.constants.RequestCode;
 import me.wcy.express.http.HttpCallback;
@@ -38,20 +38,23 @@ import me.wcy.express.model.SuggestionResult;
 import me.wcy.express.utils.PermissionReq;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.viewholder.SuggestionViewHolder;
+import me.wcy.express.widget.radapter.RAdapter;
+import me.wcy.express.widget.radapter.RSingleDelegate;
 
-public class SearchActivity extends BaseActivity implements TextWatcher, View.OnClickListener,
-        AdapterView.OnItemClickListener {
+public class SearchActivity extends BaseActivity implements TextWatcher, View.OnClickListener {
     @Bind(R.id.et_post_id)
     private EditText etPostId;
     @Bind(R.id.iv_scan)
     private ImageView ivScan;
     @Bind(R.id.iv_clear)
     private ImageView ivClear;
-    @Bind(R.id.lv_suggestion)
-    private ListView lvSuggestion;
+    @Bind(R.id.rv_suggestion)
+    private RecyclerView rvSuggestion;
+
     private Map<String, CompanyEntity> mCompanyMap = new HashMap<>();
     private List<CompanyEntity> mSuggestionList = new ArrayList<>();
-    private SuggestionAdapter mSuggestionAdapter = new SuggestionAdapter(mSuggestionList);
+    private RAdapter<CompanyEntity> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +62,14 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
         setContentView(R.layout.activity_search);
         readCompany();
 
-        lvSuggestion.setAdapter(mSuggestionAdapter);
+        adapter = new RAdapter<>(mSuggestionList, new RSingleDelegate<>(SuggestionViewHolder.class));
+        rvSuggestion.setLayoutManager(new LinearLayoutManager(this));
+        rvSuggestion.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        rvSuggestion.setAdapter(adapter);
     }
 
     @Override
     protected void setListener() {
-        lvSuggestion.setOnItemClickListener(this);
         etPostId.addTextChangedListener(this);
         ivScan.setOnClickListener(this);
         ivClear.setOnClickListener(this);
@@ -111,10 +116,11 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
             ivClear.setVisibility(View.INVISIBLE);
         }
         mSuggestionList.clear();
-        mSuggestionAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         if (s.length() >= 8) {
             getSuggestion(s.toString());
         }
+        adapter.setTag(s.toString());
     }
 
     private void getSuggestion(final String postId) {
@@ -152,7 +158,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
         CompanyEntity companyEntity = new CompanyEntity();
         companyEntity.setName(String.format(label, grey, blue));
         mSuggestionList.add(companyEntity);
-        mSuggestionAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -182,20 +188,6 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
                     }
                 })
                 .request();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (position == mSuggestionList.size() - 1) {
-            startActivityForResult(new Intent(this, CompanyActivity.class), RequestCode.REQUEST_COMPANY);
-            return;
-        }
-        SearchInfo searchInfo = new SearchInfo();
-        searchInfo.setPost_id(etPostId.getText().toString());
-        searchInfo.setCode(mSuggestionList.get(position).getCode());
-        searchInfo.setName(mSuggestionList.get(position).getName());
-        searchInfo.setLogo(mSuggestionList.get(position).getLogo());
-        ResultActivity.start(this, searchInfo);
     }
 
     @Override

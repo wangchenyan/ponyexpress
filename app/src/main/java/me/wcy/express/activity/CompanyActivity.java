@@ -1,12 +1,11 @@
 package me.wcy.express.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -20,21 +19,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.wcy.express.R;
-import me.wcy.express.adapter.CompanyAdapter;
-import me.wcy.express.constants.Extras;
 import me.wcy.express.model.CompanyEntity;
-import me.wcy.express.model.SearchInfo;
 import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.viewholder.CompanyIndexViewHolder;
+import me.wcy.express.viewholder.CompanyNameViewHolder;
 import me.wcy.express.widget.IndexBar;
+import me.wcy.express.widget.radapter.RAdapter;
+import me.wcy.express.widget.radapter.RAdapterDelegate;
+import me.wcy.express.widget.radapter.RViewHolder;
 
-public class CompanyActivity extends BaseActivity implements OnItemClickListener, IndexBar.OnIndexChangedListener {
-    @Bind(R.id.lv_company)
-    private ListView lvCompany;
+public class CompanyActivity extends BaseActivity implements IndexBar.OnIndexChangedListener {
+    @Bind(R.id.rv_company)
+    private RecyclerView rvCompany;
     @Bind(R.id.ib_indicator)
     private IndexBar ibIndicator;
     @Bind(R.id.tv_indicator)
     private TextView tvIndicator;
+
     private List<CompanyEntity> mCompanyList = new ArrayList<>();
+    private RAdapter<CompanyEntity> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +45,24 @@ public class CompanyActivity extends BaseActivity implements OnItemClickListener
         setContentView(R.layout.activity_company);
 
         readCompany();
-        lvCompany.setAdapter(new CompanyAdapter(mCompanyList));
-    }
+        adapter = new RAdapter<>(mCompanyList, delegate);
+        rvCompany.setLayoutManager(new LinearLayoutManager(this));
+        rvCompany.setAdapter(adapter);
+        rvCompany.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-    @Override
-    protected void setListener() {
-        lvCompany.setOnItemClickListener(this);
         ibIndicator.setOnIndexChangedListener(this);
     }
+
+    private RAdapterDelegate<CompanyEntity> delegate = new RAdapterDelegate<CompanyEntity>() {
+        @Override
+        public Class<? extends RViewHolder<CompanyEntity>> getViewHolderClass(int position) {
+            if (TextUtils.isEmpty(mCompanyList.get(position).getCode())) {
+                return CompanyIndexViewHolder.class;
+            } else {
+                return CompanyNameViewHolder.class;
+            }
+        }
+    };
 
     private void readCompany() {
         try {
@@ -73,18 +86,6 @@ public class CompanyActivity extends BaseActivity implements OnItemClickListener
     }
 
     @Override
-    public void onItemClick(AdapterView<?> view, View arg1, int position, long arg3) {
-        SearchInfo searchInfo = new SearchInfo();
-        searchInfo.setName(mCompanyList.get(position).getName());
-        searchInfo.setLogo(mCompanyList.get(position).getLogo());
-        searchInfo.setCode(mCompanyList.get(position).getCode());
-        Intent intent = new Intent();
-        intent.putExtra(Extras.SEARCH_INFO, searchInfo);
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    @Override
     public void onIndexChanged(String index, boolean isDown) {
         int position = -1;
         for (CompanyEntity company : mCompanyList) {
@@ -94,7 +95,7 @@ public class CompanyActivity extends BaseActivity implements OnItemClickListener
             }
         }
         if (position != -1) {
-            lvCompany.setSelection(position);
+            rvCompany.scrollToPosition(position);
         }
         tvIndicator.setText(index);
         tvIndicator.setVisibility(isDown ? View.VISIBLE : View.GONE);

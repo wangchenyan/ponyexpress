@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,14 +14,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import me.wcy.express.R;
-import me.wcy.express.adapter.ResultAdapter;
 import me.wcy.express.constants.Extras;
 import me.wcy.express.http.HttpCallback;
 import me.wcy.express.http.HttpClient;
@@ -28,6 +32,9 @@ import me.wcy.express.model.SearchResult;
 import me.wcy.express.utils.DataManager;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.viewholder.ResultViewHolder;
+import me.wcy.express.widget.radapter.RAdapter;
+import me.wcy.express.widget.radapter.RSingleDelegate;
 
 public class ResultActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "ResultActivity";
@@ -39,8 +46,8 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     private TextView tvName;
     @Bind(R.id.ll_result)
     private LinearLayout llResult;
-    @Bind(R.id.lv_result_list)
-    private ListView lvResultList;
+    @Bind(R.id.rv_result_list)
+    private RecyclerView rvResultList;
     @Bind(R.id.btn_remark)
     private Button btnRemark;
     @Bind(R.id.ll_no_exist)
@@ -53,7 +60,10 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     private Button btnRetry;
     @Bind(R.id.tv_searching)
     private TextView tvSearching;
+
     private SearchInfo mSearchInfo;
+    private List<SearchResult.ResultItem> resultItemList = new ArrayList<>();
+    private RAdapter<SearchResult.ResultItem> adapter;
 
     public static void start(Context context, SearchInfo searchInfo) {
         Intent intent = new Intent(context, ResultActivity.class);
@@ -74,6 +84,10 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
                 .placeholder(R.drawable.ic_default_logo)
                 .into(ivLogo);
         refreshSearchInfo();
+
+        adapter = new RAdapter<>(resultItemList, new RSingleDelegate<>(ResultViewHolder.class));
+        rvResultList.setLayoutManager(new LinearLayoutManager(this));
+        rvResultList.setAdapter(adapter);
 
         query();
     }
@@ -121,7 +135,8 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
             llNoExist.setVisibility(View.GONE);
             llError.setVisibility(View.GONE);
             tvSearching.setVisibility(View.GONE);
-            lvResultList.setAdapter(new ResultAdapter(searchResult));
+            Collections.addAll(resultItemList, searchResult.getData());
+            adapter.notifyDataSetChanged();
             mSearchInfo.setIs_check(searchResult.getIscheck());
             DataManager.getInstance().updateHistory(mSearchInfo);
         } else {

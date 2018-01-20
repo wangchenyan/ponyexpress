@@ -7,13 +7,13 @@ import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.zxing.activity.CaptureActivity;
@@ -22,16 +22,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.wcy.express.R;
-import me.wcy.express.adapter.HistoryAdapter;
 import me.wcy.express.database.History;
-import me.wcy.express.model.SearchInfo;
 import me.wcy.express.utils.DataManager;
 import me.wcy.express.utils.PermissionReq;
 import me.wcy.express.utils.SnackbarUtils;
 import me.wcy.express.utils.binding.Bind;
+import me.wcy.express.viewholder.HistoryViewHolder;
+import me.wcy.express.widget.radapter.RAdapter;
+import me.wcy.express.widget.radapter.RSingleDelegate;
 
-public class ExpressActivity extends BaseActivity implements OnClickListener, OnItemClickListener,
-        NavigationView.OnNavigationItemSelectedListener {
+public class ExpressActivity extends BaseActivity implements OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     @Bind(R.id.drawer_layout)
     private DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
@@ -42,12 +42,13 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, On
     private TextView tvPost;
     @Bind(R.id.tv_sweep)
     private TextView tvSweep;
-    @Bind(R.id.lv_un_check)
-    private ListView lvUnCheck;
+    @Bind(R.id.rv_un_check)
+    private RecyclerView rvUnCheck;
     @Bind(R.id.tv_empty)
     private TextView tvEmpty;
+
     private List<History> mUnCheckList = new ArrayList<>();
-    private HistoryAdapter mAdapter = new HistoryAdapter(mUnCheckList);
+    private RAdapter<History> adapter;
     private long mExitTime = 0;
 
     @Override
@@ -55,14 +56,17 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_express);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        lvUnCheck.setAdapter(mAdapter);
+        adapter = new RAdapter<>(mUnCheckList, new RSingleDelegate<>(HistoryViewHolder.class));
+        rvUnCheck.setLayoutManager(new LinearLayoutManager(this));
+        rvUnCheck.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        rvUnCheck.setAdapter(adapter);
     }
 
     @Override
@@ -76,7 +80,6 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, On
         tvSearch.setOnClickListener(this);
         tvPost.setOnClickListener(this);
         tvSweep.setOnClickListener(this);
-        lvUnCheck.setOnItemClickListener(this);
     }
 
     @Override
@@ -85,7 +88,7 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, On
         List<History> unCheckList = DataManager.getInstance().getUnCheckList();
         mUnCheckList.clear();
         mUnCheckList.addAll(unCheckList);
-        mAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         tvEmpty.setVisibility(mUnCheckList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
@@ -121,17 +124,6 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, On
                     }
                 })
                 .request();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        History history = mUnCheckList.get(position);
-        SearchInfo searchInfo = new SearchInfo();
-        searchInfo.setPost_id(history.getPost_id());
-        searchInfo.setCode(history.getCompany_param());
-        searchInfo.setName(history.getCompany_name());
-        searchInfo.setLogo(history.getCompany_icon());
-        ResultActivity.start(this, searchInfo);
     }
 
     private void share() {

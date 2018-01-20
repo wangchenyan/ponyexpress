@@ -79,12 +79,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
-                android:id="@+id/lv_un_check"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_un_check"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:dividerHeight="@dimen/divider_height"
-                android:footerDividersEnabled="true" />
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/tv_empty"
