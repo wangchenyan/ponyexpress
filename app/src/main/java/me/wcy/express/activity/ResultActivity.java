@@ -1,7 +1,6 @@
 package me.wcy.express.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -61,7 +60,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     @Bind(R.id.tv_searching)
     private TextView tvSearching;
 
-    private SearchInfo mSearchInfo;
+    private SearchInfo searchInfo;
     private List<SearchResult.ResultItem> resultItemList = new ArrayList<>();
     private RAdapter<SearchResult.ResultItem> adapter;
 
@@ -77,13 +76,17 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         setContentView(R.layout.activity_result);
 
         Intent intent = getIntent();
-        mSearchInfo = (SearchInfo) intent.getSerializableExtra(Extras.SEARCH_INFO);
+        searchInfo = (SearchInfo) intent.getSerializableExtra(Extras.SEARCH_INFO);
         Glide.with(this)
-                .load(HttpClient.urlForLogo(mSearchInfo.getLogo()))
+                .load(HttpClient.urlForLogo(searchInfo.getLogo()))
                 .dontAnimate()
                 .placeholder(R.drawable.ic_default_logo)
                 .into(ivLogo);
         refreshSearchInfo();
+
+        btnRemark.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
+        btnRetry.setOnClickListener(this);
 
         adapter = new RAdapter<>(resultItemList, new RSingleDelegate<>(ResultViewHolder.class));
         rvResultList.setLayoutManager(new LinearLayoutManager(this));
@@ -92,26 +95,19 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         query();
     }
 
-    @Override
-    protected void setListener() {
-        btnRemark.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
-        btnRetry.setOnClickListener(this);
-    }
-
     private void refreshSearchInfo() {
-        String remark = DataManager.getInstance().getRemark(mSearchInfo.getPost_id());
+        String remark = DataManager.getInstance().getRemark(searchInfo.getPost_id());
         if (TextUtils.isEmpty(remark)) {
-            tvName.setText(mSearchInfo.getName());
-            tvPostId.setText(mSearchInfo.getPost_id());
+            tvName.setText(searchInfo.getName());
+            tvPostId.setText(searchInfo.getPost_id());
         } else {
             tvName.setText(remark);
-            tvPostId.setText(mSearchInfo.getName() + " " + mSearchInfo.getPost_id());
+            tvPostId.setText(searchInfo.getName().concat(" ").concat(searchInfo.getPost_id()));
         }
     }
 
     private void query() {
-        HttpClient.query(mSearchInfo.getCode(), mSearchInfo.getPost_id(), new HttpCallback<SearchResult>() {
+        HttpClient.query(searchInfo.getCode(), searchInfo.getPost_id(), new HttpCallback<SearchResult>() {
             @Override
             public void onResponse(SearchResult searchResult) {
                 Log.i(TAG, searchResult.getMessage());
@@ -137,14 +133,14 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
             tvSearching.setVisibility(View.GONE);
             Collections.addAll(resultItemList, searchResult.getData());
             adapter.notifyDataSetChanged();
-            mSearchInfo.setIs_check(searchResult.getIscheck());
-            DataManager.getInstance().updateHistory(mSearchInfo);
+            searchInfo.setIs_check(searchResult.getIscheck());
+            DataManager.getInstance().updateHistory(searchInfo);
         } else {
             llResult.setVisibility(View.GONE);
             llNoExist.setVisibility(View.VISIBLE);
             llError.setVisibility(View.GONE);
             tvSearching.setVisibility(View.GONE);
-            btnSave.setText(DataManager.getInstance().idExists(mSearchInfo.getPost_id()) ? "运单备注" : "保存运单信息");
+            btnSave.setText(DataManager.getInstance().idExists(searchInfo.getPost_id()) ? "运单备注" : "保存运单信息");
         }
     }
 
@@ -158,10 +154,10 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
                 if (TextUtils.equals(btnSave.getText().toString(), "运单备注")) {
                     remark();
                 } else {
-                    mSearchInfo.setIs_check("0");
-                    DataManager.getInstance().updateHistory(mSearchInfo);
+                    searchInfo.setIs_check("0");
+                    DataManager.getInstance().updateHistory(searchInfo);
                     SnackbarUtils.show(this, "保存成功");
-                    mHandler.postDelayed(new Runnable() {
+                    handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (!ResultActivity.this.isFinishing()) {
@@ -183,19 +179,16 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
 
     private void remark() {
         View view = getLayoutInflater().inflate(R.layout.dialog_result, null);
-        final EditText etRemark = (EditText) view.findViewById(R.id.et_remark);
-        etRemark.setText(DataManager.getInstance().getRemark(mSearchInfo.getPost_id()));
+        EditText etRemark = view.findViewById(R.id.et_remark);
+        etRemark.setText(DataManager.getInstance().getRemark(searchInfo.getPost_id()));
         etRemark.setSelection(etRemark.length());
         new AlertDialog.Builder(this)
                 .setTitle("备注名")
                 .setView(view)
-                .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DataManager.getInstance().updateRemark(mSearchInfo.getPost_id(), etRemark.getText().toString());
-                        refreshSearchInfo();
-                        SnackbarUtils.show(ResultActivity.this, "备注成功");
-                    }
+                .setPositiveButton(R.string.sure, (dialog, which) -> {
+                    DataManager.getInstance().updateRemark(searchInfo.getPost_id(), etRemark.getText().toString());
+                    refreshSearchInfo();
+                    SnackbarUtils.show(ResultActivity.this, "备注成功");
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show();

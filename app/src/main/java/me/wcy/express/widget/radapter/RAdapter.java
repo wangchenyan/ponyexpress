@@ -98,11 +98,11 @@ public class RAdapter<T> extends RecyclerView.Adapter<RViewHolder<T>> {
         if (clazz == RViewHolder.class) {
             return 0;
         }
-        RLayout bind = clazz.getAnnotation(RLayout.class);
-        if (bind == null) {
+        RLayout layout = clazz.getAnnotation(RLayout.class);
+        if (layout == null) {
             // 找不到去父类找
             return getLayoutResId(clazz.getSuperclass());
         }
-        return bind.value();
+        return layout.value();
     }
 }

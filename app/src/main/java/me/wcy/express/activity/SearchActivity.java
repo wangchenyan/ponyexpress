@@ -52,8 +52,8 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
     @Bind(R.id.rv_suggestion)
     private RecyclerView rvSuggestion;
 
-    private Map<String, CompanyEntity> mCompanyMap = new HashMap<>();
-    private List<CompanyEntity> mSuggestionList = new ArrayList<>();
+    private Map<String, CompanyEntity> companyMap = new HashMap<>();
+    private List<CompanyEntity> suggestionList = new ArrayList<>();
     private RAdapter<CompanyEntity> adapter;
 
     @Override
@@ -62,17 +62,14 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
         setContentView(R.layout.activity_search);
         readCompany();
 
-        adapter = new RAdapter<>(mSuggestionList, new RSingleDelegate<>(SuggestionViewHolder.class));
-        rvSuggestion.setLayoutManager(new LinearLayoutManager(this));
-        rvSuggestion.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        rvSuggestion.setAdapter(adapter);
-    }
-
-    @Override
-    protected void setListener() {
         etPostId.addTextChangedListener(this);
         ivScan.setOnClickListener(this);
         ivClear.setOnClickListener(this);
+
+        adapter = new RAdapter<>(suggestionList, new RSingleDelegate<>(SuggestionViewHolder.class));
+        rvSuggestion.setLayoutManager(new LinearLayoutManager(this));
+        rvSuggestion.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        rvSuggestion.setAdapter(adapter);
     }
 
     private void readCompany() {
@@ -90,7 +87,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
             for (JsonElement obj : jArray) {
                 CompanyEntity company = gson.fromJson(obj, CompanyEntity.class);
                 if (!TextUtils.isEmpty(company.getCode())) {
-                    mCompanyMap.put(company.getCode(), company);
+                    companyMap.put(company.getCode(), company);
                 }
             }
         } catch (IOException e) {
@@ -115,7 +112,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
             ivScan.setVisibility(View.VISIBLE);
             ivClear.setVisibility(View.INVISIBLE);
         }
-        mSuggestionList.clear();
+        suggestionList.clear();
         adapter.notifyDataSetChanged();
         if (s.length() >= 8) {
             getSuggestion(s.toString());
@@ -144,11 +141,11 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
     }
 
     private void onSuggestion(SuggestionResult response) {
-        mSuggestionList.clear();
+        suggestionList.clear();
         if (response != null && response.getAuto() != null && !response.getAuto().isEmpty()) {
             for (SuggestionResult.AutoBean bean : response.getAuto()) {
-                if (mCompanyMap.containsKey(bean.getComCode())) {
-                    mSuggestionList.add(mCompanyMap.get(bean.getComCode()));
+                if (companyMap.containsKey(bean.getComCode())) {
+                    suggestionList.add(companyMap.get(bean.getComCode()));
                 }
             }
         }
@@ -157,7 +154,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
         String blue = String.format("#%06X", 0xFFFFFF & getResources().getColor(R.color.blue));
         CompanyEntity companyEntity = new CompanyEntity();
         companyEntity.setName(String.format(label, grey, blue));
-        mSuggestionList.add(companyEntity);
+        suggestionList.add(companyEntity);
         adapter.notifyDataSetChanged();
     }
 
@@ -210,8 +207,6 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
                 Intent intent = new Intent(this, ResultActivity.class);
                 intent.putExtra(Extras.SEARCH_INFO, mSearchInfo);
                 startActivity(intent);
-                break;
-            default:
                 break;
         }
     }

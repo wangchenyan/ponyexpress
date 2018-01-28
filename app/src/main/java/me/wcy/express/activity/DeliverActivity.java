@@ -10,7 +10,7 @@ import com.just.library.AgentWeb;
 public class DeliverActivity extends BaseActivity {
     private static final String URL = "https://m.kuaidi100.com/courier/";
 
-    private AgentWeb mAgentWeb;
+    private AgentWeb agentWeb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class DeliverActivity extends BaseActivity {
         frameLayout.setFitsSystemWindows(true);
         setContentView(frameLayout);
 
-        mAgentWeb = AgentWeb.with(this)
+        agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(frameLayout, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator()
                 .defaultProgressBarColor()
@@ -31,25 +31,25 @@ public class DeliverActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        mAgentWeb.getWebLifeCycle().onResume();
+        agentWeb.getWebLifeCycle().onResume();
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        mAgentWeb.getWebLifeCycle().onPause();
+        agentWeb.getWebLifeCycle().onPause();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        mAgentWeb.getWebLifeCycle().onDestroy();
+        agentWeb.getWebLifeCycle().onDestroy();
         super.onDestroy();
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mAgentWeb.handleKeyEvent(keyCode, event)) {
+        if (agentWeb.handleKeyEvent(keyCode, event)) {
             return true;
         }
         return super.onKeyDown(keyCode, event);

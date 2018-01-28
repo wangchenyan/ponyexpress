@@ -24,7 +24,7 @@ public class HistoryActivity extends BaseActivity {
     @Bind(R.id.tv_empty)
     private TextView tvEmpty;
 
-    private List<History> mHistoryList = new ArrayList<>();
+    private List<History> historyList = new ArrayList<>();
     private RAdapter<History> adapter;
 
     @Override
@@ -32,7 +32,7 @@ public class HistoryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        adapter = new RAdapter<>(mHistoryList, new RSingleDelegate<>(HistoryViewHolder.class));
+        adapter = new RAdapter<>(historyList, new RSingleDelegate<>(HistoryViewHolder.class));
         rvHistoryList.setLayoutManager(new LinearLayoutManager(this));
         rvHistoryList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvHistoryList.setAdapter(adapter);
@@ -46,9 +46,9 @@ public class HistoryActivity extends BaseActivity {
 
     private void refreshList() {
         List<History> historyList = DataManager.getInstance().getHistoryList();
-        mHistoryList.clear();
-        mHistoryList.addAll(historyList);
+        this.historyList.clear();
+        this.historyList.addAll(historyList);
         adapter.notifyDataSetChanged();
-        tvEmpty.setVisibility(mHistoryList.isEmpty() ? View.VISIBLE : View.GONE);
+        tvEmpty.setVisibility(this.historyList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 }

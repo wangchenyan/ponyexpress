@@ -47,9 +47,9 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
     @Bind(R.id.tv_empty)
     private TextView tvEmpty;
 
-    private List<History> mUnCheckList = new ArrayList<>();
+    private List<History> unCheckList = new ArrayList<>();
     private RAdapter<History> adapter;
-    private long mExitTime = 0;
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,12 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         }
 
-        adapter = new RAdapter<>(mUnCheckList, new RSingleDelegate<>(HistoryViewHolder.class));
+        navigationView.setNavigationItemSelectedListener(this);
+        tvSearch.setOnClickListener(this);
+        tvPost.setOnClickListener(this);
+        tvSweep.setOnClickListener(this);
+
+        adapter = new RAdapter<>(unCheckList, new RSingleDelegate<>(HistoryViewHolder.class));
         rvUnCheck.setLayoutManager(new LinearLayoutManager(this));
         rvUnCheck.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvUnCheck.setAdapter(adapter);
@@ -75,21 +80,13 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
     }
 
     @Override
-    protected void setListener() {
-        navigationView.setNavigationItemSelectedListener(this);
-        tvSearch.setOnClickListener(this);
-        tvPost.setOnClickListener(this);
-        tvSweep.setOnClickListener(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         List<History> unCheckList = DataManager.getInstance().getUnCheckList();
-        mUnCheckList.clear();
-        mUnCheckList.addAll(unCheckList);
+        this.unCheckList.clear();
+        this.unCheckList.addAll(unCheckList);
         adapter.notifyDataSetChanged();
-        tvEmpty.setVisibility(mUnCheckList.isEmpty() ? View.VISIBLE : View.GONE);
+        tvEmpty.setVisibility(this.unCheckList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -179,8 +176,8 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
             drawerLayout.closeDrawers();
             return;
         }
-        if (System.currentTimeMillis() - mExitTime > 2000) {
-            mExitTime = System.currentTimeMillis();
+        if (System.currentTimeMillis() - exitTime > 2000) {
+            exitTime = System.currentTimeMillis();
             SnackbarUtils.show(this, R.string.click2exit);
         } else {
             finish();

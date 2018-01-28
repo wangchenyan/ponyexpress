@@ -36,7 +36,7 @@ public class CompanyActivity extends BaseActivity implements IndexBar.OnIndexCha
     @Bind(R.id.tv_indicator)
     private TextView tvIndicator;
 
-    private List<CompanyEntity> mCompanyList = new ArrayList<>();
+    private List<CompanyEntity> companyList = new ArrayList<>();
     private RAdapter<CompanyEntity> adapter;
 
     @Override
@@ -45,7 +45,7 @@ public class CompanyActivity extends BaseActivity implements IndexBar.OnIndexCha
         setContentView(R.layout.activity_company);
 
         readCompany();
-        adapter = new RAdapter<>(mCompanyList, delegate);
+        adapter = new RAdapter<>(companyList, delegate);
         rvCompany.setLayoutManager(new LinearLayoutManager(this));
         rvCompany.setAdapter(adapter);
         rvCompany.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -56,7 +56,7 @@ public class CompanyActivity extends BaseActivity implements IndexBar.OnIndexCha
     private RAdapterDelegate<CompanyEntity> delegate = new RAdapterDelegate<CompanyEntity>() {
         @Override
         public Class<? extends RViewHolder<CompanyEntity>> getViewHolderClass(int position) {
-            if (TextUtils.isEmpty(mCompanyList.get(position).getCode())) {
+            if (TextUtils.isEmpty(companyList.get(position).getCode())) {
                 return CompanyIndexViewHolder.class;
             } else {
                 return CompanyNameViewHolder.class;
@@ -78,7 +78,7 @@ public class CompanyActivity extends BaseActivity implements IndexBar.OnIndexCha
             JsonArray jArray = parser.parse(json).getAsJsonArray();
             for (JsonElement obj : jArray) {
                 CompanyEntity company = gson.fromJson(obj, CompanyEntity.class);
-                mCompanyList.add(company);
+                companyList.add(company);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,9 +88,9 @@ public class CompanyActivity extends BaseActivity implements IndexBar.OnIndexCha
     @Override
     public void onIndexChanged(String index, boolean isDown) {
         int position = -1;
-        for (CompanyEntity company : mCompanyList) {
+        for (CompanyEntity company : companyList) {
             if (TextUtils.equals(company.getName(), index)) {
-                position = mCompanyList.indexOf(company);
+                position = companyList.indexOf(company);
                 break;
             }
         }

@@ -1,5 +1,6 @@
 package me.wcy.express.activity;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,11 +18,14 @@ import me.wcy.express.utils.PermissionReq;
 import me.wcy.express.utils.binding.ViewBinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    protected Handler mHandler = new Handler(Looper.getMainLooper());
+    protected Handler handler;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        handler = new Handler(Looper.getMainLooper());
 
         if (shouldSetStatusBarColor() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             SystemBarTintManager tintManager = new SystemBarTintManager(this);
@@ -53,15 +57,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        setListener();
-    }
-
-    protected void setListener() {
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
@@ -74,5 +69,26 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionReq.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void showProgress() {
+        showProgress(getString(R.string.loading));
+    }
+
+    public void showProgress(String message) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCancelable(false);
+        }
+        progressDialog.setMessage(message);
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    public void cancelProgress() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.cancel();
+        }
     }
 }

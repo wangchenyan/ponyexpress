@@ -1,8 +1,6 @@
 package me.wcy.express.activity;
 
 import android.Manifest;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.zxing.activity.Callback;
 import com.google.zxing.encoding.EncodeHandler;
 
 import java.io.File;
@@ -38,17 +35,14 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
     private Button btnCreate;
     @Bind(R.id.iv_qr_code)
     private ImageView ivQRCode;
-    private Bitmap mBitmap;
-    private ProgressDialog mProgressDialog;
+
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_code);
-    }
 
-    @Override
-    protected void setListener() {
         etText.addTextChangedListener(this);
         btnCreate.setOnClickListener(this);
         ivQRCode.setOnClickListener(this);
@@ -68,16 +62,13 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
 
     private void createQRCode() {
         showProgress();
-        mBitmap = null;
+        bitmap = null;
         String text = etText.getText().toString();
-        EncodeHandler.createQRCode(text, 500, new Callback<Bitmap>() {
-            @Override
-            public void onEvent(Bitmap bitmap) {
-                cancelProgress();
-                mBitmap = bitmap;
-                ivQRCode.setImageBitmap(mBitmap);
-                ivQRCode.setVisibility((mBitmap == null) ? View.GONE : View.VISIBLE);
-            }
+        EncodeHandler.createQRCode(text, 500, bitmap -> {
+            cancelProgress();
+            this.bitmap = bitmap;
+            ivQRCode.setImageBitmap(this.bitmap);
+            ivQRCode.setVisibility((this.bitmap == null) ? View.GONE : View.VISIBLE);
         });
     }
 
@@ -85,12 +76,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
         new AlertDialog.Builder(this)
                 .setTitle(R.string.tips)
                 .setMessage(R.string.qrcode_save_tips)
-                .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                check();
-                            }
-                        }
+                .setPositiveButton(R.string.save, (dialog, which) -> check()
                 ).
                 setNegativeButton(R.string.cancel, null)
                 .show();
@@ -124,7 +110,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
         File file = new File(Utils.getPictureDir() + fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
         } catch (Exception e) {
@@ -157,22 +143,5 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
-
-    private void showProgress() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setCancelable(false);
-        }
-
-        if (!mProgressDialog.isShowing()) {
-            mProgressDialog.show();
-        }
-    }
-
-    private void cancelProgress() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.cancel();
-        }
     }
 }
