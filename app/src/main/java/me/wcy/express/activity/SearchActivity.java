@@ -181,7 +181,7 @@ public class SearchActivity extends BaseActivity implements TextWatcher, View.On
 
                     @Override
                     public void onDenied() {
-                        SnackbarUtils.show(SearchActivity.this, getString(R.string.no_permission, "相机", "扫描单号"));
+                        SnackbarUtils.show(SearchActivity.this, "没有相机权限，无法扫描单号！");
                     }
                 })
                 .request();

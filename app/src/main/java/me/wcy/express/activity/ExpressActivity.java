@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -49,7 +50,6 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
 
     private List<History> unCheckList = new ArrayList<>();
     private RAdapter<History> adapter;
-    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +117,7 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
 
                     @Override
                     public void onDenied() {
-                        SnackbarUtils.show(ExpressActivity.this, getString(R.string.no_permission, "相机", "打开扫一扫"));
+                        SnackbarUtils.show(ExpressActivity.this, "没有相机权限，无法打开扫一扫！");
                     }
                 })
                 .request();
@@ -141,14 +141,9 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
     }
 
     @Override
-    public boolean onNavigationItemSelected(final MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawers();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                item.setChecked(false);
-            }
-        }, 500);
+        new Handler().postDelayed(() -> item.setChecked(false), 500);
         Intent intent = new Intent();
         switch (item.getItemId()) {
             case R.id.action_history:
@@ -176,11 +171,6 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
             drawerLayout.closeDrawers();
             return;
         }
-        if (System.currentTimeMillis() - exitTime > 2000) {
-            exitTime = System.currentTimeMillis();
-            SnackbarUtils.show(this, R.string.click2exit);
-        } else {
-            finish();
-        }
+        super.onBackPressed();
     }
 }

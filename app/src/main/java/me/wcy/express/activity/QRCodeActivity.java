@@ -98,7 +98,7 @@ public class QRCodeActivity extends BaseActivity implements OnClickListener, Tex
 
                     @Override
                     public void onDenied() {
-                        SnackbarUtils.show(QRCodeActivity.this, getString(R.string.no_permission, "读写存储", "保存二维码图片"));
+                        SnackbarUtils.show(QRCodeActivity.this, "没有读写存储权限，无法保存二维码图片！");
                     }
                 })
                 .request();
