@@ -29,7 +29,7 @@
 - 优化单号扫描界面
 
 ## 下载地址
-fir.im：http://fir.im/ponyexpress
+蒲公英：https://www.pgyer.com/ponyexpress
 
 ## 项目
 ### 公开API
