@@ -4,7 +4,7 @@
 ## 前言
 这是我第一个独立完成的项目，时隔多年又把它拿出来重构了一下代码。
 
-- 项目地址：https://github.com/wangchenyan/PonyExpress
+- 项目地址：https://github.com/wangchenyan/ponyexpress
 - 有问题请提Issues
 - 如果喜欢，欢迎Star！
 
@@ -113,11 +113,11 @@ public class GsonRequest<T> extends Request<T> {
 ```
 
 ## 截图
-![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_01.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_02.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_03.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_04.jpg)
-![](https://raw.githubusercontent.com/wangchenyan/PonyExpress/master/art/screenshot_05.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/art/screenshot_01.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/art/screenshot_02.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/art/screenshot_03.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/art/screenshot_04.jpg)
+![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/art/screenshot_05.jpg)
 
 ## 关于作者
 简书：http://www.jianshu.com/users/3231579893ac<br>
