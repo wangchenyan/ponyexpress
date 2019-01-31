@@ -120,7 +120,7 @@ public class GsonRequest<T> extends Request<T> {
 ![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/art/screenshot_05.jpg)
 
 ## 关于作者
-简书：http://www.jianshu.com/users/3231579893ac<br>
+掘金：https://juejin.im/user/58abd9f1da2f607e924e945a<br>
 微博：http://weibo.com/wangchenyan1993
 
 ## License
