@@ -29,7 +29,11 @@
 - 优化单号扫描界面
 
 ## 下载地址
-fir：https://fir.im/ponyexpress
+https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/release/ponyexpress_2.1.0.apk
+
+扫码下载
+
+![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/release/ponyexpress_2.1.0.png)
 
 ## 项目
 ### 公开API
@@ -44,7 +48,7 @@ fir：https://fir.im/ponyexpress
 
 ### 关键代码
 网络请求`Volley + Gson`
-```java
+```
 public static void query(String type, String postId, final HttpCallback<SearchResult> callback) {
     String action = "/query";
     Map<String, String> params = new HashMap<>(2);
