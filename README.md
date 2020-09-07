@@ -29,11 +29,12 @@
 - 优化单号扫描界面
 
 ## 下载地址
-https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/release/ponyexpress_2.1.0.apk
+### 2.1
+https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/release/ponyexpress.apk
 
 扫码下载
 
-![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/release/ponyexpress_2.1.0.png)
+![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/release/qrcode.png)
 
 ## 项目
 ### 公开API
@@ -124,8 +125,8 @@ public class GsonRequest<T> extends Request<T> {
 ![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/art/screenshot_05.jpg)
 
 ## 关于作者
-掘金：https://juejin.im/user/58abd9f1da2f607e924e945a<br>
-微博：http://weibo.com/wangchenyan1993
+掘金：https://juejin.im/user/2313028193754168<br>
+微博：https://weibo.com/wangchenyan1993
 
 ## License
 
