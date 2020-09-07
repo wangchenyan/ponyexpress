@@ -23,7 +23,7 @@ public class AboutActivity extends BaseActivity {
         private Preference mVersion;
         private Preference mStar;
         private Preference mWeibo;
-        private Preference mJianshu;
+        private Preference mBlog;
         private Preference mGithub;
 
         @Override
@@ -34,7 +34,7 @@ public class AboutActivity extends BaseActivity {
             mVersion = findPreference("version");
             mStar = findPreference("star");
             mWeibo = findPreference("weibo");
-            mJianshu = findPreference("jianshu");
+            mBlog = findPreference("blog");
             mGithub = findPreference("github");
 
             mVersion.setSummary("v " + BuildConfig.VERSION_NAME);
@@ -44,16 +44,16 @@ public class AboutActivity extends BaseActivity {
         private void setListener() {
             mStar.setOnPreferenceClickListener(this);
             mWeibo.setOnPreferenceClickListener(this);
-            mJianshu.setOnPreferenceClickListener(this);
+            mBlog.setOnPreferenceClickListener(this);
             mGithub.setOnPreferenceClickListener(this);
         }
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
-           if (preference == mStar) {
+            if (preference == mStar) {
                 openUrl(getString(R.string.about_project_url));
                 return true;
-            } else if (preference == mWeibo || preference == mJianshu || preference == mGithub) {
+            } else if (preference == mWeibo || preference == mBlog || preference == mGithub) {
                 openUrl(preference.getSummary().toString());
                 return true;
             }

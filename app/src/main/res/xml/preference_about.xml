@@ -7,7 +7,7 @@
             android:title="当前版本" />
         <Preference
             android:key="star"
-            android:summary="前往项目地址给个Star，鼓励作者"
+            android:summary="前往项目地址给个 Star，鼓励作者"
             android:title="给我点赞" />
     </PreferenceCategory>
     <PreferenceCategory android:title="关于作者">
@@ -16,9 +16,9 @@
             android:summary="@string/about_weibo"
             android:title="微博" />
         <Preference
-            android:key="jianshu"
-            android:summary="@string/about_jianshu"
-            android:title="简书" />
+            android:key="blog"
+            android:summary="@string/about_blog"
+            android:title="掘金" />
         <Preference
             android:key="github"
             android:summary="@string/about_github"

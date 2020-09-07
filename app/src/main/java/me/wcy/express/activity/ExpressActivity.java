@@ -126,7 +126,7 @@ public class ExpressActivity extends BaseActivity implements OnClickListener, Na
     private void share() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_content));
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_content, getString(R.string.app_name), getString(R.string.about_project_url)));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(Intent.createChooser(intent, getString(R.string.share)));
     }

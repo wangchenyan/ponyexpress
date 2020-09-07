@@ -28,11 +28,11 @@
     <string name="qrcode_save_success">二维码已保存至/SDCard/Pictures/%s</string>
     <string name="qrcode_no_sdcard">保存失败，SD卡不可用</string>
     <string name="qrcode_save_failure">保存失败</string>
-    <string name="share_content">我正在使用@小马快递，查询并跟踪快递，快递信息及时掌握！推荐你也试试：http://fir.im/ponyexpress</string>
+    <string name="share_content">我正在使用@%1$s，查询并跟踪快递，快递信息及时掌握！推荐你也试试：%2$s</string>
     <string name="analyze_fail">抱歉，未在图中发现条码！</string>
     <string name="remark">运单备注</string>
-    <string name="about_project_url">https://github.com/wangchenyan/PonyExpress</string>
-    <string name="about_weibo">http://weibo.com/wangchenyan1993</string>
-    <string name="about_jianshu">http://www.jianshu.com/users/3231579893ac</string>
+    <string name="about_project_url">https://github.com/wangchenyan/ponyexpress</string>
+    <string name="about_weibo">https://weibo.com/wangchenyan1993</string>
+    <string name="about_blog">https://juejin.im/user/2313028193754168</string>
     <string name="about_github">https://github.com/wangchenyan</string>
 </resources>
