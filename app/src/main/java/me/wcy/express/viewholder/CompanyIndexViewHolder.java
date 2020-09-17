@@ -12,7 +12,7 @@ import me.wcy.express.widget.radapter.RViewHolder;
 /**
  * Created by wcy on 2018/1/20.
  */
-@RLayout(R.layout.view_holder_company_index)
+@RLayout(value = R.layout.view_holder_company_index, isSticky = true)
 public class CompanyIndexViewHolder extends RViewHolder<CompanyEntity> {
     @Bind(R.id.tv_index)
     private TextView tvIndex;

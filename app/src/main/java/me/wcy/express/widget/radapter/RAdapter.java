@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by wcy on 2017/11/26.
  */
-public class RAdapter<T> extends RecyclerView.Adapter<RViewHolder<T>> {
+public class RAdapter<T> extends RecyclerView.Adapter<RViewHolder<T>> implements StickyAdapter<RViewHolder<T>> {
     private static final String TAG = "RAdapter";
 
     private List<T> dataList;
@@ -65,6 +65,18 @@ public class RAdapter<T> extends RecyclerView.Adapter<RViewHolder<T>> {
             viewHolderClassList.add(clazz);
         }
         return viewHolderClassList.indexOf(clazz);
+    }
+
+    @Override
+    public boolean isStickyViewType(int viewType) {
+        try {
+            Class<? extends RViewHolder<T>> clazz = viewHolderClassList.get(viewType);
+            RLayout layout = clazz.getAnnotation(RLayout.class);
+            return layout.isSticky();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public void insertItem(T t) {

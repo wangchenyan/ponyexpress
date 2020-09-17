@@ -27,6 +27,7 @@ import me.wcy.express.widget.IndexBar;
 import me.wcy.express.widget.radapter.RAdapter;
 import me.wcy.express.widget.radapter.RAdapterDelegate;
 import me.wcy.express.widget.radapter.RViewHolder;
+import me.wcy.express.widget.radapter.StickyDecoration;
 
 public class CompanyActivity extends BaseActivity implements IndexBar.OnIndexChangedListener {
     @Bind(R.id.rv_company)
@@ -48,7 +49,7 @@ public class CompanyActivity extends BaseActivity implements IndexBar.OnIndexCha
         adapter = new RAdapter<>(companyList, delegate);
         rvCompany.setLayoutManager(new LinearLayoutManager(this));
         rvCompany.setAdapter(adapter);
-        rvCompany.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        rvCompany.addItemDecoration(new StickyDecoration(adapter));
 
         ibIndicator.setOnIndexChangedListener(this);
     }
