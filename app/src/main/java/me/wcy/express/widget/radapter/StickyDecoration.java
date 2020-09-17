@@ -1,7 +1,6 @@
 package me.wcy.express.widget.radapter;
 
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +13,7 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
     private StickyAdapter mStickyAdapter;
     private View mStickyItemView;
     private int mStickyItemPosition = -1;
+    private int mStickyItemTop;
 
     public StickyDecoration(StickyAdapter stickyAdapter) {
         mStickyAdapter = stickyAdapter;
@@ -28,26 +28,24 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
         }
 
         // 吸顶位置底部位置
-        int stickyEndAt = mStickyItemView.getTop() + mStickyItemView.getHeight();
+        // TODO 需要完善
+        // int stickyEndAt = Math.max(mStickyItemTop + mStickyItemView.getHeight(), 0);
+        int stickyEndAt = mStickyItemView.getHeight();
         // 找到吸顶位置底部的第一个 itemView
         View itemView = parent.findChildViewUnder(0, stickyEndAt);
 
-        int stickyItemTop = 0;
         // 如果吸顶位置底部的第一个 itemView 是吸顶的，则要设置当前吸顶 view 的偏移量
         if (isStickyView(parent, itemView)) {
-            stickyItemTop = itemView.getTop() - mStickyItemView.getHeight();
+            mStickyItemTop = itemView.getTop() - mStickyItemView.getHeight();
+        } else {
+            mStickyItemTop = 0;
         }
 
         // 绘制
         c.save();
-        c.translate(0, stickyItemTop);
+        c.translate(0, mStickyItemTop);
         mStickyItemView.draw(c);
         c.restore();
-    }
-
-    @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        super.getItemOffsets(outRect, view, parent, state);
     }
 
     /**
@@ -77,10 +75,9 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
             return;
         }
 
-        mStickyItemPosition = stickyItemPosition;
-        int viewType = mStickyAdapter.getItemViewType(mStickyItemPosition);
+        int viewType = mStickyAdapter.getItemViewType(stickyItemPosition);
         RecyclerView.ViewHolder viewHolder = mStickyAdapter.createViewHolder(parent, viewType);
-        mStickyAdapter.bindViewHolder(viewHolder, mStickyItemPosition);
+        mStickyAdapter.bindViewHolder(viewHolder, stickyItemPosition);
         mStickyItemView = viewHolder.itemView;
 
         ViewGroup.LayoutParams layoutParams = mStickyItemView.getLayoutParams();
@@ -107,6 +104,21 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
         mStickyItemView.measure(widthSpec, heightSpec);
 
         mStickyItemView.layout(0, 0, mStickyItemView.getMeasuredWidth(), mStickyItemView.getMeasuredHeight());
+
+        mStickyItemTop = getDefaultStickyItemTop(mStickyItemPosition, stickyItemPosition, mStickyItemView);
+        mStickyItemPosition = stickyItemPosition;
+    }
+
+    /**
+     * 吸顶位置改变，获取默认吸顶偏移量
+     */
+    private int getDefaultStickyItemTop(int oldPosition, int newPosition, View stickView) {
+        // 向下滚动
+        if (newPosition < oldPosition) {
+            return -stickView.getHeight();
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -116,11 +128,9 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
         if (endPosition >= mStickyAdapter.getItemCount()) {
             return -1;
         }
-        for (int i = endPosition; i >= 0; i--) {
-            int viewType = mStickyAdapter.getItemViewType(i);
-            boolean isSticky = mStickyAdapter.isStickyViewType(viewType);
-            if (isSticky) {
-                return i;
+        for (int p = endPosition; p >= 0; p--) {
+            if (isStickyPosition(p)) {
+                return p;
             }
         }
         return -1;
@@ -134,6 +144,10 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
         if (position == RecyclerView.NO_POSITION) {
             return false;
         }
+        return isStickyPosition(position);
+    }
+
+    private boolean isStickyPosition(int position) {
         int viewType = mStickyAdapter.getItemViewType(position);
         return mStickyAdapter.isStickyViewType(viewType);
     }
