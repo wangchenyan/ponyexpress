@@ -3,6 +3,9 @@
  */
 package me.wcy.express.model;
 
+import android.text.TextUtils;
+
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -72,6 +75,19 @@ public class SearchResult implements Serializable {
 
     public void setData(ResultItem[] data) {
         this.data = data;
+    }
+
+    public boolean isBadRequest() {
+        return TextUtils.equals(status, "200")
+                && data != null
+                && data.length == 1
+                && data[0] != null
+                && TextUtils.equals(data[0].context, "查无结果");
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 
     public static class ResultItem implements Serializable {

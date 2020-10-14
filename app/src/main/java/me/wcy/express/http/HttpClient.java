@@ -2,16 +2,14 @@ package me.wcy.express.http;
 
 import android.text.TextUtils;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import me.wcy.express.application.ExpressApplication;
 import me.wcy.express.model.SearchResult;
@@ -24,78 +22,48 @@ public class HttpClient {
     private static final String BASE_URL = "https://www.kuaidi100.com";
     private static final String HEADER_REFERER = "Referer";
 
-    private static RequestQueue mRequestQueue;
+    private static RequestQueue sRequestQueue;
 
     static {
         FakeX509TrustManager.allowAllSSL();
-    }
-
-    private static RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(ExpressApplication.getInstance().getApplicationContext());
-        }
-        return mRequestQueue;
+        sRequestQueue = Volley.newRequestQueue(ExpressApplication.getInstance().getApplicationContext());
     }
 
     public static void query(String type, String postId, final HttpCallback<SearchResult> callback) {
         String action = "/query";
-        Map<String, String> params = new HashMap<>(2);
+        Map<String, String> params = new HashMap<>();
         params.put("type", type);
         params.put("postid", postId);
+        params.put("temp", String.valueOf(new Random().nextDouble()));
         String url = makeUrl(action, params);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(HEADER_REFERER, BASE_URL);
 
-        GsonRequest<SearchResult> request = new GsonRequest<SearchResult>(url, SearchResult.class,
-                new Response.Listener<SearchResult>() {
-                    @Override
-                    public void onResponse(SearchResult searchResult) {
-                        callback.onResponse(searchResult);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        callback.onError(volleyError);
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put(HEADER_REFERER, BASE_URL);
-                return headers;
-            }
-        };
-        request.setShouldCache(false);
-        getRequestQueue().add(request);
+        GsonRequest<SearchResult> request = new GsonRequest<>(
+                url,
+                headers,
+                SearchResult.class,
+                callback::onResponse,
+                callback::onError);
+        sRequestQueue.add(request);
     }
 
     public static void getSuggestion(final String postId, final HttpCallback<SuggestionResult> callback) {
         String action = "/autonumber/autoComNum";
-        Map<String, String> params = new HashMap<>(1);
+        Map<String, String> params = new HashMap<>();
         params.put("text", postId);
         String url = makeUrl(action, params);
+        Map<String, String> headers = new HashMap<>();
+        headers.put(HEADER_REFERER, BASE_URL);
 
-        GsonRequest<SuggestionResult> request = new GsonRequest<SuggestionResult>(Request.Method.POST, url, SuggestionResult.class,
-                new Response.Listener<SuggestionResult>() {
-                    @Override
-                    public void onResponse(SuggestionResult response) {
-                        callback.onResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        callback.onError(error);
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put(HEADER_REFERER, BASE_URL);
-                return headers;
-            }
-        };
-        request.setShouldCache(false);
-        getRequestQueue().add(request);
+        GsonRequest<SuggestionResult> request = new GsonRequest<>(
+                Request.Method.POST,
+                url,
+                headers,
+                SuggestionResult.class,
+                callback::onResponse,
+                callback::onError);
+        sRequestQueue.add(request);
     }
 
     public static String urlForLogo(String logo) {
@@ -104,9 +72,9 @@ public class HttpClient {
     }
 
     private static String makeUrl(String action, Map<String, String> params) {
-        String url = BASE_URL + action;
+        StringBuilder url = new StringBuilder(BASE_URL + action);
         if (params == null || params.isEmpty()) {
-            return url;
+            return url.toString();
         }
 
         int i = 0;
@@ -115,10 +83,12 @@ public class HttpClient {
                 continue;
             }
 
-            url += (i == 0) ? "?" : "&";
-            url += (entry.getKey() + "=" + URLEncoder.encode(entry.getValue()));
+            url.append((i == 0) ? "?" : "&")
+                    .append(entry.getKey())
+                    .append("=")
+                    .append(URLEncoder.encode(entry.getValue()));
             i++;
         }
-        return url;
+        return url.toString();
     }
 }

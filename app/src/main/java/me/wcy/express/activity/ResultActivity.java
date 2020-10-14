@@ -110,8 +110,12 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
         HttpClient.query(searchInfo.getCode(), searchInfo.getPost_id(), new HttpCallback<SearchResult>() {
             @Override
             public void onResponse(SearchResult searchResult) {
-                Log.i(TAG, searchResult.getMessage());
-                onSearch(searchResult);
+                Log.i(TAG, "query message: " + searchResult.getMessage());
+                if (searchResult.isBadRequest()) {
+                    onError(new VolleyError("bad request: " + searchResult.toString()));
+                } else {
+                    onSearch(searchResult);
+                }
             }
 
             @Override
@@ -126,7 +130,7 @@ public class ResultActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void onSearch(SearchResult searchResult) {
-        if (searchResult.getStatus().equals("200")) {
+        if (TextUtils.equals(searchResult.getStatus(), "200")) {
             llResult.setVisibility(View.VISIBLE);
             llNoExist.setVisibility(View.GONE);
             llError.setVisibility(View.GONE);
