@@ -30,11 +30,7 @@
 
 ## 下载地址
 ### 2.1
-https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/release/ponyexpress.apk
-
-扫码下载
-
-![](https://raw.githubusercontent.com/wangchenyan/ponyexpress/master/release/qrcode.png)
+https://github.com/wangchenyan/ponyexpress/releases/download/2.1/ponyexpress-2.1.apk
 
 ## 项目
 ### 公开API
