@@ -29,8 +29,7 @@
 - 优化单号扫描界面
 
 ## 下载地址
-### V2.1
-https://github.com/wangchenyan/ponyexpress/releases/download/2.1/ponyexpress-2.1.apk
+[点击下载](https://github.com/wangchenyan/ponyexpress/releases)
 
 ## 项目
 ### 公开API
